@@ -8,6 +8,7 @@ export default tseslint.config(
       '**/lib/**',
       '**/dist/**',
       '**/dist-server/**',
+      '**/.vercel/**',
       '**/out/**',
       '.orb-dev/**',
       'design/**',

@@ -6,7 +6,7 @@ A local-first research workspace for your Mac. Start with a question; work with 
 comparisons, questions and decisions. Open any card to read the detail, follow the evidence, then shape the work
 into a research document or presentation.
 
-**[Download orb 0.1.0 for Mac](https://github.com/tejassudsfp/orb-research/releases/download/v0.1.0/orb-0.1.0-arm64.dmg)** (Apple silicon, macOS 14+, signed and notarised) ·
+**[Download orb 0.1.0 for Mac](https://orb.tejassuds.com/download)** (Apple silicon, macOS 14+, signed and notarised) ·
 [Website](https://orb.tejassuds.com) · [Release notes](https://github.com/tejassudsfp/orb-research/releases/tag/v0.1.0)
 
 [Get started](docs/GETTING_STARTED.md) · [Product brief](docs/PRODUCT_BRIEF.md) · [Model connections](docs/MODELS.md) ·
@@ -50,7 +50,8 @@ questions, redirect them or stop them at any time. The board is saved as it fill
 
 ## Install
 
-1. [Download the DMG](https://github.com/tejassudsfp/orb-research/releases/download/v0.1.0/orb-0.1.0-arm64.dmg) (checksum on the [release page](https://github.com/tejassudsfp/orb-research/releases/tag/v0.1.0)).
+1. [Request the download](https://orb.tejassuds.com/download): enter your email and we'll send you the link (checksum on the
+   [release page](https://github.com/tejassudsfp/orb-research/releases/tag/v0.1.0)). Or build it yourself; see below.
 2. Open it and drag **orb** to Applications. The app is signed with a Developer ID and notarised by Apple.
 3. Open orb, then add a model key or connect an eligible ChatGPT plan in **Settings → Models**.
 

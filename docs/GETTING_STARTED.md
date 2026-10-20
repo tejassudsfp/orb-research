@@ -61,5 +61,5 @@ pnpm dist:adhoc
 ```
 
 The DMG appears under `release/dist/`. A local `dist:adhoc` build is ad-hoc signed and not notarised, so it is for
-your own Mac only. Signed, notarised installers come from [GitHub Releases](https://github.com/tejassudsfp/orb-research/releases);
+your own Mac only. Signed, notarised installers come from [orb.tejassuds.com/download](https://orb.tejassuds.com/download);
 maintainers build them with `pnpm release:mac` ([release procedures](RELEASING.md)). Do not disable macOS security protections globally.

@@ -6,6 +6,17 @@ if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('Invali
 const server = createSiteServer({
   dist: fileURLToPath(new URL('../dist', import.meta.url)),
   bugReports: { getApiKey: () => process.env.RESEND_API_KEY, origin: process.env.SITE_ORIGIN },
+  downloadRequests: {
+    getApiKey: () => process.env.RESEND_API_KEY,
+    getLinkSecret: () => process.env.DOWNLOAD_LINK_SECRET,
+    origin: process.env.SITE_ORIGIN,
+  },
+  downloads: {
+    getApiKey: () => process.env.RESEND_API_KEY,
+    getLinkSecret: () => process.env.DOWNLOAD_LINK_SECRET,
+    getGithubToken: () => process.env.GITHUB_RELEASE_TOKEN,
+    repo: process.env.RELEASE_REPO,
+  },
 });
 server.listen(port, process.env.HOST ?? '0.0.0.0', () =>
   console.log(`Orb website listening on port ${port}`),

@@ -128,7 +128,7 @@ test('security and bug pages preserve themes, load directly and fit desktop/mobi
       'The desktop app has no analytics, automatic crash uploads or background uploads of your boards and logs.',
     ),
   ).toBeVisible();
-  for (const route of ['/security', '/report-a-bug']) {
+  for (const route of ['/security', '/report-a-bug', '/download']) {
     await page.goto(route);
     await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link')).toHaveText([
       'Workspace',

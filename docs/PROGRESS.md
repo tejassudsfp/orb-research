@@ -1,11 +1,12 @@
 # Progress
 
-Updated 2026-10-20. **orb 0.1.0 is released**: a Developer ID signed, notarised macOS DMG on
-[GitHub Releases](https://github.com/tejassudsfp/orb-research/releases/tag/v0.1.0), with source published in this
-public repository (fresh history) and the site at [orb.tejassuds.com](https://orb.tejassuds.com).
+Updated 2026-10-20. **orb 0.1.0 is released**: a Developer ID signed, notarised macOS DMG, downloaded by email at
+[orb.tejassuds.com/download](https://orb.tejassuds.com/download), with source in this public repository (fresh
+history) and notes on [GitHub Releases](https://github.com/tejassudsfp/orb-research/releases/tag/v0.1.0).
 
 | Task | Status | Date | Result |
 | --- | --- | --- | --- |
+| P7.7 | done | 2026-10-20 | Downloads by email. Download buttons open `/download`. `/api/download-requests` emails the visitor a personal link that works for 7 days (HMAC-signed, from orb@email.tejassuds.com) and notifies projects.tejassuds@gmail.com with their email. `/api/download` verifies the link, notifies projects@ on the actual download (once a day per link), and redirects to a short-lived GitHub URL for the DMG, which now lives only in the private `tejassudsfp/orb-releases` release. Removed the DMG from the public release (checksum and LGPL sources remain). Link requests are limited to 3 per email and 10 per network address per hour; downloads are not limited. PostHog records `download_clicked` and `download_requested` (never the email) after consent. Shared site mail helpers (`server/http.ts`). 20 site unit tests and 16 browser checks pass; tested against the real private release. |
 | P7.6 | done | 2026-10-20 | Published to the public repository `tejassudsfp/orb-research` as one reviewed commit (fresh history; development history stays in the private repository). Tagged `v0.1.0`, published the release with the DMG, its SHA-256 and the LGPL source bundle, and enabled classic branch protection on `main`. |
 | P7.5 | done | 2026-10-20 | Open-source release documents: README download/install/research-time sections, CHANGELOG, ROADMAP, RELEASING (sign, notarise, LGPL sources, GitHub release, Vercel), SECURITY (signing identity), PRIVACY (browser search goes to Bing/DuckDuckGo without a search key), THIRD_PARTY_NOTICES, `.gitleaksignore`. Gitleaks over the published tree: clean, apart from two allow-listed test fixtures. All links repointed to `orb-research`. |
 | P7.4 | done | 2026-10-20 | LGPL compliance: `scripts/lgpl-sources.ts` packs upstream source for libvips, GLib, proxy-libintl, Pango, cairo, FriBidi, librsvg, libheif and libexif at the shipped versions, plus build patches and the sharp-libvips v1.3.4 build scripts (78 MB release asset). The unused LibreOffice engine (148 MB, MPL-2.0) is excluded from the installer (`EXCLUDED_OPTIONAL` in dist-stage), which shrinks the DMG from 313 MB to 248 MB. |

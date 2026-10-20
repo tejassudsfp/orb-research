@@ -16,6 +16,14 @@ The site remembers cookie choices and appearance preferences in browser local st
 cookies with a 180-day lifetime. Declining removes PostHog's analytics persistence. If browser storage is blocked,
 your choice applies to the current page. Website analytics does not receive your desktop research, boards or chat.
 
+## Download requests
+
+To download orb from the website, you enter your email on orb.tejassuds.com/download. The website uses it to email
+you a personal download link (sent from orb@email.tejassuds.com through Resend) and sends it to orb's maintainer
+together with the button you used, your approximate country and the time. The maintainer is notified again when the
+link is used. Your email is not added to a mailing list and is never sent to website analytics. Download links expire
+after 7 days. You can build orb from source without giving an email.
+
 ## Voluntary bug reports
 
 The website's **Report a bug** form collects your email and issue details so support can reply. Name, version,

@@ -17,9 +17,9 @@ encrypted**. Protect your macOS account, backups and disk accordingly.
 Research sends relevant content to the models and services you choose. Web pages are untrusted input, and agents
 can make mistakes. Review outputs and sensitive attachments before sharing. See [privacy](docs/PRIVACY.md).
 
-Current builds target macOS 14+ on Apple silicon. Official installers are published only on
-[GitHub Releases](https://github.com/tejassudsfp/orb-research/releases), signed with the Developer ID of Fanpit Technologies
-Private Limited (Team ID Q78J7L8TLR) and notarised by Apple. Verify the SHA-256 checksum published with each release.
+Current builds target macOS 14+ on Apple silicon. Official installers are available only through
+[orb.tejassuds.com/download](https://orb.tejassuds.com/download), signed with the Developer ID of Fanpit Technologies
+Private Limited (Team ID Q78J7L8TLR) and notarised by Apple. Verify the SHA-256 checksum published with each [release](https://github.com/tejassudsfp/orb-research/releases).
 See [release procedures](docs/RELEASING.md).
 
 The marketing site's `/security` page explains these boundaries. `/report-a-bug` sends only explicitly submitted

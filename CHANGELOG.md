@@ -27,6 +27,8 @@ The first public release: a local-first research workspace for Apple silicon Mac
 - **Private by design.** Boards stay on your Mac. There is no telemetry, analytics or cloud sync in the app.
 
 ### Notes
+- Get the installer at [orb.tejassuds.com/download](https://orb.tejassuds.com/download): enter your email and you are
+  sent a personal download link that works for 7 days.
 - Research takes time. A thorough run can take several minutes or longer, and costs depend on your model route.
 - Installers are signed with the Developer ID of Fanpit Technologies Private Limited and notarised by Apple.
 - If you ran an earlier ad-hoc-signed preview build, macOS may ask once whether orb can read its Keychain items.

@@ -2,6 +2,8 @@ import { defineConfig } from 'vite';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { createBugReportHandler } from './server/bug-reports.js';
+import { createDownloadFileHandler } from './server/download-file.js';
+import { createDownloadRequestHandler } from './server/download-requests.js';
 
 const root = resolve(import.meta.dirname, '../..');
 
@@ -17,6 +19,7 @@ export default defineConfig({
         home: resolve(import.meta.dirname, 'index.html'),
         security: resolve(import.meta.dirname, 'security.html'),
         bugs: resolve(import.meta.dirname, 'report-a-bug.html'),
+        download: resolve(import.meta.dirname, 'download.html'),
       },
     },
   },
@@ -24,7 +27,7 @@ export default defineConfig({
     {
       name: 'orb-support-routes',
       configureServer(server) {
-        const reports = createBugReportHandler({
+        const mail = {
           getApiKey: async () => {
             if (process.env.RESEND_API_KEY) return process.env.RESEND_API_KEY;
             if (process.platform !== 'darwin') return undefined;
@@ -34,6 +37,15 @@ export default defineConfig({
             const { KeychainStore } = await import(/* @vite-ignore */ keychainModule);
             return new KeychainStore('ai.orb.site').get('RESEND_API_KEY');
           },
+        };
+        const reports = createBugReportHandler(mail);
+        // Dev links are signed with a throwaway secret; downloading needs GITHUB_RELEASE_TOKEN in the environment.
+        const linkSecret = process.env.DOWNLOAD_LINK_SECRET ?? 'dev-only-download-link-secret';
+        const requests = createDownloadRequestHandler({ ...mail, getLinkSecret: () => linkSecret });
+        const files = createDownloadFileHandler({
+          ...mail,
+          getLinkSecret: () => linkSecret,
+          getGithubToken: () => process.env.GITHUB_RELEASE_TOKEN,
         });
         server.middlewares.use((req, res, next) => {
           const path = req.url?.split('?')[0];
@@ -41,7 +53,15 @@ export default defineConfig({
             void reports(req, res);
             return;
           }
-          if (path === '/security' || path === '/report-a-bug') req.url = `${path}.html`;
+          if (path === '/api/download-requests') {
+            void requests(req, res);
+            return;
+          }
+          if (path === '/api/download') {
+            void files(req, res);
+            return;
+          }
+          if (path === '/security' || path === '/report-a-bug' || path === '/download') req.url = `${path}.html`;
           next();
         });
       },
