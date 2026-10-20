@@ -1,7 +1,8 @@
 # Security
 
 Please report a suspected vulnerability privately. Use [GitHub private vulnerability reporting](https://github.com/tejassudsfp/orb-research/security/advisories/new)
-when available, or email [tejas@winsen.ai](mailto:tejas@winsen.ai) for a private report.
+when available, the [Report a bug form](https://orb.tejassuds.com/report-a-bug) on the website, or email
+[tejas@winsen.ai](mailto:tejas@winsen.ai) for a private report.
 Do not put passwords, OAuth tokens, API keys, private URLs or board contents in a public issue.
 
 Include the affected version/commit, a minimal reproduction using invented data, impact and any proposed fix.

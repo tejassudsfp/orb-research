@@ -34,18 +34,18 @@ test('bug reports send the required email, useful context and attached evidence 
   });
   await expect(page.getByRole('list', { name: 'Selected evidence' })).toContainText('sidecar.log');
   await page.getByRole('button', { name: 'Send bug report', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'Your report is on its way.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: "Thanks, it's on its way." })).toBeVisible();
   await expect(page.locator('#report-reply-email')).toHaveText('submitter@example.com');
   const sent = await (await request.get('/__test/mail')).json();
   expect(sent).toHaveLength(1);
-  expect(sent[0].payload.to).toEqual(['tejas@winsen.ai']);
+  expect(sent[0].payload.to).toEqual(['projects.cases@gmail.com']);
   expect(sent[0].payload.from).toContain('orb@email.tejassuds.com');
   expect(sent[0].payload.reply_to).toBe('submitter@example.com');
   expect(sent[0].payload.text).toContain('Example provider/model');
   expect(Buffer.from(sent[0].payload.attachments[0].content, 'base64').toString()).toBe(
     'Readable synthetic log evidence',
   );
-  await page.getByRole('button', { name: 'Report another issue' }).click();
+  await page.getByRole('button', { name: 'Send something else' }).click();
   await expect(page.locator('#bug-email')).toBeFocused();
 });
 test('failures retain the draft and evidence and reuse the same idempotency key on retry', async ({

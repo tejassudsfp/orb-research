@@ -30,7 +30,8 @@ is a site-only dependency and is excluded from the desktop distribution.
 
 `/report-a-bug` requires submitter email, issue title and description; optional fields and up to five evidence
 files / 3 MB provide context. `/security` explains local storage, Keychain, provider requests and voluntary uploads.
-The server emails reports and attachments through Resend from `orb@email.tejassuds.com` to `tejas@winsen.ai`.
+The form sends a bug report or a feature request (`kind`). The server emails it with attachments through Resend from
+`orb@email.tejassuds.com` to `projects.cases@gmail.com`, with subject `[orb bug]` or `[orb feature]`.
 The submitter's email is Reply-To. The sender domain must be verified in Resend before delivery will work.
 
 For local macOS development, run `pnpm site:resend-key` and enter a Resend sending key at the hidden prompt.

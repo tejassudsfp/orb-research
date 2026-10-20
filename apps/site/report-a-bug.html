@@ -6,15 +6,15 @@
     <meta name="theme-color" content="#f7f7f8" />
     <meta
       name="description"
-      content="Send an Orb bug report with your email, reproduction steps, logs and screenshots."
+      content="Report an orb bug or request a feature, with logs and screenshots if they help."
     />
     <meta property="og:title" content="Report a bug — orb" />
     <meta
       property="og:description"
-      content="Send an Orb bug report with your email, reproduction steps, logs and screenshots."
+      content="Report an orb bug or request a feature, with logs and screenshots if they help."
     />
     <meta property="og:type" content="website" />
-    <title>Report a bug — orb</title>
+    <title>Report a bug or request a feature — orb</title>
     <link rel="icon" href="/src/favicon.svg" type="image/svg+xml" />
     <script type="module" src="/src/support.ts"></script>
   </head>
@@ -37,9 +37,10 @@
     <main id="main" class="wrap support-page">
       <header class="support-heading">
         <p class="eyebrow">Help make Orb better</p>
-        <h1>Report a bug.</h1>
+        <h1>Report a bug.<br />Request a feature.</h1>
         <p class="lede">
-          Tell us what went wrong. Add logs or a screenshot so we can understand it and get back to you.
+          Tell us what went wrong, or what you'd like orb to do. Add logs or a screenshot so we can
+          understand it and get back to you.
         </p>
       </header>
       <div class="support-layout">
@@ -51,12 +52,20 @@
             before sending.
           </p>
           <p>
-            Your email is used to follow up on this report. Reports are sent to Orb support through Resend.
+            Feature ideas are welcome too: tell us what you're trying to do, and what would help.
+          </p>
+          <p>
+            Your email is used to follow up. Reports and requests are sent to orb support through Resend.
           </p>
           <a class="inline-link" href="/security">How Orb handles your data ↗</a>
         </aside>
         <div>
           <form id="bug-form" class="bug-form">
+            <fieldset class="report-kind">
+              <legend>What are you sending?</legend>
+              <label><input type="radio" name="kind" value="bug" checked /> A bug report</label>
+              <label><input type="radio" name="kind" value="feature" /> A feature request</label>
+            </fieldset>
             <div class="form-row">
               <label for="bug-name"
                 >Name <span>(optional)</span
@@ -74,7 +83,8 @@
               /></label>
             </div>
             <label for="bug-title"
-              >Issue title <span>(required)</span
+              ><span data-kind-text="Issue title|Feature title" class="kind-label">Issue title</span>
+              <span>(required)</span
               ><input
                 id="bug-title"
                 name="title"
@@ -84,7 +94,10 @@
                 placeholder="A short description of the problem"
             /></label>
             <label for="bug-description"
-              >What happened? <span>(required)</span
+              ><span data-kind-text="What happened?|What would you like orb to do, and why?" class="kind-label"
+                >What happened?</span
+              >
+              <span>(required)</span
               ><textarea
                 id="bug-description"
                 name="description"
@@ -95,7 +108,7 @@
                 placeholder="What were you doing, and what went wrong?"
               ></textarea>
             </label>
-            <label for="bug-steps"
+            <label for="bug-steps" data-bug-only
               >Steps to reproduce <span>(optional)</span
               ><textarea
                 id="bug-steps"
@@ -105,7 +118,7 @@
                 placeholder="1. Open a board…&#10;2. Click…&#10;3. The problem appears…"
               ></textarea>
             </label>
-            <label for="bug-expected"
+            <label for="bug-expected" data-bug-only
               >What did you expect? <span>(optional)</span
               ><textarea id="bug-expected" name="expected" maxlength="12000" rows="3"></textarea>
             </label>
@@ -193,10 +206,10 @@
             hidden
           >
             <p class="eyebrow">Thank you</p>
-            <h2 id="success-heading">Your report is on its way.</h2>
+            <h2 id="success-heading">Thanks, it's on its way.</h2>
             <p>We'll follow up at <strong id="report-reply-email"></strong> if we need more details.</p>
             <p class="fine">Report reference: <span id="report-reference"></span></p>
-            <button class="button secondary" type="button" id="report-another">Report another issue</button>
+            <button class="button secondary" type="button" id="report-another">Send something else</button>
           </section>
         </div>
       </div>

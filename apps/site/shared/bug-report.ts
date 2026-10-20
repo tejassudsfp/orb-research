@@ -14,6 +14,9 @@ export const BUG_FIELDS = [
   'models',
 ] as const;
 export type BugFields = Record<(typeof BUG_FIELDS)[number], string>;
+/** The form sends either a bug report or a feature request; both reach the same inbox. */
+export const REPORT_KINDS = ['bug', 'feature'] as const;
+export type ReportKind = (typeof REPORT_KINDS)[number];
 
 export function evidenceError(files: ArrayLike<{ name: string; size: number }>): string | undefined {
   const entries = Array.from(files);

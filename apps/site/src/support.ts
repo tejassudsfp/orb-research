@@ -1,5 +1,5 @@
 import './common.js';
-import { BUG_FIELDS, evidenceError, EVIDENCE_EXTENSIONS, type BugFields } from '../shared/bug-report.js';
+import { BUG_FIELDS, evidenceError, EVIDENCE_EXTENSIONS, type BugFields, type ReportKind } from '../shared/bug-report.js';
 
 const form = document.querySelector<HTMLFormElement>('#bug-form')!;
 const input = document.querySelector<HTMLInputElement>('#bug-evidence')!;
@@ -12,6 +12,24 @@ let files: File[] = [];
 let reportId = crypto.randomUUID();
 let busy = false;
 input.accept = EVIDENCE_EXTENSIONS.map((extension) => '.' + extension).join(',');
+const title = document.querySelector<HTMLInputElement>('#bug-title')!;
+const description = document.querySelector<HTMLTextAreaElement>('#bug-description')!;
+const kind = (): ReportKind =>
+  form.querySelector<HTMLInputElement>('input[name="kind"]:checked')?.value === 'feature' ? 'feature' : 'bug';
+const submitLabel = () => (kind() === 'feature' ? 'Send feature request' : 'Send bug report');
+/** Bug reports ask for steps and expectations; feature requests ask what orb should do. */
+function renderKind() {
+  const feature = kind() === 'feature';
+  for (const label of form.querySelectorAll<HTMLElement>('[data-kind-text]'))
+    label.textContent = label.dataset.kindText!.split('|')[feature ? 1 : 0]!;
+  for (const field of form.querySelectorAll<HTMLElement>('[data-bug-only]')) field.hidden = feature;
+  title.placeholder = feature ? 'A short name for the idea' : 'A short description of the problem';
+  description.placeholder = feature
+    ? 'What are you trying to do? What would make it easier?'
+    : 'What were you doing, and what went wrong?';
+  if (!busy) submit.textContent = submitLabel();
+}
+for (const option of form.querySelectorAll('input[name="kind"]')) option.addEventListener('change', renderKind);
 function showError(message: string) {
   error.textContent = message;
   error.hidden = !message;
@@ -108,6 +126,7 @@ form.addEventListener('submit', async (event) => {
     files = [];
     renderFiles();
     form.reset();
+    renderKind();
     success.focus();
   } catch (failure) {
     showError(
@@ -120,7 +139,7 @@ form.addEventListener('submit', async (event) => {
     for (const field of fields) field.disabled = false;
     submit.disabled = false;
     input.disabled = false;
-    submit.textContent = 'Send bug report';
+    submit.textContent = submitLabel();
   }
 });
 document.querySelector('#report-another')!.addEventListener('click', () => {
@@ -129,3 +148,4 @@ document.querySelector('#report-another')!.addEventListener('click', () => {
   reportId = crypto.randomUUID();
   document.querySelector<HTMLInputElement>('#bug-email')!.focus();
 });
+renderKind();

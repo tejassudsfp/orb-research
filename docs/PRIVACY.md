@@ -28,7 +28,7 @@ after 7 days. You can build orb from source without giving an email.
 
 The website's **Report a bug** form collects your email and issue details so support can reply. Name, version,
 system, model information and evidence are optional. Sending submits your report and chosen attachments through
-Resend from `orb@email.tejassuds.com` to `tejas@winsen.ai`, with your email as Reply-To. Nothing is automatically
+Resend from `orb@email.tejassuds.com` to `projects.cases@gmail.com`, with your email as Reply-To. Nothing is automatically
 read from your Mac. Website analytics does not capture form inputs, uploads or report contents.
 
 The website handles uploads in memory without saving them to its filesystem or a research database. Resend and

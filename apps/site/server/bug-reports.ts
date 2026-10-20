@@ -1,5 +1,12 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { BUG_FIELDS, evidenceError, MAX_EVIDENCE_BYTES, type BugFields } from '../shared/bug-report.js';
+import {
+  BUG_FIELDS,
+  evidenceError,
+  MAX_EVIDENCE_BYTES,
+  REPORT_KINDS,
+  type BugFields,
+  type ReportKind,
+} from '../shared/bug-report.js';
 import { EMAIL_PATTERN } from '../shared/download-request.js';
 import {
   assertSiteRequest,
@@ -15,7 +22,8 @@ import {
 } from './http.js';
 
 export const BUG_SENDER = SITE_SENDER;
-export const BUG_RECIPIENT = 'tejas@winsen.ai';
+/** Bug reports and feature requests both go here. */
+export const BUG_RECIPIENT = 'projects.cases@gmail.com';
 const MAX_REQUEST = MAX_EVIDENCE_BYTES + 1024 * 1024; // 4 MB, under the Vercel 4.5 MB request limit
 const HOUR = 60 * 60 * 1000;
 
@@ -62,6 +70,11 @@ async function emailFromForm(form: FormData): Promise<{ id: string; mail: Mail }
   if (typeof id !== 'string' || !UUID_PATTERN.test(id))
     throw new ReportError(422, 'Refresh the form and try again.');
   if (form.get('website')) throw new ReportError(422, 'The report could not be submitted.');
+  const rawKind = form.get('kind') ?? 'bug';
+  if (typeof rawKind !== 'string' || !(REPORT_KINDS as readonly string[]).includes(rawKind))
+    throw new ReportError(422, 'Choose a bug report or a feature request.');
+  const kind = rawKind as ReportKind;
+  const feature = kind === 'feature';
   const fields = {} as BugFields;
   for (const name of BUG_FIELDS) {
     const value = form.get(name);
@@ -80,7 +93,10 @@ async function emailFromForm(form: FormData): Promise<{ id: string; mail: Mail }
   if (fields.title.length < 3 || Array.from(fields.title).some((char) => char.charCodeAt(0) < 32))
     throw new ReportError(422, 'Add a short, single-line issue title.');
   if (fields.description.length < 10)
-    throw new ReportError(422, 'Describe what happened in a little more detail.');
+    throw new ReportError(
+      422,
+      feature ? 'Describe the feature in a little more detail.' : 'Describe what happened in a little more detail.',
+    );
   const evidence = form.getAll('evidence').filter((value) => typeof value !== 'string' && value.name !== '');
   if (form.getAll('evidence').some((value) => typeof value === 'string'))
     throw new ReportError(422, 'Select evidence files using the upload control.');
@@ -121,7 +137,7 @@ async function emailFromForm(form: FormData): Promise<{ id: string; mail: Mail }
     });
   }
   const text = [
-    'Orb bug report',
+    feature ? 'Orb feature request' : 'Orb bug report',
     `Reference: ${id}`,
     `Submitter: ${fields.name || 'Not provided'}`,
     `Email: ${fields.email}`,
@@ -129,27 +145,24 @@ async function emailFromForm(form: FormData): Promise<{ id: string; mail: Mail }
     `System: ${fields.system || 'Not provided'}`,
     `Provider / models: ${fields.models || 'Not provided'}`,
     '',
-    `Issue: ${fields.title}`,
+    `${feature ? 'Feature' : 'Issue'}: ${fields.title}`,
     '',
-    'What happened',
+    feature ? 'What they would like orb to do' : 'What happened',
     fields.description,
     '',
-    'Steps to reproduce',
-    fields.steps || 'Not provided',
-    '',
-    'Expected behavior',
-    fields.expected || 'Not provided',
-    '',
+    ...(feature
+      ? []
+      : ['Steps to reproduce', fields.steps || 'Not provided', '', 'Expected behavior', fields.expected || 'Not provided', '']),
     `Evidence: ${attachments.map((file) => file.filename).join(', ') || 'None attached'}`,
     'Common credential patterns are redacted from report text and UTF-8 logs. Binary attachments are submitted as selected.',
   ].join('\n');
   return {
     id,
     mail: {
-      from: `Orb bugs <${BUG_SENDER}>`,
+      from: `${feature ? 'Orb features' : 'Orb bugs'} <${BUG_SENDER}>`,
       to: [BUG_RECIPIENT],
       reply_to: fields.email,
-      subject: `[orb bug] ${scrubReportText(fields.title)}`,
+      subject: `[orb ${feature ? 'feature' : 'bug'}] ${scrubReportText(fields.title)}`,
       text: scrubReportText(text),
       attachments,
     },

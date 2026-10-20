@@ -42,6 +42,25 @@ function lastMail() {
 }
 
 describe('website bug-report delivery', () => {
+  it('sends feature requests to the same inbox with their own subject and wording, and rejects unknown kinds', async () => {
+    const body = form();
+    body.set('kind', 'feature');
+    body.set('title', 'Export boards to Notion');
+    body.set('description', 'I keep research in Notion and would like to send a board there.');
+    expect((await post(body)).status).toBe(201);
+    const mail = lastMail();
+    expect(mail.to).toEqual([BUG_RECIPIENT]);
+    expect(BUG_RECIPIENT).toBe('projects.cases@gmail.com');
+    expect(mail.subject).toBe('[orb feature] Export boards to Notion');
+    expect(mail.from).toBe(`Orb features <${BUG_SENDER}>`);
+    expect(mail.text).toContain('Orb feature request');
+    expect(mail.text).toContain('What they would like orb to do');
+    expect(mail.text).not.toContain('Steps to reproduce');
+    const unknown = form();
+    unknown.set('kind', 'complaint');
+    expect((await post(unknown)).status).toBe(422);
+  });
+
   it('sends the complete report and redacted evidence to the fixed inbox, with submitter Reply-To and retry idempotency', async () => {
     const body = form();
     const fakeSecret = 'sk-' + 'x'.repeat(40);
