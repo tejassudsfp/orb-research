@@ -134,35 +134,56 @@ test('blocked preference storage still permits a decline without loading analyti
   expect(requests).toHaveLength(0);
 });
 
-test('download links point at the release DMG and record download_clicked only after consent', async ({ page }) => {
-  const dmg = 'https://github.com/tejassudsfp/orb-research/releases/download/v0.1.0/orb-0.1.0-arm64.dmg';
-  const downloads: string[] = [];
-  await page.route('https://github.com/**', async (route) => {
-    downloads.push(route.request().url());
-    await route.fulfill({ status: 200, contentType: 'text/plain', body: 'dmg' });
-  });
-  const tracked = () => events().filter((request) => body(request).includes('download_clicked'));
+test('download buttons lead to the email form; requests send the link and are tracked only after consent', async ({
+  page,
+  request,
+}) => {
+  await request.post('/__test/reset');
+  const tracked = (name: string) => events().filter((item) => body(item).includes(name));
 
   await page.goto('/');
   const links = page.locator('a[data-download]');
   await expect(links).toHaveCount(3);
-  for (const link of await links.all()) await expect(link).toHaveAttribute('href', dmg);
+  for (const link of await links.all())
+    await expect(link).toHaveAttribute('href', `/download?from=${await link.getAttribute('data-download')}`);
+  expect(await page.locator('a[href*="releases/download"]').count()).toBe(0);
 
-  // Declined: the download still works, and nothing is sent.
+  // Declined: the form still works, and nothing is sent to analytics.
   await page.getByRole('button', { name: 'Decline', exact: true }).click();
   await page.locator('a[data-download="hero"]').click();
-  await page.waitForURL(dmg);
-  expect(downloads).toEqual([dmg]);
-  expect(tracked()).toHaveLength(0);
+  await page.waitForURL('**/download?from=hero');
+  await page.getByRole('button', { name: 'Email me the link' }).click();
+  await expect(page.locator('#download-error')).toHaveText(/Enter your email/);
+  await page.getByLabel('Email').fill('reader@example.com');
+  await page.getByRole('button', { name: 'Email me the link' }).click();
+  await expect(page.getByRole('heading', { name: 'Your link is on its way.' })).toBeVisible();
+  await expect(page.locator('#download-sent-to')).toHaveText('reader@example.com');
+  const mail = (await (await request.get('/__test/mail')).json()) as Array<{ payload: { to: string[]; text: string } }>;
+  expect(mail.map((item) => item.payload.to[0])).toEqual(['reader@example.com', 'projects.tejassuds@gmail.com']);
+  expect(mail[0]!.payload.text).toMatch(/\/api\/download\?token=[\w-]+\.[\w-]+/);
+  expect(mail[1]!.payload.text).toContain('From: the hero download button');
+  expect(events()).toHaveLength(0);
 
-  // Accepted: the click is recorded with its version and placement.
+  // Accepted: the click and the request are recorded with version and placement, never the email.
   await page.goto('/');
   await page.getByRole('button', { name: 'Cookie settings', exact: true }).click();
   await page.getByRole('button', { name: 'Accept cookies', exact: true }).click();
   await expect.poll(() => events().length).toBeGreaterThan(0);
   await page.locator('a[data-download="closing"]').click();
-  await expect.poll(() => tracked().length).toBe(1);
-  const payload = body(tracked()[0]!);
+  await page.waitForURL('**/download?from=closing');
+  await expect.poll(() => tracked('download_clicked').length).toBe(1);
+  expect(body(tracked('download_clicked')[0]!)).toContain('"placement":"closing"');
+  await page.getByLabel('Email').fill('second@example.com');
+  await page.getByRole('button', { name: 'Email me the link' }).click();
+  await expect(page.getByRole('heading', { name: 'Your link is on its way.' })).toBeVisible();
+  await expect.poll(() => tracked('download_requested').length).toBe(1);
+  const payload = body(tracked('download_requested')[0]!);
   expect(payload).toContain('"version":"0.1.0"');
-  expect(payload).toContain('"placement":"closing"');
+  expect(payload).not.toContain('second@example.com');
+});
+
+test('an expired or forged link returns to the form with an explanation', async ({ page }) => {
+  await page.goto('/api/download?token=forged');
+  await page.waitForURL('**/download?expired=1');
+  await expect(page.locator('#download-error')).toHaveText(/expired or isn't valid/);
 });

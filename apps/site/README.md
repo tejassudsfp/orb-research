@@ -40,12 +40,17 @@ Run the same command with a replacement key to rotate it. No key belongs in a `V
 **Vercel (production, orb.tejassuds.com).** Import the repository with Root Directory `apps/site`. `vercel.json`
 installs the workspace and runs `build:vercel`, which writes Vercel's Build Output API: static pages, the routes
 (`/security`, `/report-a-bug`) and a Node function for `/api/bug-reports` (`server/vercel-bug-reports.ts`, which uses
-Vercel's `x-real-ip` for rate limits). Set `SITE_ORIGIN`, `RESEND_API_KEY`, the two public PostHog variables and
-`ENABLE_EXPERIMENTAL_COREPACK=1` in the project settings. See [releasing](../../docs/RELEASING.md#6-deploy-the-website).
+Vercel's `x-real-ip` for rate limits). Set `SITE_ORIGIN`, `RESEND_API_KEY`, `DOWNLOAD_LINK_SECRET`,
+`GITHUB_RELEASE_TOKEN`, the two public PostHog variables and `ENABLE_EXPERIMENTAL_COREPACK=1` in the project settings. See [releasing](../../docs/RELEASING.md#6-deploy-the-website).
 
-**Download tracking.** Download buttons carry `data-download` and link directly to the GitHub release DMG
-(`src/download.ts`), so downloading works without scripts. With cookies accepted, a click records
-`download_clicked` with `version`, `arch` and `placement`.
+**Downloads by email.** Download buttons carry `data-download` and open `/download?from=<placement>`
+(`src/download.ts`). The form (`download.html`, `src/download-page.ts`) posts to `/api/download-requests`
+(`server/download-requests.ts`), which emails the visitor a link signed with `DOWNLOAD_LINK_SECRET`
+(`server/download-links.ts`, valid 7 days) and notifies `projects.tejassuds@gmail.com`. `/api/download`
+(`server/download-file.ts`) verifies the link, notifies `projects.tejassuds@gmail.com` of the download, and redirects to a
+short-lived GitHub URL for the DMG in the private `tejassudsfp/orb-releases` release (`GITHUB_RELEASE_TOKEN`). Both
+endpoints share `server/http.ts` with the bug-report endpoint. With cookies accepted, PostHog records
+`download_clicked` and `download_requested` (never the email).
 
 **Any Node host.** Build the site, then run `node apps/site/dist-server/start.js` on Node 22.19+ with server-only
 `RESEND_API_KEY`, `SITE_ORIGIN` (the exact HTTPS origin) and the host's `PORT` setting. The bundled server uses only

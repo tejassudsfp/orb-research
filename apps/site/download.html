@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f7f8" />
+    <meta
+      name="description"
+      content="Get orb 0.1.0 for Apple silicon Macs. Enter your email and we will send you the download link."
+    />
+    <meta property="og:title" content="Download orb for Mac" />
+    <meta
+      property="og:description"
+      content="Get orb 0.1.0 for Apple silicon Macs. Enter your email and we will send you the download link."
+    />
+    <meta property="og:type" content="website" />
+    <title>Download — orb</title>
+    <link rel="icon" href="/src/favicon.svg" type="image/svg+xml" />
+    <script type="module" src="/src/download-page.ts"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="header">
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="orb home"
+          ><span class="mark" aria-hidden="true"></span><span>orb</span></a
+        >
+        <nav aria-label="Main navigation">
+          <a href="/">Workspace</a><a href="/security">Security</a
+          ><a href="/report-a-bug">Report a bug</a>
+        </nav>
+        <a class="header-source" href="https://github.com/tejassudsfp/orb-research"
+          >GitHub <span aria-hidden="true">↗</span></a
+        >
+      </div>
+    </header>
+    <main id="main" class="wrap support-page">
+      <header class="support-heading">
+        <p class="eyebrow">orb 0.1.0 for Mac</p>
+        <h1>Get orb.</h1>
+        <p class="lede">Enter your email and we'll send you the download link.</p>
+      </header>
+      <div class="support-layout">
+        <aside class="support-aside">
+          <h2>Before you install.</h2>
+          <p>
+            orb runs on Apple silicon Macs (M1 or later) with macOS 14 or later. The installer is signed and
+            notarised by Apple.
+          </p>
+          <p>
+            <strong>Research takes time.</strong> The agents read, compare and check sources, so a thorough run can
+            take several minutes or longer. You can watch the board fill in and steer it as it goes.
+          </p>
+          <p>
+            Your email is used to send the link and is shared with orb's maintainer, who may reply. You won't be
+            added to a mailing list.
+          </p>
+          <a class="inline-link" href="/security">How orb handles your data ↗</a>
+        </aside>
+        <div>
+          <form id="download-form" class="bug-form" novalidate>
+            <label for="download-email"
+              >Email <span>(required)</span
+              ><input
+                id="download-email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                maxlength="254"
+                placeholder="you@example.com"
+            /></label>
+            <div class="form-trap" aria-hidden="true">
+              <label for="download-website"
+                >Leave this blank<input id="download-website" name="website" tabindex="-1" autocomplete="off"
+              /></label>
+            </div>
+            <p class="form-error" id="download-error" role="alert" hidden></p>
+            <p class="fine">
+              We send the link from orb@email.tejassuds.com through Resend. orb is free and open source under the
+              MIT license.
+            </p>
+            <button class="button primary" id="download-submit" type="submit">Email me the link</button>
+          </form>
+          <section
+            id="download-success"
+            class="bug-success"
+            tabindex="-1"
+            aria-labelledby="download-success-heading"
+            hidden
+          >
+            <p class="eyebrow">Check your inbox</p>
+            <h2 id="download-success-heading">Your link is on its way.</h2>
+            <p>
+              We sent the orb download link to <strong id="download-sent-to"></strong>. It can take a minute; check
+              your spam folder if it doesn't arrive.
+            </p>
+            <button class="button secondary" type="button" id="download-again">Use a different email</button>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer class="wrap footer">
+      <a class="brand" href="/"><span class="mark" aria-hidden="true"></span><span>orb</span></a>
+      <p>
+        Made by <a href="https://tejassuds.com">Tejas Parthasarathi Sudarshan</a><br /><span
+          >© 2026 · MIT licensed</span
+        >
+      </p>
+      <nav aria-label="Footer navigation">
+        <a href="/security">Security</a><a href="/report-a-bug">Report a bug</a
+        ><a href="https://github.com/tejassudsfp/orb-research/blob/main/docs/PRIVACY.md">Privacy</a
+        ><button type="button" class="footer-link" id="cookie-settings" hidden>Cookie settings</button
+        ><a href="https://github.com/tejassudsfp/orb-research/blob/main/ROADMAP.md">Roadmap</a
+        ><a href="https://github.com/tejassudsfp/orb-research">GitHub ↗</a>
+      </nav>
+    </footer>
+    <p class="wrap cookie-disclosure">This site uses PostHog analytics cookies with your permission.</p>
+    <section class="cookie-notice" id="cookie-notice" aria-labelledby="cookie-title" hidden>
+      <div>
+        <h2 id="cookie-title">A small cookie note</h2>
+        <p>
+          We use PostHog analytics cookies to understand how this site is used. You can accept or decline.
+        </p>
+        <p class="fine" id="cookie-status" aria-live="polite"></p>
+      </div>
+      <div class="cookie-actions">
+        <button type="button" class="button secondary" id="cookie-decline">Decline</button>
+        <button type="button" class="button primary" id="cookie-accept">Accept cookies</button>
+      </div>
+    </section>
+    <noscript
+      ><p class="wrap">
+        Enable JavaScript to use the form and cookie settings. You can read the product and security
+        information without it.
+      </p></noscript
+    >
+  </body>
+</html>

@@ -2,9 +2,25 @@ import { createServer, type IncomingMessage, type ServerResponse } from 'node:ht
 import { readFile } from 'node:fs/promises';
 import { resolve, extname, sep } from 'node:path';
 import { createBugReportHandler, type BugReportOptions } from './bug-reports.js';
+import { createDownloadFileHandler, type DownloadFileOptions } from './download-file.js';
+import { createDownloadRequestHandler, type DownloadRequestOptions } from './download-requests.js';
 
-export function createSiteHandler(options: { dist: string; bugReports: BugReportOptions }) {
+/** Pretty page routes and the HTML file each serves. */
+export const PAGES: Record<string, string> = {
+  '/security': '/security.html',
+  '/report-a-bug': '/report-a-bug.html',
+  '/download': '/download.html',
+};
+
+export function createSiteHandler(options: {
+  dist: string;
+  bugReports: BugReportOptions;
+  downloadRequests: DownloadRequestOptions;
+  downloads: DownloadFileOptions;
+}) {
   const reports = createBugReportHandler(options.bugReports);
+  const requests = createDownloadRequestHandler(options.downloadRequests);
+  const files = createDownloadFileHandler(options.downloads);
   const root = resolve(options.dist);
   const mime: Record<string, string> = {
     '.html': 'text/html; charset=utf-8',
@@ -19,12 +35,14 @@ export function createSiteHandler(options: { dist: string; bugReports: BugReport
   return async (req: IncomingMessage, res: ServerResponse) => {
     const path = (req.url ?? '/').split('?')[0]!;
     if (path === '/api/bug-reports') return reports(req, res);
+    if (path === '/api/download-requests') return requests(req, res);
+    if (path === '/api/download') return files(req, res);
     if (req.method !== 'GET' && req.method !== 'HEAD') {
       res.writeHead(405, { allow: 'GET, HEAD' });
       res.end();
       return;
     }
-    if (path === '/security/' || path === '/report-a-bug/') {
+    if (path.endsWith('/') && PAGES[path.slice(0, -1)]) {
       res.writeHead(308, { location: path.slice(0, -1) });
       res.end();
       return;
@@ -35,13 +53,7 @@ export function createSiteHandler(options: { dist: string; bugReports: BugReport
         root,
         '.' +
           decodeURIComponent(
-            path === '/'
-              ? '/index.html'
-              : path === '/security'
-                ? '/security.html'
-                : path === '/report-a-bug'
-                  ? '/report-a-bug.html'
-                  : path,
+            path === '/' ? '/index.html' : (PAGES[path] ?? path),
           ),
       );
     } catch {

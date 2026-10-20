@@ -5,21 +5,28 @@ import { createSiteHandler } from '../server/site.js';
 let deliveries: Array<{ payload: unknown; idempotency: string | null }> = [];
 let failNext = false;
 function handler() {
+  const mail = {
+    getApiKey: () => 'test-only-server-credential',
+    fetch: async (_url: string | URL | Request, init?: RequestInit) => {
+      deliveries.push({
+        payload: JSON.parse(String(init!.body)),
+        idempotency: new Headers(init!.headers).get('idempotency-key'),
+      });
+      if (failNext) {
+        failNext = false;
+        return Response.json({ error: 'synthetic delivery failure' }, { status: 503 });
+      }
+      return Response.json({ id: 'synthetic-resend-id' });
+    },
+  };
   return createSiteHandler({
     dist: resolve(import.meta.dirname, '../../../.orb-dev/site-test-build'),
-    bugReports: {
-      getApiKey: () => 'test-only-server-credential',
-      fetch: async (_url, init) => {
-        deliveries.push({
-          payload: JSON.parse(String(init!.body)),
-          idempotency: new Headers(init!.headers).get('idempotency-key'),
-        });
-        if (failNext) {
-          failNext = false;
-          return Response.json({ error: 'synthetic delivery failure' }, { status: 503 });
-        }
-        return Response.json({ id: 'synthetic-resend-id' });
-      },
+    bugReports: mail,
+    downloadRequests: { ...mail, getLinkSecret: () => 'test-only-link-secret', country: () => 'IN' },
+    downloads: {
+      ...mail,
+      getLinkSecret: () => 'test-only-link-secret',
+      getGithubToken: () => undefined,
     },
   });
 }

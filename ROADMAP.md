@@ -14,7 +14,7 @@ delivery dates.
 
 ## Done for 0.1.0
 
-- Developer ID signing and notarisation, with checksums published on GitHub Releases.
+- Developer ID signing and notarisation, with downloads by email at orb.tejassuds.com and checksums on GitHub Releases.
 - Dependency license review, plus the libvips (LGPL) notices and corresponding source attached to each release.
 - A fresh public repository history, reviewed before publication.
 - End-to-end research acceptance and ChatGPT plan usage checked by the maintainer.

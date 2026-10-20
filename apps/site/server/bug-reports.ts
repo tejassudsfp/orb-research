@@ -1,34 +1,25 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { BUG_FIELDS, evidenceError, MAX_EVIDENCE_BYTES, type BugFields } from '../shared/bug-report.js';
+import { EMAIL_PATTERN } from '../shared/download-request.js';
+import {
+  assertSiteRequest,
+  clientIp,
+  HttpError as ReportError,
+  rateLimiter,
+  reply,
+  sendMail,
+  SITE_SENDER,
+  UUID_PATTERN,
+  type Mail,
+  type MailOptions,
+} from './http.js';
 
-export const BUG_SENDER = 'orb@email.tejassuds.com';
+export const BUG_SENDER = SITE_SENDER;
 export const BUG_RECIPIENT = 'tejas@winsen.ai';
 const MAX_REQUEST = MAX_EVIDENCE_BYTES + 1024 * 1024; // 4 MB, under the Vercel 4.5 MB request limit
 const HOUR = 60 * 60 * 1000;
 
-type Mail = {
-  from: string;
-  to: string[];
-  reply_to: string;
-  subject: string;
-  text: string;
-  attachments: Array<{ filename: string; content: string; content_type: string }>;
-};
-export type BugReportOptions = {
-  getApiKey: () => string | undefined | Promise<string | undefined>;
-  fetch?: typeof globalThis.fetch;
-  origin?: string;
-  /** The visitor's address for rate limits. Behind a proxy (Vercel), read the proxy's trusted header. */
-  clientIp?: (req: IncomingMessage) => string | undefined;
-};
-class ReportError extends Error {
-  constructor(
-    readonly status: number,
-    message: string,
-  ) {
-    super(message);
-  }
-}
+export type BugReportOptions = MailOptions;
 
 /** Best-effort removal of common credentials from report text and UTF-8 logs. */
 export function scrubReportText(text: string): string {
@@ -40,15 +31,6 @@ export function scrubReportText(text: string): string {
       /((?:["']?)(?:api[_-]?key|access[_-]?token|refresh[_-]?token|client[_-]?secret)(?:["']?)\s*[:=]\s*["']?)[^\s,"';]+/gi,
       '$1[redacted]',
     );
-}
-
-function reply(res: ServerResponse, status: number, value: unknown) {
-  res.writeHead(status, {
-    'content-type': 'application/json; charset=utf-8',
-    'cache-control': 'no-store',
-    'x-content-type-options': 'nosniff',
-  });
-  res.end(JSON.stringify(value));
 }
 
 async function readForm(req: IncomingMessage) {
@@ -77,7 +59,7 @@ async function readForm(req: IncomingMessage) {
 
 async function emailFromForm(form: FormData): Promise<{ id: string; mail: Mail }> {
   const id = form.get('reportId');
-  if (typeof id !== 'string' || !/^[a-f\d]{8}-(?:[a-f\d]{4}-){3}[a-f\d]{12}$/i.test(id))
+  if (typeof id !== 'string' || !UUID_PATTERN.test(id))
     throw new ReportError(422, 'Refresh the form and try again.');
   if (form.get('website')) throw new ReportError(422, 'The report could not be submitted.');
   const fields = {} as BugFields;
@@ -93,7 +75,7 @@ async function emailFromForm(form: FormData): Promise<{ id: string; mail: Mail }
           : 160;
     if (fields[name].length > max) throw new ReportError(422, 'One of the report fields is too long.');
   }
-  if (!/^[^\s<>@,;]+@[^\s<>@,;]+\.[^\s<>@,;]+$/.test(fields.email))
+  if (!EMAIL_PATTERN.test(fields.email))
     throw new ReportError(422, 'Enter a valid email so we can reply.');
   if (fields.title.length < 3 || Array.from(fields.title).some((char) => char.charCodeAt(0) < 32))
     throw new ReportError(422, 'Add a short, single-line issue title.');
@@ -105,7 +87,7 @@ async function emailFromForm(form: FormData): Promise<{ id: string; mail: Mail }
   const files = evidence as File[];
   const invalid = evidenceError(files);
   if (invalid) throw new ReportError(422, invalid);
-  const attachments = [] as Mail['attachments'];
+  const attachments: NonNullable<Mail['attachments']> = [];
   for (const file of files) {
     const extension = file.name.split('.').pop()!.toLowerCase();
     const filename = Array.from(file.name, (char) =>
@@ -175,31 +157,13 @@ async function emailFromForm(form: FormData): Promise<{ id: string; mail: Mail }
 }
 
 export function createBugReportHandler(options: BugReportOptions) {
-  const attempts = new Map<string, { count: number; until: number }>();
-  let global = { count: 0, until: 0 };
+  const limits = rateLimiter({ perKey: 5, global: 60, windowMs: HOUR });
   return async (req: IncomingMessage, res: ServerResponse) => {
     try {
-      if (req.method !== 'POST') {
-        res.setHeader('allow', 'POST');
-        throw new ReportError(405, 'Use the bug report form to send a report.');
-      }
-      let origin: URL;
-      try {
-        origin = new URL(req.headers.origin ?? '');
-      } catch {
-        throw new ReportError(403, 'Open the form on the Orb website to submit a report.');
-      }
-      if (
-        !['http:', 'https:'].includes(origin.protocol) ||
-        (options.origin ? origin.origin !== options.origin : origin.host !== req.headers.host)
-      )
-        throw new ReportError(403, 'Open the form on the Orb website to submit a report.');
-      const now = Date.now();
-      for (const [ip, entry] of attempts) if (entry.until <= now) attempts.delete(ip);
-      if (global.until <= now) global = { count: 0, until: now + HOUR };
-      const ip = options.clientIp?.(req) || req.socket.remoteAddress || 'unknown';
-      const entry = attempts.get(ip) ?? { count: 0, until: now + HOUR };
-      if (entry.count >= 5 || global.count >= 60 || attempts.size >= 10000) {
+      if (req.method !== 'POST') res.setHeader('allow', 'POST');
+      assertSiteRequest(req, options, 'bug report');
+      const ip = clientIp(req, options);
+      if (!limits.allows(ip)) {
         res.setHeader('retry-after', '3600');
         throw new ReportError(429, 'Too many reports right now. Please try again later.');
       }
@@ -210,26 +174,12 @@ export function createBugReportHandler(options: BugReportOptions) {
           'Bug reporting is temporarily unavailable. Your report has not been sent.',
         );
       const { id, mail } = await emailFromForm(await readForm(req));
-      attempts.set(ip, { count: entry.count + 1, until: entry.until });
-      global.count++;
-      const response = await (options.fetch ?? globalThis.fetch)('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          authorization: `Bearer ${apiKey}`,
-          'content-type': 'application/json',
-          'idempotency-key': `orb-bug/${id}`,
-        },
-        body: JSON.stringify(mail),
-        signal: AbortSignal.timeout(25000),
-      });
-      if (!response.ok)
+      limits.record(ip);
+      if (!(await sendMail(options, apiKey, mail, `orb-bug/${id}`)))
         throw new ReportError(
           502,
           'The report could not be confirmed. Please try again; your draft and files are still here.',
         );
-      const result = (await response.json()) as { id?: unknown };
-      if (typeof result.id !== 'string' || !result.id)
-        throw new ReportError(502, 'The report could not be confirmed. Please try again.');
       reply(res, 201, { reportId: id });
     } catch (error) {
       // Never return provider errors, keys, uploaded content or email bodies to the browser or logs.
