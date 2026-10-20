@@ -1,0 +1,458 @@
+/* P4.2 Models settings and the first-run sheet: provider cards, custom provider form, per-agent picker, search keys. */
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card {
+  border-radius: var(--orb-radius-card);
+  border: 1px solid var(--orb-border-card);
+  background: var(--orb-surface-card);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cardSelected {
+  composes: card;
+  border-color: var(--orb-border-accent);
+  box-shadow: 0 0 0 1px var(--orb-border-accent);
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cardTitle {
+  margin: 0;
+  font: 600 15px var(--orb-font);
+  letter-spacing: -0.2px;
+  color: var(--orb-text);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kindTag {
+  font: 500 11px var(--orb-font-mono);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--orb-text-faint);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 13px;
+  border: 1px solid var(--orb-border);
+  font: 500 12px var(--orb-font);
+  color: var(--orb-text-soft);
+  white-space: nowrap;
+}
+
+.badge::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--orb-text-faint);
+}
+
+.badge[data-state='working'] {
+  color: var(--orb-text);
+  border-color: var(--orb-border-accent);
+}
+
+.badge[data-state='working']::before {
+  background: var(--orb-accent-fill);
+}
+
+.badge[data-state='untested']::before {
+  background: var(--orb-rho);
+}
+
+.badge[data-state='failed'] {
+  color: var(--orb-text);
+  border-style: dashed;
+  border-color: var(--orb-text-faint);
+}
+
+.badge[data-state='failed']::before {
+  background: transparent;
+  border: 1px solid var(--orb-text);
+  box-sizing: border-box;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font: 400 13px var(--orb-font);
+  color: var(--orb-text-muted);
+}
+
+.mono {
+  font: 400 12.5px var(--orb-font-mono);
+  color: var(--orb-text-soft);
+  overflow-wrap: anywhere;
+}
+
+.failure {
+  margin: 0;
+  font: 400 13px var(--orb-font);
+  line-height: 1.45;
+  color: var(--orb-text);
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px dashed var(--orb-text-faint);
+}
+
+.keyRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.input,
+.select,
+.textarea {
+  flex: 1 1 220px;
+  min-width: 0;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid var(--orb-border);
+  background: var(--orb-inset);
+  color: var(--orb-text);
+  font: 400 14px var(--orb-font);
+  box-sizing: border-box;
+}
+
+.textarea {
+  height: auto;
+  min-height: 72px;
+  padding: 10px 12px;
+  font: 400 13px var(--orb-font-mono);
+  resize: vertical;
+}
+
+.select {
+  flex: 0 1 320px;
+  cursor: pointer;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--orb-placeholder);
+}
+
+.button {
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 20px;
+  border: 1px solid var(--orb-border);
+  background: var(--orb-chip);
+  color: var(--orb-text);
+  font: 500 13px var(--orb-font);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.buttonPrimary {
+  composes: button;
+  border-color: transparent;
+  background: var(--orb-signal);
+  color: var(--orb-on-accent);
+}
+
+.link {
+  font: 500 13px var(--orb-font);
+  color: var(--orb-accent);
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 10px 12px;
+  align-items: center;
+}
+
+.form label {
+  font: 500 13px var(--orb-font);
+  color: var(--orb-text-soft);
+}
+
+.formWide {
+  grid-column: 1 / -1;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 400 14px var(--orb-font);
+  color: var(--orb-text-soft);
+}
+
+.agentRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 10px 0;
+  border-top: 1px solid var(--orb-border-soft);
+}
+
+.agentRow:first-of-type {
+  border-top: 0;
+}
+
+.agentName {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font: 600 14px var(--orb-font);
+  color: var(--orb-text);
+}
+
+.agentHint {
+  font: 400 12px var(--orb-font);
+  color: var(--orb-text-faint);
+}
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.choice {
+  composes: button;
+}
+
+.choiceOn {
+  composes: button;
+  border-color: var(--orb-border-accent);
+  background: color-mix(in srgb, var(--orb-accent-fill) 22%, transparent);
+}
+
+.sheet {
+  width: min(560px, 100%);
+  margin: 0 auto;
+  border-radius: var(--orb-radius-panel);
+  border: 1px solid var(--orb-border);
+  background: var(--orb-surface-strong);
+  box-shadow: var(--orb-shadow-panel);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sheetActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+dialog.planWelcome {
+  margin: auto;
+  color: var(--orb-text);
+  max-height: calc(100dvh - 40px);
+}
+
+dialog.planWelcome:not([open]) {
+  display: none;
+}
+
+dialog.planWelcome::backdrop {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.ghost {
+  composes: button;
+  background: transparent;
+  border-color: transparent;
+  color: var(--orb-text-soft);
+}
+
+/* P4.3 Prices: the price table (USD per 1M tokens) and its edit form. */
+.priceTable {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--orb-radius-card);
+  border: 1px solid var(--orb-border-card);
+  background: var(--orb-surface-card);
+  overflow: hidden;
+}
+
+.priceHead,
+.priceRow {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.6fr) repeat(4, minmax(64px, 0.6fr)) 140px;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+}
+
+.priceHead {
+  font: 500 11px var(--orb-font-mono);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--orb-text-faint);
+  border-bottom: 1px solid var(--orb-border-card);
+}
+
+.priceRow + .priceRow,
+.priceRow + .priceForm,
+.priceForm + .priceRow {
+  border-top: 1px solid var(--orb-border-card);
+}
+
+.priceModel {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.priceCell {
+  font: 400 13px var(--orb-font);
+  font-variant-numeric: tabular-nums;
+  color: var(--orb-text-soft);
+}
+
+.priceActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.priceForm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 12px 14px;
+}
+
+.priceField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1 1 100px;
+  font: 500 12px var(--orb-font);
+  color: var(--orb-text-muted);
+}
+
+.priceField .input {
+  flex: none;
+  width: 100%;
+}
+
+.priceForm .failure {
+  flex-basis: 100%;
+}
+
+@media (max-width: 640px) {
+  .priceHead {
+    display: none;
+  }
+
+  .priceRow {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .priceModel,
+  .priceActions {
+    grid-column: 1 / -1;
+  }
+
+  .priceActions {
+    justify-content: flex-start;
+  }
+}
+
+/* P6.10 Connected sites */
+.siteList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.siteItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.siteName {
+  font: 500 14px var(--orb-font);
+  color: var(--orb-text);
+}
+
+.siteCheck {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 400 13px var(--orb-font);
+  color: var(--orb-text);
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.subTitle {
+  margin: 8px 0 0;
+  font: 500 13px var(--orb-font);
+  color: var(--orb-text);
+}
+
+.activityItem {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  font: 400 13px var(--orb-font);
+  color: var(--orb-text);
+}
+
+.activityWhen {
+  color: var(--orb-text-muted);
+}
+
+.activityUrl {
+  font: 400 12px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+  overflow-wrap: anywhere;
+}

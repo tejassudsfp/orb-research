@@ -1,0 +1,73 @@
+# P5.5 Hardening: build, test and the deterministic egress audit on every push and pull request (PRD Risks:
+# "Egress audit in CI on every harness upgrade"; a dsh bump is a lockfile change, so it runs here too).
+# No secrets: every model call goes to the local mock LLM; the live audit is never run in CI.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test-egress:
+    # Orb is an arm64 macOS app (Electron 44.7.0 runs the dsh sidecar; Keychain tests use the runner's login keychain).
+    runs-on: macos-15
+    timeout-minutes: 60
+    env:
+      CI: 'true'
+      # Never a real key in CI: make sure none leaks in from the runner image.
+      OPENAI_API_KEY: ''
+      DEEPSEEK_API_KEY: ''
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.34.7
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '26.8.1'
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      # Electron 44 has no postinstall: it downloads its binary on the first `require('electron')`. Fetch it once,
+      # here, so no two test workers ever unpack it at the same time (scripts/testkit/globalSetup.ts does the same).
+      - name: Electron binary
+        run: node node_modules/electron/install.js
+
+      - name: Build
+        run: pnpm build
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Public source hygiene and documentation links
+        run: pnpm release:check
+
+      - name: Marketing test browser
+        run: pnpm exec playwright install chromium --only-shell
+
+      - name: Marketing site build and browser checks
+        run: |
+          pnpm site:build
+          pnpm site:test
+
+      - name: Test
+        run: pnpm test
+
+      - name: Egress audit (deterministic, mock model host)
+        run: pnpm egress-audit --mode deterministic
+
+      - name: Egress audit negative control (telemetry on must be seen)
+        run: pnpm egress-audit --mode telemetry

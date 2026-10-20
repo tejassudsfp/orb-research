@@ -1,0 +1,5 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": { "allowImportingTsExtensions": true },
+  "include": [".", "../apps/desktop/src/main/dshHome.ts", "../apps/desktop/src/main/sidecar.ts"]
+}

@@ -1,0 +1,25 @@
+/* P6.1b lockups (design/identity/constellation/Constellation.dc.html § Lockups). */
+.lockup {
+  display: inline-flex;
+  align-items: center;
+  color: var(--orb-text);
+  text-decoration: none;
+}
+
+.horizontal {
+  flex-direction: row;
+}
+
+.stacked {
+  flex-direction: column;
+}
+
+.word {
+  font: 700 var(--orb-word, 22px) / 1 var(--orb-font);
+  /* -1 px at 22 px (header), -2.8 px at 56 px (stacked): about -0.045 to -0.05 em. */
+  letter-spacing: -0.046em;
+}
+
+.stacked .word {
+  letter-spacing: -0.05em;
+}

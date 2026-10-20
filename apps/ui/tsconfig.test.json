@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "allowImportingTsExtensions": true,
+    "jsx": "react-jsx",
+    "types": ["node"]
+  },
+  "include": ["test", "src/wire", "src/app/router.ts", "src/app/versions.ts", "src/brand/marks.ts", "src/vite-env.d.ts"]
+}

@@ -1,0 +1,36 @@
+{
+  "name": "@orb/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "zod": "4.6.7",
+    "culori": "4.0.2"
+  },
+  "types": "./src/index.ts",
+  "devDependencies": {
+    "@types/culori": "4.0.1"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Tejas Parthasarathi Sudarshan",
+    "url": "https://tejassuds.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tejassudsfp/orb-research.git"
+  },
+  "homepage": "https://github.com/tejassudsfp/orb-research#readme"
+}

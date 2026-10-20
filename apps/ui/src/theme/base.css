@@ -1,0 +1,85 @@
+/* Global base styles: Geist everywhere, the night background, visible focus rings, Reduce Motion. */
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--orb-bg);
+  color: var(--orb-text);
+  font-family: var(--orb-font);
+}
+
+/* P5.1: until the page knows its theme (no data-theme on <html> yet), let the window's own background show (main
+   sets it from the saved theme), so a day Home never flashes night on launch or on the boot -> live swap. */
+html:not([data-theme]) body {
+  background: transparent;
+}
+
+a {
+  color: var(--orb-accent);
+}
+
+a:hover {
+  color: var(--orb-text);
+}
+
+button,
+input,
+textarea {
+  font-family: inherit;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--orb-placeholder);
+}
+
+:focus-visible {
+  outline: 2px solid var(--orb-focus);
+  outline-offset: 2px;
+}
+
+.orb-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* P5.3: Settings › Appearance › Motion › Reduce does the same whatever macOS says. */
+:root[data-motion='reduce'] *,
+:root[data-motion='reduce'] *::before,
+:root[data-motion='reduce'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* Theme geometry and fonts apply consistently to the whole application. */
+:root[data-style] :is(h1, h2, h3) {
+  font-family: var(--orb-font-heading);
+}
+:root[data-style] button {
+  border-radius: var(--orb-radius-pill);
+}
+:root[data-style] :is(input, textarea, select) {
+  border-radius: var(--orb-radius-card);
+}
+:root[data-style] button[data-testid^='appearance-accent-'] {
+  border-radius: 50%;
+}

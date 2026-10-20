@@ -1,0 +1,16 @@
+name: Feature proposal
+description: Explain a research workflow that orb could support better.
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: Describe the user problem and a concrete example.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior and alternatives
+    validations:
+      required: true

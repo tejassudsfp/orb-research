@@ -1,0 +1,767 @@
+/*
+ * Print styles (BUILD_PLAN P4.4). The print routes set `data-theme` on <html>: `day` (the light tokens, the default
+ * for print) or `night` (as on screen). Colours below come from the tokens or the six palette colours at an alpha.
+ */
+.root,
+.docRoot {
+  --p-page: var(--orb-bg);
+  --p-card: var(--orb-surface-card);
+  --p-text: var(--orb-text);
+  --p-soft: var(--orb-text-soft);
+  --p-muted: var(--orb-text-muted);
+  --p-border: var(--orb-border-card);
+  --p-agent: var(--orb-border-accent);
+  --p-accent: var(--orb-accent);
+  --p-chip: var(--orb-chip);
+  --p-inset: var(--orb-inset);
+  --p-line: color-mix(in srgb, var(--orb-accent) 60%, transparent);
+  color: var(--p-text);
+  font-family: var(--orb-font);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+:global([data-theme='day']) .root,
+:global([data-theme='day']) .docRoot {
+  --p-border: rgba(17, 23, 29, 0.16);
+  --p-agent: color-mix(in srgb, var(--orb-accent-fill) 40%, transparent);
+  --p-line: color-mix(in srgb, var(--orb-accent-fill) 55%, transparent);
+}
+
+:global(html[data-print]),
+:global(html[data-print] body),
+:global(html[data-print] #root) {
+  margin: 0;
+  height: auto;
+  background: var(--orb-bg);
+}
+
+/* A research document flows over A4 pages whose margins Chromium leaves unpainted: the paper stays plain white. */
+:global(html[data-print='doc']),
+:global(html[data-print='doc'] body),
+:global(html[data-print='doc'] #root) {
+  background: transparent;
+}
+
+.error {
+  padding: 24px;
+  font: 500 14px var(--orb-font);
+}
+
+/* ---- Design-frame snapshot stage (drawn alone at the top left, scaled 2x, while snapshots are taken) ---- */
+
+.stage {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  transform-origin: 0 0;
+  background: #fff;
+  overflow: hidden;
+}
+
+.stage iframe {
+  display: block;
+  border: 0;
+}
+
+/* ---- Canvas PDF pages ---- */
+
+/* P6.20: `contain` keeps what the page draws outside its box (a tall frame at a small scale: its untransformed height
+   is many pages) from making blank pages after it. */
+.page {
+  position: relative;
+  overflow: hidden;
+  contain: layout paint size;
+  break-after: page;
+  background: var(--p-page);
+}
+
+.page:last-child {
+  break-after: auto;
+}
+
+.world {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+}
+
+.frame {
+  position: absolute;
+  border-radius: var(--orb-radius-frame);
+  border: 1px solid;
+  box-sizing: border-box;
+}
+
+.frameLabel {
+  position: absolute;
+  left: 16px;
+  top: 13px;
+  font: 500 12px var(--orb-font-mono);
+  letter-spacing: 1.4px;
+  white-space: nowrap;
+  color: var(--p-accent);
+}
+
+.tone_sky {
+  border-color: color-mix(in srgb, var(--orb-accent) 55%, transparent);
+  background: color-mix(in srgb, var(--orb-accent) 5%, transparent);
+}
+
+.tone_signal {
+  border-color: color-mix(in srgb, var(--orb-accent-fill) 70%, transparent);
+  background: color-mix(in srgb, var(--orb-accent-fill) 7%, transparent);
+}
+
+.tone_rho {
+  border-color: color-mix(in srgb, var(--orb-accent-fill) 75%, transparent);
+  background: color-mix(in srgb, var(--orb-accent-fill) 8%, transparent);
+}
+
+.tone_paper {
+  border-style: dashed;
+  border-color: rgba(249, 252, 254, 0.35);
+  background: rgba(249, 252, 254, 0.025);
+}
+
+:global([data-theme='day']) .tone_paper {
+  border-color: rgba(17, 23, 29, 0.3);
+  background: rgba(17, 23, 29, 0.02);
+}
+
+.links {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+}
+
+.link path,
+.linkAccent path {
+  fill: none;
+  stroke: var(--p-line);
+  stroke-width: 1.5;
+}
+
+.linkAccent path {
+  stroke: var(--p-accent);
+  stroke-dasharray: 5 5;
+}
+
+.linkAccent circle {
+  fill: var(--p-accent);
+}
+
+.linkLabel {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: 3px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--p-border);
+  background: var(--p-page);
+  color: var(--p-accent);
+  font: 500 10px var(--orb-font-mono);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.footer {
+  position: absolute;
+  left: 36px;
+  right: 36px;
+  bottom: 16px;
+  height: 18px;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  font: 400 10px var(--orb-font-mono);
+  letter-spacing: 0.4px;
+  color: var(--p-muted);
+  border-top: 1px solid var(--p-border);
+  padding-top: 8px;
+}
+
+.footer > :last-child {
+  margin-left: auto;
+}
+
+.footerBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font: 700 10px var(--orb-font);
+  letter-spacing: -0.3px;
+  color: var(--p-text);
+}
+
+.docBrand {
+  align-self: flex-start;
+  margin-bottom: 10px;
+}
+
+.footerTitle {
+  font-weight: 500;
+  color: var(--p-text);
+}
+
+/* ---- Cards (both modes) ---- */
+
+.card {
+  position: absolute;
+  box-sizing: border-box;
+  padding: 14px;
+  border-radius: var(--orb-radius-card);
+  border: 1px solid var(--p-border);
+  background: var(--p-card);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  overflow: hidden;
+}
+
+.agent {
+  border-color: var(--p-agent);
+}
+
+.paper {
+  background: var(--orb-surface-card);
+  color: var(--orb-text);
+  border-color: color-mix(in srgb, var(--orb-accent-fill) 30%, transparent);
+}
+
+.type_risk {
+  border-style: dashed;
+}
+
+.type_question .title::before {
+  content: '? ';
+  color: var(--p-accent);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.kind {
+  font: 500 10px var(--orb-font-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--p-muted);
+}
+
+.paper .kind {
+  color: var(--orb-accent);
+}
+
+.figLabel {
+  font: 600 11px var(--orb-font);
+  color: var(--p-accent);
+}
+
+.badge {
+  padding: 2px 7px;
+  border-radius: 9px;
+  background: var(--orb-accent-fill);
+  color: var(--orb-on-accent);
+  font: 600 10px var(--orb-font);
+}
+
+.cite {
+  font: 500 11px var(--orb-font-mono);
+  color: var(--p-accent);
+}
+
+.title {
+  margin: 0;
+  font: 600 16px var(--orb-font);
+  letter-spacing: -0.2px;
+  line-height: 1.25;
+}
+
+.body {
+  margin: 0;
+  font: 400 12.5px var(--orb-font);
+  line-height: 1.45;
+  color: var(--p-soft);
+  white-space: pre-wrap;
+}
+
+.paper .body {
+  color: rgba(17, 23, 29, 0.8);
+}
+
+.card .body {
+  overflow: hidden;
+}
+
+.excerpt {
+  margin: 0;
+  font: italic 400 12px var(--orb-font);
+  color: var(--p-soft);
+}
+
+.link {
+  font: 400 11px var(--orb-font-mono);
+  color: var(--p-accent);
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.why {
+  margin: 0;
+  font: 400 11.5px var(--orb-font);
+  color: var(--p-accent);
+  line-height: 1.4;
+}
+
+.note {
+  margin: 0;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: var(--orb-surface-card);
+  color: var(--orb-text);
+  border: 1px solid color-mix(in srgb, var(--orb-accent-fill) 30%, transparent);
+  font: 400 11.5px var(--orb-font);
+}
+
+.by {
+  margin: auto 0 0;
+  font: 400 10px var(--orb-font-mono);
+  color: var(--p-muted);
+}
+
+.paper .by {
+  color: rgba(17, 23, 29, 0.6);
+}
+
+.meta {
+  margin: 0;
+  font: 400 10.5px var(--orb-font-mono);
+  color: var(--p-muted);
+}
+
+.answer {
+  margin: 0;
+  font: 400 12px var(--orb-font);
+  color: var(--p-text);
+}
+
+.quote {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.quoteText {
+  margin: 0;
+  font: 500 13px var(--orb-font);
+  line-height: 1.45;
+  border-left: 3px solid var(--p-accent);
+  padding-left: 10px;
+}
+
+.pullQuote {
+  margin: 0;
+  font: 600 19px var(--orb-font);
+  line-height: 1.35;
+  letter-spacing: -0.3px;
+  border-left: 4px solid var(--p-accent);
+  padding: 4px 0 4px 16px;
+}
+
+.quote figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font: 400 11px var(--orb-font);
+  color: var(--p-muted);
+}
+
+.image {
+  display: block;
+  width: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.figure .image {
+  width: auto;
+  max-width: 100%;
+  max-height: 110mm;
+  align-self: flex-start;
+  flex: none;
+}
+
+.file {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.thumb {
+  display: block;
+  max-width: 100%;
+  max-height: 160px;
+  object-fit: contain;
+  object-position: left top;
+  border-radius: 6px;
+  border: 1px solid var(--p-border);
+}
+
+.figure .thumb {
+  max-height: 70mm;
+}
+
+.thumb {
+  align-self: flex-start;
+  width: auto;
+}
+
+.thumbEmpty {
+  height: 80px;
+  border-radius: 6px;
+  background: var(--p-chip);
+}
+
+.snapshot {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--p-border);
+}
+
+.figure .snapshot {
+  max-height: 170mm;
+  object-fit: contain;
+  object-position: left top;
+}
+
+.designLive {
+  width: 100%;
+  height: 200px;
+  border: 1px solid var(--p-border);
+  border-radius: 8px;
+}
+
+.diagram {
+  border-radius: 10px;
+  background: var(--p-inset);
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+}
+
+.diagram > div {
+  background: transparent;
+  max-height: none;
+  padding: 0;
+}
+
+.diagram svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.card .diagram svg {
+  max-height: 100%;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font: 400 11px var(--orb-font);
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--p-border);
+  vertical-align: top;
+}
+
+.table th {
+  font: 600 11px var(--orb-font);
+}
+
+.table thead {
+  display: table-header-group;
+}
+
+.table tr {
+  break-inside: avoid;
+}
+
+.stack {
+  margin: 0;
+  padding-left: 18px;
+  font: 400 12px var(--orb-font);
+  color: var(--p-soft);
+}
+
+/* ---- Research document ---- */
+
+.docRoot {
+  --p-card: transparent;
+  background: transparent;
+}
+
+.doc {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.docHead {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--p-border);
+}
+
+.eyebrow {
+  font: 500 10px var(--orb-font-mono);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--p-accent);
+}
+
+.docTitle {
+  margin: 0;
+  font: 700 30px var(--orb-font);
+  letter-spacing: -0.9px;
+  line-height: 1.1;
+}
+
+.docSummary {
+  margin: 0;
+  font: 400 14px var(--orb-font);
+  color: var(--p-soft);
+}
+
+.docSection {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.docH2 {
+  margin: 0;
+  font: 700 20px var(--orb-font);
+  letter-spacing: -0.5px;
+  break-after: avoid;
+}
+
+.reportCover {
+  min-height: 235mm;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  padding-top: 12mm;
+  padding-bottom: 12mm;
+  break-after: page;
+}
+.reportCover .docTitle {
+  font: 600 34pt/1.12 var(--orb-font-heading);
+  margin-top: 18mm;
+  overflow-wrap: anywhere;
+  letter-spacing: -0.5px;
+}
+.reportSubtitle {
+  margin: 0;
+  font: 400 15pt/1.5 var(--orb-font);
+  color: var(--p-soft);
+}
+.reportMetadata {
+  margin: 16mm 0 0;
+  width: 100%;
+  font: 400 10pt/1.6 var(--orb-font);
+}
+.reportMetadata > div {
+  display: grid;
+  grid-template-columns: 42mm minmax(0, 1fr);
+  gap: 6mm;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--p-border);
+}
+.reportMetadata dt {
+  color: var(--p-soft);
+}
+.reportMetadata dd {
+  margin: 0;
+}
+.reportCoverNote {
+  margin: auto 0 0;
+  font: 400 9pt/1.6 var(--orb-font);
+  color: var(--p-soft);
+  max-width: 135mm;
+}
+.reportDraft {
+  font: 400 9pt/1.5 var(--orb-font);
+  padding: 12px;
+  border: 1px solid var(--p-border);
+}
+.reportDraft ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}
+.reportContents {
+  break-after: page;
+  font: 400 11pt/1.7 var(--orb-font);
+  padding-top: 8mm;
+}
+.reportContents ol {
+  padding-left: 22px;
+  margin: 8mm 0;
+}
+.reportContents li {
+  padding: 5px 0;
+  border-bottom: 1px solid var(--p-border);
+  break-inside: avoid;
+}
+.reportContents a {
+  color: var(--p-text);
+  text-decoration: none;
+}
+.reportAppendix {
+  break-before: page;
+}
+.reportRegister {
+  width: 100%;
+  table-layout: fixed;
+  font: 400 10pt/1.5 var(--orb-font);
+}
+.reportRegister th:first-child {
+  width: 55%;
+}
+.reportRegister th,
+.reportRegister td {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  vertical-align: top;
+  padding: 10px;
+}
+.reportRegister tr {
+  break-inside: avoid;
+}
+.sectionNumber {
+  color: var(--p-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.figure {
+  position: relative;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--p-border);
+  background: var(--p-card);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  break-inside: avoid;
+}
+
+.figure.type_table {
+  break-inside: auto;
+}
+
+.figure.paper {
+  background: var(--orb-surface-card);
+}
+
+.sources {
+  margin: 0;
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font: 400 12px var(--orb-font);
+}
+
+/* ---- P4.5 composed research document ---- */
+
+.caption {
+  margin: 0;
+  font: 500 11px var(--orb-font);
+  color: var(--p-soft);
+}
+
+.para {
+  margin: 0;
+  font: 400 11pt var(--orb-font);
+  line-height: 1.55;
+  orphans: 3;
+  widows: 3;
+  overflow-wrap: anywhere;
+}
+
+.citeRef {
+  font: 500 7.5pt var(--orb-font-mono);
+  vertical-align: super;
+  color: var(--p-accent);
+  text-decoration: none;
+  margin-left: 1px;
+}
+
+.userPara {
+  border-left: 2px solid var(--p-border);
+  padding-left: 10px;
+}
+.citeGroup {
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+.professionalReport .figure {
+  display: block;
+  border: 0;
+  border-radius: 0;
+  padding: 12px 0;
+  background: transparent;
+}
+.professionalReport .figure > * + * {
+  margin-top: 7px;
+}
+.professionalReport .figure > .head,
+.professionalReport .figure > .title {
+  break-after: avoid;
+}
+.professionalReport .figure .diagram {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+}
+.professionalReport .figure .diagram svg {
+  width: 100%;
+  max-height: 210mm;
+}
+.professionalReport .figure .diagram > div {
+  width: 100%;
+}
+.professionalReport .figure .kind,
+.professionalReport .figure .badge,
+.professionalReport .figure .why,
+.professionalReport .figure .note,
+.professionalReport .figure [data-testid='print-card-detail'] {
+  display: none;
+}
+.professionalReport .figure table {
+  font-size: 10pt;
+  line-height: 1.4;
+}
+.professionalReport .figure table th,
+.professionalReport .caption {
+  font-size: 9pt;
+}

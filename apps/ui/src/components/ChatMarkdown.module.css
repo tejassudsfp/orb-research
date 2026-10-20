@@ -1,0 +1,129 @@
+.markdown {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.55;
+}
+/* Text must follow its message's colours immediately, including under Reduce Motion. */
+.markdown,
+.markdown * {
+  transition-property: none;
+}
+.markdown > :first-child {
+  margin-top: 0;
+}
+.markdown > :last-child {
+  margin-bottom: 0;
+}
+.markdown p {
+  margin: 0 0 0.7em;
+  white-space: pre-wrap;
+}
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  margin: 1em 0 0.4em;
+  font-family: var(--orb-font-heading);
+  font-weight: 650;
+  line-height: 1.3;
+}
+.markdown h3 {
+  font-size: 1.2em;
+}
+.markdown h4 {
+  font-size: 1.1em;
+}
+.markdown h5,
+.markdown h6 {
+  font-size: 1em;
+}
+.markdown ul,
+.markdown ol {
+  margin: 0.5em 0 0.7em;
+  padding-left: 1.5em;
+}
+.markdown li + li {
+  margin-top: 0.3em;
+}
+.markdown li > p {
+  margin: 0.3em 0;
+}
+.markdown li > ul,
+.markdown li > ol {
+  margin: 0.3em 0;
+}
+.markdown a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.markdown blockquote {
+  margin: 0.7em 0;
+  padding-left: 0.8em;
+  border-left: 3px solid currentColor;
+}
+.markdown code {
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+  background: var(--orb-inset);
+  color: var(--orb-text);
+  font-family: var(--orb-font-mono);
+  font-size: 0.9em;
+}
+.markdown pre {
+  margin: 0.7em 0;
+  padding: 10px;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+  background: var(--orb-inset);
+  color: var(--orb-text);
+  border: 1px solid var(--orb-border-card);
+  border-radius: var(--orb-radius-card);
+  white-space: pre;
+  overflow-wrap: normal;
+}
+.markdown pre code {
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.9em;
+  white-space: pre;
+}
+.markdown hr {
+  margin: 1em 0;
+  border: 0;
+  border-top: 1px solid var(--orb-border-card);
+}
+.tableScroll {
+  max-width: 100%;
+  overflow: auto;
+  margin: 0.7em 0;
+  background: var(--orb-surface-card);
+  color: var(--orb-text);
+  border: 1px solid var(--orb-border-card);
+  border-radius: var(--orb-radius-card);
+}
+.markdown table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+.markdown th,
+.markdown td {
+  min-width: 90px;
+  max-width: 260px;
+  padding: 6px 8px;
+  border: 1px solid var(--orb-border-card);
+  text-align: left;
+  vertical-align: top;
+}
+.markdown th {
+  background: var(--orb-inset);
+  font-weight: 600;
+}
+.markdown input[type='checkbox'] {
+  accent-color: var(--orb-accent-fill);
+}

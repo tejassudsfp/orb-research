@@ -1,0 +1,11 @@
+orb
+Copyright (c) 2026 Tejas Parthasarathi Sudarshan (https://tejassuds.com)
+Distributed under the MIT License. See LICENSE.
+
+The theme registry and accent system are adapted from Symplist (MIT).
+The original notice is preserved in apps/ui/public/licenses/symplist.txt.
+
+Third-party software and fonts retain their own copyrights and licenses.
+See THIRD_PARTY_NOTICES.md and the license files included in binary builds.
+OpenAI, ChatGPT, Anthropic and other provider names belong to their owners.
+Provider names describe integrations; they do not imply endorsement.

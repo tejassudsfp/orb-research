@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>Home, start a canvas</title>
+<script src="3eee09e9-25e7-47f1-aa17-ef1ecb0a2fb2"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>/* cyrillic-ext */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwRGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwYGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwTGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwSGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("728a5cda-2680-437f-8fcd-05949deb0f26") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwRGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwYGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwTGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwSGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("728a5cda-2680-437f-8fcd-05949deb0f26") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwRGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwYGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwTGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwSGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("728a5cda-2680-437f-8fcd-05949deb0f26") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwRGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwYGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwTGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwSGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("728a5cda-2680-437f-8fcd-05949deb0f26") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrodmhHkjkotbA.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrMdmhHkjkotbA.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* symbols2 */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFg08vz7MhEIVVeA.woff2) format('woff2');
+  unicode-range: U+2000-2001, U+2004-2008, U+200A, U+23B8-23BD, U+2500-259F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrgdmhHkjkotbA.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrkdmhHkjkotbA.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("b14133b5-e0b6-47c0-97b6-dc12952eec21") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrodmhHkjkotbA.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrMdmhHkjkotbA.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* symbols2 */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFg08vz7MhEIVVeA.woff2) format('woff2');
+  unicode-range: U+2000-2001, U+2004-2008, U+200A, U+23B8-23BD, U+2500-259F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrgdmhHkjkotbA.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrkdmhHkjkotbA.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("b14133b5-e0b6-47c0-97b6-dc12952eec21") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+body{margin:0}
+a{color:#2563EB}a:hover{color:#3D5DCF}
+.night{background-color:#03050C;background-image:radial-gradient(1px 1px at 22px 34px,rgba(249,252,254,.55) 50%,transparent 51%),radial-gradient(1px 1px at 140px 90px,rgba(249,252,254,.3) 50%,transparent 51%),radial-gradient(1.5px 1.5px at 200px 180px,rgba(96,165,250,.7) 50%,transparent 51%),radial-gradient(1px 1px at 80px 210px,rgba(249,252,254,.25) 50%,transparent 51%);background-size:300px 260px}
+.day{background-color:#F9FCFE;background-image:radial-gradient(rgba(17,23,29,.09) 1px,transparent 1px);background-size:24px 24px}
+input::placeholder{color:rgba(128,134,142,.9)}
+</style>
+</helmet>
+<div class="{{ t.cls }}" style="position: relative; width: 100%; height: 900px; overflow: hidden; font-family: Geist, system-ui, sans-serif; color: {{ t.text }}">
+  <div aria-hidden="true" style="position: absolute; left: 8%; top: -10%; width: 620px; height: 620px; border-radius: 50%; background: {{ t.glow1 }}"></div>
+  <div aria-hidden="true" style="position: absolute; right: 4%; top: 30%; width: 560px; height: 560px; border-radius: 50%; background: {{ t.glow2 }}"></div>
+  <div aria-hidden="true" style="position: absolute; left: 30%; bottom: -25%; width: 700px; height: 500px; border-radius: 50%; background: {{ t.glow3 }}"></div>
+
+  <div style="position: absolute; top: 20px; left: 24px; right: 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px">
+    <div style="display: flex; align-items: center; gap: 10px">
+      <svg width="28" height="28" sc-camel-view-box="0 0 28 28" aria-hidden="true" fill="none" stroke="{{ t.accent }}" stroke-width="1.6"><circle cx="14" cy="14" r="4" fill="#2563EB" stroke="none"></circle><ellipse cx="14" cy="14" rx="12" ry="5" transform="rotate(-25 14 14)"></ellipse></svg>
+      <span style="font: 700 22px Geist, sans-serif; letter-spacing: -0.6px">Orb</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px">
+      <button type="button" style="height: 44px; padding: 0 16px; border-radius: 22px; border: 1px solid {{ t.border }}; background: {{ t.surface }}; color: {{ t.soft }}; font: 500 14px Geist, sans-serif; cursor: pointer">Public boards</button>
+      <button type="button" aria-label="{{ toggleLabel }}" sc-camel-on-click="{{ toggleMode }}" style="height: 44px; padding: 0 14px; border-radius: 22px; border: 1px solid {{ t.border }}; background: {{ t.surface }}; color: {{ t.soft }}; display: flex; align-items: center; gap: 8px; font: 500 14px Geist, sans-serif; cursor: pointer">
+        <sc-if value="{{ isNight }}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if>
+        <sc-if value="{{ isDay }}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"></path></svg></sc-if>
+        <span>{{ toggleText }}</span>
+      </button>
+    </div>
+  </div>
+
+  <div style="position: absolute; left: 50%; top: 130px; transform: translateX(-50%); width: min(1040px, 94%); display: flex; flex-direction: column; align-items: center; gap: 22px">
+    <span style="padding: 6px 14px; border-radius: 16px; border: 1px solid {{ t.borderStrong }}; background: {{ t.surface }}; font: 500 14px 'Geist Mono', monospace; letter-spacing: 0.4px; color: {{ t.taglineColor }}; text-align: center">{{ tagline }}</span>
+    <h1 style="margin: 0; font: 700 46px Geist, sans-serif; line-height: 1.1; text-align: center; letter-spacing: -1.6px; white-space: nowrap">{{ w1 }}? <span style="color: {{ t.accent }}">{{ w2 }}?</span> {{ w3 }}?</h1>
+  </div>
+  <div style="position: absolute; left: 50%; top: 416px; transform: translateX(-50%); width: min(1040px, 94%); display: flex; flex-direction: column; align-items: center; gap: 22px">
+    <div style="width: min(760px, 100%); display: flex; align-items: center; gap: 12px; padding: 10px 10px 10px 22px; border-radius: 32px; border: 1px solid {{ t.borderStrong }}; background: {{ t.surfaceStrong }}; box-shadow: {{ t.boxShadow }}; box-sizing: border-box">
+      <label for="ask" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Start a new research canvas</label>
+      <input id="ask" type="text" placeholder="Ask anything, paste a link, or drop a file" style="flex: 1; min-width: 0; height: 44px; border: 0; outline: none; background: transparent; color: {{ t.text }}; font: 400 18px Geist, sans-serif">
+      <a href="Canvas.dc.html" aria-label="Start canvas" style="width: 48px; height: 48px; border-radius: 24px; background: {{ t.accentFill }}; color: {{ t.onAccent }}; display: flex; align-items: center; justify-content: center; text-decoration: none; flex: none"><svg width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center">
+      <button type="button" style="height: 44px; padding: 0 16px; border-radius: 22px; border: 1px solid {{ t.border }}; background: {{ t.surface }}; color: {{ t.soft }}; font: 500 14px Geist, sans-serif; display: flex; align-items: center; gap: 8px; cursor: pointer"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 4px; background: #60A5FA"></span>Topic deep dive</button>
+      <button type="button" style="height: 44px; padding: 0 16px; border-radius: 22px; border: 1px solid {{ t.border }}; background: {{ t.surface }}; color: {{ t.soft }}; font: 500 14px Geist, sans-serif; display: flex; align-items: center; gap: 8px; cursor: pointer"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 4px; background: #3D5DCF"></span>Company research</button>
+      <button type="button" style="height: 44px; padding: 0 16px; border-radius: 22px; border: 1px solid {{ t.border }}; background: {{ t.surface }}; color: {{ t.soft }}; font: 500 14px Geist, sans-serif; display: flex; align-items: center; gap: 8px; cursor: pointer"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 4px; background: #2563EB"></span>GTM</button>
+      <button type="button" style="height: 44px; padding: 0 16px; border-radius: 22px; border: 1px solid {{ t.border }}; background: {{ t.surface }}; color: {{ t.soft }}; font: 500 14px Geist, sans-serif; display: flex; align-items: center; gap: 8px; cursor: pointer"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 4px; background: #60A5FA"></span>UI research</button>
+      <button type="button" style="height: 44px; padding: 0 16px; border-radius: 22px; border: 1px solid {{ t.border }}; background: {{ t.surface }}; color: {{ t.soft }}; font: 500 14px Geist, sans-serif; display: flex; align-items: center; gap: 8px; cursor: pointer"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 4px; background: #60A5FA"></span>Stocks</button>
+    </div>
+  </div>
+
+  <div style="position: absolute; left: 720px; top: 640px; transform: translateX(-50%); width: min(1100px, 92%); display: flex; flex-direction: column; gap: 16px">
+    <div style="display: flex; align-items: baseline; justify-content: space-between">
+      <span style="font: 500 12px 'Geist Mono', monospace; letter-spacing: 1.5px; text-transform: uppercase; color: {{ t.muted }}">Your canvases</span>
+      <a href="#" style="font: 500 13px Geist, sans-serif; text-decoration: none; color: {{ t.accent }}">See all</a>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px">
+      <a href="Canvas.dc.html" style="text-decoration: none; color: {{ t.text }}; border-radius: 18px; border: 1px solid {{ t.borderStrong }}; background: {{ t.surfaceStrong }}; padding: 16px; display: flex; flex-direction: column; gap: 14px; min-height: 150px; box-sizing: border-box">
+        <div aria-hidden="true" style="position: relative; height: 64px; border-radius: 10px; background: {{ t.inset }}; overflow: hidden">
+          <div style="position: absolute; left: 10px; top: 10px; width: 46px; height: 22px; border-radius: 5px; border: 1px solid #60A5FA"></div>
+          <div style="position: absolute; left: 66px; top: 18px; width: 54px; height: 30px; border-radius: 5px; border: 1px solid #2563EB"></div>
+          <div style="position: absolute; left: 130px; top: 8px; width: 40px; height: 40px; border-radius: 5px; border: 1px solid #3D5DCF"></div>
+          <div style="position: absolute; right: 10px; bottom: 8px; width: 8px; height: 8px; border-radius: 4px; background: #60A5FA"></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <span style="font: 500 15px Geist, sans-serif">Research canvas idea</span>
+          <span style="font: 400 13px Geist, sans-serif; color: {{ t.muted }}">3 agents working</span>
+        </div>
+      </a>
+      <a href="#" style="text-decoration: none; color: {{ t.text }}; border-radius: 18px; border: 1px solid {{ t.border }}; background: {{ t.surface }}; padding: 16px; display: flex; flex-direction: column; gap: 14px; min-height: 150px; box-sizing: border-box">
+        <div aria-hidden="true" style="position: relative; height: 64px; border-radius: 10px; background: {{ t.inset }}; overflow: hidden">
+          <div style="position: absolute; left: 12px; top: 12px; width: 70px; height: 40px; border-radius: 5px; border: 1px solid #60A5FA"></div>
+          <div style="position: absolute; left: 94px; top: 12px; width: 70px; height: 40px; border-radius: 5px; border: 1px solid #60A5FA"></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <span style="font: 500 15px Geist, sans-serif">Onboarding flows teardown</span>
+          <span style="font: 400 13px Geist, sans-serif; color: {{ t.muted }}">UI research</span>
+        </div>
+      </a>
+      <a href="#" style="text-decoration: none; color: {{ t.text }}; border-radius: 18px; border: 1px solid {{ t.border }}; background: {{ t.surface }}; padding: 16px; display: flex; flex-direction: column; gap: 14px; min-height: 150px; box-sizing: border-box">
+        <div aria-hidden="true" style="position: relative; height: 64px; border-radius: 10px; background: {{ t.inset }}; overflow: hidden">
+          <svg width="180" height="64" sc-camel-view-box="0 0 180 64" fill="none" stroke="#60A5FA" stroke-width="1.5"><path d="M8 48 L30 40 L52 44 L74 28 L96 32 L118 18 L140 24 L170 10"></path></svg>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <span style="font: 500 15px Geist, sans-serif">Semiconductor watchlist</span>
+          <span style="font: 400 13px Geist, sans-serif; color: {{ t.muted }}">Stocks</span>
+        </div>
+      </a>
+      <a href="#" style="text-decoration: none; color: {{ t.text }}; border-radius: 18px; border: 1px dashed {{ t.borderStrong }}; background: transparent; padding: 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px; min-height: 150px; box-sizing: border-box">
+        <svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="{{ t.muted }}" stroke-width="1.6" aria-hidden="true"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>
+        <span style="font: 500 14px Geist, sans-serif; color: {{ t.soft }}">Fork a public board</span>
+      </a>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;defaultMode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;night&quot;,&quot;day&quot;],&quot;default&quot;:&quot;night&quot;},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.words = ['Kites', 'Nebula', 'Ocean', 'Saffron', 'Monsoons', 'Black holes', 'Tea', 'Chess', 'Coral', 'Volcanoes', 'Bridges', 'Bees', 'Jazz', 'Glaciers', 'Silk', 'Comets', 'Fungi', 'Lighthouses', 'Origami', 'Cricket', 'Tides', 'Spices', 'Satellites', 'Deserts'];
+    this.state = { mode: null, picks: this.pick() };
+  }
+  pick() {
+    const pool = this.words.slice();
+    const out = [];
+    for (let i = 0; i < 3; i++) {
+      out.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+    }
+    return out;
+  }
+  componentDidMount() {
+    this.timer = setInterval(() => this.setState({ picks: this.pick() }), 2800);
+  }
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+  renderVals() {
+    const mode = this.state.mode || this.props.defaultMode || 'night';
+    const night = {
+      cls: 'night', taglineColor: '#F9FCFE', text: '#F9FCFE', soft: 'rgba(249,252,254,0.82)', muted: 'rgba(249,252,254,0.62)',
+      accent: '#60A5FA', accentFill: '#2563EB', onAccent: '#F9FCFE',
+      border: 'rgba(249,252,254,0.12)', borderStrong: 'rgba(96,165,250,0.4)',
+      surface: 'rgba(17,23,29,0.7)', surfaceStrong: 'rgba(17,23,29,0.92)', inset: '#03050C',
+      boxShadow: '0 0 0 6px rgba(37,99,235,0.12), 0 0 60px rgba(37,99,235,0.25), 0 30px 80px rgba(0,0,0,0.5)',
+      glow1: 'radial-gradient(circle, rgba(37,99,235,0.42), rgba(37,99,235,0) 68%)',
+      glow2: 'radial-gradient(circle, rgba(96,165,250,0.20), rgba(96,165,250,0) 70%)',
+      glow3: 'radial-gradient(circle, rgba(61,93,207,0.30), rgba(61,93,207,0) 70%)'
+    };
+    const day = {
+      cls: 'day', taglineColor: '#2563EB', text: '#11171D', soft: 'rgba(17,23,29,0.82)', muted: 'rgba(17,23,29,0.62)',
+      accent: '#2563EB', accentFill: '#2563EB', onAccent: '#F9FCFE',
+      border: 'rgba(17,23,29,0.10)', borderStrong: 'rgba(37,99,235,0.35)',
+      surface: 'rgba(249,252,254,0.75)', surfaceStrong: '#F9FCFE', inset: 'rgba(17,23,29,0.05)',
+      boxShadow: '0 0 0 6px rgba(37,99,235,0.08), 0 30px 70px rgba(17,23,29,0.12)',
+      glow1: 'radial-gradient(circle, rgba(96,165,250,0.35), rgba(96,165,250,0) 70%)',
+      glow2: 'radial-gradient(circle, rgba(37,99,235,0.16), rgba(37,99,235,0) 70%)',
+      glow3: 'radial-gradient(circle, rgba(61,93,207,0.14), rgba(61,93,207,0) 70%)'
+    };
+    const isNight = mode === 'night';
+    return {
+      t: isNight ? night : day,
+      isNight: isNight,
+      isDay: !isNight,
+      w1: this.state.picks[0],
+      w2: this.state.picks[1],
+      w3: this.state.picks[2],
+      tagline: isNight ? 'Don\u2019t go gentle into the night!' : 'Everything the sun touches',
+      toggleText: isNight ? 'Day' : 'Night',
+      toggleLabel: isNight ? 'Switch to day mode' : 'Switch to night mode',
+      toggleMode: () => this.setState({ mode: isNight ? 'day' : 'night' })
+    };
+  }
+}
+</script>
+
+
+</body></html>

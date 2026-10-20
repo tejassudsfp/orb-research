@@ -1,0 +1,544 @@
+/* Home (P2.1 shell; P2.6 adds templates, seeding by drop, tile previews and search). Values from design/screens/home.html. */
+
+.home {
+  position: relative;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-family: var(--orb-font);
+  color: var(--orb-text);
+  background-color: var(--orb-bg);
+}
+
+.night {
+  background-image: var(--orb-stars);
+  background-size: var(--orb-stars-size);
+}
+
+.day {
+  background-image: none;
+  background-size: 24px 24px;
+}
+
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.glow1 {
+  composes: glow;
+  left: 8%;
+  top: -10%;
+  width: 620px;
+  height: 620px;
+  background: none;
+}
+
+.glow2 {
+  composes: glow;
+  right: 4%;
+  top: 30%;
+  width: 560px;
+  height: 560px;
+  background: none;
+}
+
+.glow3 {
+  composes: glow;
+  left: 30%;
+  bottom: -25%;
+  width: 700px;
+  height: 500px;
+  background: none;
+}
+
+.day .glow1 {
+  background: none;
+}
+
+.day .glow2 {
+  background: none;
+}
+
+.day .glow3 {
+  background: none;
+}
+
+.topBar {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: 700 22px var(--orb-font);
+  letter-spacing: -0.6px;
+}
+
+.topActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pillButton {
+  height: 44px;
+  padding: 0 16px;
+  border-radius: var(--orb-radius-pill);
+  border: 1px solid var(--orb-border);
+  background: var(--orb-surface);
+  color: var(--orb-text-soft);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 500 14px var(--orb-font);
+  text-decoration: none;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.hero {
+  position: absolute;
+  left: 50%;
+  top: 130px;
+  transform: translateX(-50%);
+  width: min(1040px, 94%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.tagline {
+  padding: 6px 14px;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--orb-accent) 40%, transparent);
+  background: var(--orb-surface);
+  font: 500 14px var(--orb-font-mono);
+  letter-spacing: 0.4px;
+  color: var(--orb-paper);
+  text-align: center;
+}
+
+.day .tagline {
+  color: var(--orb-accent);
+  border-color: color-mix(in srgb, var(--orb-accent-fill) 35%, transparent);
+}
+
+.words {
+  margin: 0;
+  font: 700 46px var(--orb-font);
+  line-height: 1.1;
+  text-align: center;
+  letter-spacing: -1.6px;
+  white-space: nowrap;
+}
+
+.accentWord {
+  color: var(--orb-accent);
+}
+
+.askBlock {
+  /* In flow (P6.18): with the 30 template chips the block is taller than the prototype's, and the canvases below
+     must move down with it. At the prototype's size it still starts at 316px and the canvases at 560px. */
+  position: relative;
+  margin: 316px auto 0;
+  min-height: 204px;
+  width: min(1040px, 94%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.ask {
+  width: min(760px, 100%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 10px 10px 22px;
+  border-radius: var(--orb-radius-panel);
+  border: 1px solid color-mix(in srgb, var(--orb-accent) 40%, transparent);
+  background: var(--orb-surface);
+  box-shadow: var(--orb-shadow-panel);
+  box-sizing: border-box;
+}
+
+.day .ask {
+  border-color: color-mix(in srgb, var(--orb-accent-fill) 35%, transparent);
+  background: var(--orb-surface-card);
+  box-shadow: var(--orb-shadow-panel);
+}
+
+/* P5.2: the field has no box of its own; the ask box carries the 2px focus ring (over its 1px border). */
+.ask:has(.askInput:focus-visible) {
+  outline: 2px solid var(--orb-focus);
+  outline-offset: -1px;
+}
+
+.askInput {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--orb-text);
+  font: 400 18px var(--orb-font);
+}
+
+.askGo {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--orb-radius-panel);
+  border: 0;
+  background: var(--orb-signal);
+  color: var(--orb-on-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.askGo:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.chipDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+}
+
+.canvases {
+  position: relative;
+  margin: 40px auto 0;
+  width: min(1100px, 92%);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 48px;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.sectionLabel {
+  font: 500 12px var(--orb-font-mono);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--orb-text-muted);
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tile {
+  width: 100%;
+  text-align: left;
+  color: var(--orb-text);
+  border-radius: var(--orb-radius-panel);
+  border: 1px solid var(--orb-border);
+  background: var(--orb-surface);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 150px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.tile:hover {
+  border-color: color-mix(in srgb, var(--orb-accent) 40%, transparent);
+}
+
+.tilePreview {
+  position: relative;
+  height: 64px;
+  border-radius: 10px;
+  background: var(--orb-inset);
+  overflow: hidden;
+}
+
+.tileDot {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--orb-accent-fill);
+}
+
+.tileText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.tileTitle {
+  font: 500 15px var(--orb-font);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tileMeta {
+  font: 400 13px var(--orb-font);
+  color: var(--orb-text-muted);
+}
+
+/* P4.3: the canvas's token and estimated cost total. */
+.tileCost {
+  font: 400 12px var(--orb-font);
+  font-variant-numeric: tabular-nums;
+  color: var(--orb-text-faint);
+}
+
+.empty {
+  font: 400 14px var(--orb-font);
+  color: var(--orb-text-muted);
+  margin: 0;
+}
+
+/* P6.1b: the empty canvas list carries the mark. */
+.emptyBrand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status {
+  position: absolute;
+  left: 24px;
+  bottom: 16px;
+  font: 400 12px var(--orb-font-mono);
+  color: var(--orb-text-faint);
+}
+
+.error {
+  margin: 0;
+  font: 400 13px var(--orb-font);
+  color: var(--orb-text);
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px dashed rgba(249, 252, 254, 0.35);
+}
+
+/* ---- P2.6 ---- */
+
+.askDrop {
+  border-style: dashed;
+  border-color: var(--orb-sky);
+  box-shadow: var(--orb-shadow-panel);
+}
+
+.chipOn {
+  border-color: var(--orb-border-accent);
+  color: var(--orb-text);
+  background: color-mix(in srgb, var(--orb-accent-fill) 18%, transparent);
+}
+
+.day .chipOn {
+  background: color-mix(in srgb, var(--orb-accent-fill) 10%, transparent);
+}
+
+.notice {
+  margin: 0;
+  font: 400 13px var(--orb-font);
+  color: var(--orb-text-soft);
+}
+
+/* P4.2: the "a key is needed" link under the box. */
+.noticeLink {
+  color: var(--orb-accent);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.noticeLink:hover {
+  text-decoration: underline;
+}
+
+.sectionTools {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.search {
+  width: 240px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 17px;
+  border: 1px solid var(--orb-border);
+  background: var(--orb-surface);
+  color: var(--orb-text);
+  font: 400 13px var(--orb-font);
+  box-sizing: border-box;
+}
+
+.search::placeholder {
+  color: var(--orb-placeholder);
+}
+
+.seeAll {
+  border: 0;
+  padding: 0;
+  background: none;
+  font: 500 13px var(--orb-font);
+  color: var(--orb-accent);
+  cursor: pointer;
+}
+
+.tileLive {
+  border-color: color-mix(in srgb, var(--orb-accent) 40%, transparent);
+  background: var(--orb-surface);
+}
+
+.day .tileLive {
+  background: var(--orb-surface-card);
+}
+
+.previewSvg {
+  position: absolute;
+  inset: 6px 10px;
+  width: calc(100% - 20px);
+  height: calc(100% - 12px);
+}
+
+.previewCard {
+  fill: color-mix(in srgb, var(--orb-accent) 28%, transparent);
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.result {
+  width: 100%;
+  text-align: left;
+  color: var(--orb-text);
+  border-radius: 14px;
+  border: 1px solid var(--orb-border);
+  background: var(--orb-surface);
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.result:hover {
+  border-color: color-mix(in srgb, var(--orb-accent) 40%, transparent);
+}
+
+.resultMeta {
+  font: 500 11px var(--orb-font-mono);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--orb-text-muted);
+}
+
+.resultTitle {
+  font: 500 15px var(--orb-font);
+}
+
+.resultSnippet {
+  font: 400 13px var(--orb-font);
+  color: var(--orb-text-soft);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resultTitle mark,
+.resultSnippet mark {
+  background: color-mix(in srgb, var(--orb-accent) 28%, transparent);
+  color: inherit;
+  border-radius: 3px;
+}
+
+/* P5.1: the warming-up Home (boot page, before the sidecar is ready). */
+.warming {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.warmingDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--orb-accent);
+  animation: orbWarming 1.2s ease-in-out infinite;
+}
+
+@keyframes orbWarming {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .warmingDot {
+    animation: none;
+  }
+}
+
+:global(:root[data-motion='reduce']) .warmingDot {
+  animation: none;
+}
+
+.pillWaiting {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* P5.1: the first-launch splash (before the first-run sheet). */
+.splash {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}

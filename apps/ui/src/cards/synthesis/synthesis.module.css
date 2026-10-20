@@ -1,0 +1,298 @@
+/* Synthesis cards (P6.5): insight, hypothesis, decision, framework. Tokens only; they read on the board and in print. */
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.text {
+  margin: 0;
+  font: 400 13px var(--orb-font);
+  color: var(--orb-text-soft);
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.textFull {
+  display: block;
+  -webkit-line-clamp: unset;
+  white-space: pre-wrap;
+}
+
+.meta {
+  margin: 0;
+  font: 400 11px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.metaWrap {
+  white-space: normal;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--orb-border-accent);
+  font: 500 11px var(--orb-font-mono);
+  color: var(--orb-accent);
+  text-transform: lowercase;
+}
+
+.pillDecided {
+  background: var(--orb-accent-fill);
+  border-color: transparent;
+  color: var(--orb-on-accent);
+}
+
+/* ---- Insight ---- */
+
+.cites {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cite {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  font: 400 12px var(--orb-font);
+  color: var(--orb-text-soft);
+  min-width: 0;
+}
+
+.cite::before {
+  content: '↳';
+  color: var(--orb-accent);
+  flex: none;
+}
+
+.citeText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.missing {
+  color: var(--orb-text-faint);
+  font-style: italic;
+}
+
+.chip {
+  appearance: none;
+  background: var(--orb-chip);
+  border: 1px solid var(--orb-border);
+  border-radius: 8px;
+  padding: 4px 10px;
+  color: var(--orb-text);
+  font: 400 12px var(--orb-font);
+  cursor: pointer;
+  text-align: left;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--orb-focus);
+  outline-offset: 2px;
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.heading {
+  margin: 8px 0 4px;
+  font: 500 11px var(--orb-font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--orb-text-muted);
+}
+
+/* ---- Hypothesis ---- */
+
+.confidence {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.confValue {
+  font: 600 22px var(--orb-font);
+  color: var(--orb-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.confWord {
+  font: 400 11px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+}
+
+.bar {
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--orb-chip);
+  overflow: hidden;
+  min-width: 40px;
+}
+
+.barFill {
+  height: 100%;
+  background: var(--orb-accent-fill);
+}
+
+.balance {
+  display: flex;
+  gap: 12px;
+  font: 400 12px var(--orb-font-mono);
+  color: var(--orb-text-soft);
+}
+
+.for {
+  color: var(--orb-accent);
+}
+
+.titleExtra {
+  margin: 8px 0 0;
+  text-align: center;
+  font: 600 28px var(--orb-font);
+  color: var(--orb-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Decision ---- */
+
+.options {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.option {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  font: 400 12px var(--orb-font);
+  color: var(--orb-text-soft);
+}
+
+.optionName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chosen {
+  color: var(--orb-text);
+  font-weight: 600;
+}
+
+.chosen::before {
+  content: '✓ ';
+  color: var(--orb-accent);
+}
+
+.total {
+  font: 500 11px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.rubric {
+  width: 100%;
+  border-collapse: collapse;
+  font: 400 12px var(--orb-font);
+  color: var(--orb-text-soft);
+}
+
+.rubric th,
+.rubric td {
+  text-align: left;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--orb-border-card);
+  vertical-align: top;
+}
+
+.rubric th {
+  font-weight: 600;
+  color: var(--orb-text);
+}
+
+.rubric tr {
+  break-inside: avoid;
+}
+
+.num {
+  text-align: right !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Framework ---- */
+
+.grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr 1fr;
+  min-width: 0;
+}
+
+.cell {
+  min-width: 0;
+  border: 1px solid var(--orb-border-card);
+  border-radius: 10px;
+  padding: 8px 10px;
+  background: var(--orb-chip);
+  break-inside: avoid;
+}
+
+.cellLabel {
+  margin: 0 0 4px;
+  font: 500 11px var(--orb-font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--orb-accent);
+}
+
+.items {
+  margin: 0;
+  padding-left: 16px;
+  font: 400 12px var(--orb-font);
+  color: var(--orb-text-soft);
+  line-height: 1.4;
+}
+
+.empty {
+  margin: 0;
+  font: 400 12px var(--orb-font);
+  color: var(--orb-text-faint);
+}
+
+.axes {
+  display: flex;
+  justify-content: space-between;
+  font: 400 11px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+}

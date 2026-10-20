@@ -1,0 +1,4 @@
+# Known invented test credentials only. Do not add real credentials here.
+# Commit-independent fingerprints (gitleaks dir); both are fixtures, not secrets.
+packages/shared/test/models.test.ts:generic-api-key:81
+scripts/testkit/mockSite.ts:generic-api-key:20

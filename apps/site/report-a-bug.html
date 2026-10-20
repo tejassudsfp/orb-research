@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f7f8" />
+    <meta
+      name="description"
+      content="Send an Orb bug report with your email, reproduction steps, logs and screenshots."
+    />
+    <meta property="og:title" content="Report a bug — orb" />
+    <meta
+      property="og:description"
+      content="Send an Orb bug report with your email, reproduction steps, logs and screenshots."
+    />
+    <meta property="og:type" content="website" />
+    <title>Report a bug — orb</title>
+    <link rel="icon" href="/src/favicon.svg" type="image/svg+xml" />
+    <script type="module" src="/src/support.ts"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="header">
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="orb home"
+          ><span class="mark" aria-hidden="true"></span><span>orb</span></a
+        >
+        <nav aria-label="Main navigation">
+          <a href="/">Workspace</a><a href="/security">Security</a
+          ><a href="/report-a-bug" aria-current="page">Report a bug</a>
+        </nav>
+        <a class="header-source" href="https://github.com/tejassudsfp/orb-research"
+          >GitHub <span aria-hidden="true">↗</span></a
+        >
+      </div>
+    </header>
+    <main id="main" class="wrap support-page">
+      <header class="support-heading">
+        <p class="eyebrow">Help make Orb better</p>
+        <h1>Report a bug.</h1>
+        <p class="lede">
+          Tell us what went wrong. Add logs or a screenshot so we can understand it and get back to you.
+        </p>
+      </header>
+      <div class="support-layout">
+        <aside class="support-aside">
+          <h2>A useful report helps us fix it.</h2>
+          <p>Describe what you were trying to do, what happened and how we can reproduce it.</p>
+          <p>
+            Attach only the evidence you want to share. Review files for private research and credentials
+            before sending.
+          </p>
+          <p>
+            Your email is used to follow up on this report. Reports are sent to Orb support through Resend.
+          </p>
+          <a class="inline-link" href="/security">How Orb handles your data ↗</a>
+        </aside>
+        <div>
+          <form id="bug-form" class="bug-form">
+            <div class="form-row">
+              <label for="bug-name"
+                >Name <span>(optional)</span
+                ><input id="bug-name" name="name" autocomplete="name" maxlength="160" /></label
+              ><label for="bug-email"
+                >Email <span>(required)</span
+                ><input
+                  id="bug-email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                  maxlength="254"
+                  placeholder="you@example.com"
+              /></label>
+            </div>
+            <label for="bug-title"
+              >Issue title <span>(required)</span
+              ><input
+                id="bug-title"
+                name="title"
+                required
+                minlength="3"
+                maxlength="160"
+                placeholder="A short description of the problem"
+            /></label>
+            <label for="bug-description"
+              >What happened? <span>(required)</span
+              ><textarea
+                id="bug-description"
+                name="description"
+                required
+                minlength="10"
+                maxlength="12000"
+                rows="5"
+                placeholder="What were you doing, and what went wrong?"
+              ></textarea>
+            </label>
+            <label for="bug-steps"
+              >Steps to reproduce <span>(optional)</span
+              ><textarea
+                id="bug-steps"
+                name="steps"
+                maxlength="12000"
+                rows="4"
+                placeholder="1. Open a board…&#10;2. Click…&#10;3. The problem appears…"
+              ></textarea>
+            </label>
+            <label for="bug-expected"
+              >What did you expect? <span>(optional)</span
+              ><textarea id="bug-expected" name="expected" maxlength="12000" rows="3"></textarea>
+            </label>
+            <div class="form-row">
+              <label for="bug-version"
+                >Orb version <span>(optional)</span
+                ><input
+                  id="bug-version"
+                  name="appVersion"
+                  maxlength="160"
+                  placeholder="For example, 0.1.0" /></label
+              ><label for="bug-system"
+                >System <span>(optional)</span
+                ><input
+                  id="bug-system"
+                  name="system"
+                  maxlength="160"
+                  placeholder="For example, macOS 15, MacBook Pro"
+              /></label>
+            </div>
+            <label for="bug-models"
+              >AI provider and models <span>(optional)</span
+              ><input
+                id="bug-models"
+                name="models"
+                maxlength="160"
+                placeholder="Useful when an agent or connection isn't working"
+            /></label>
+            <fieldset class="evidence-field">
+              <legend>Logs &amp; evidence <span>(optional)</span></legend>
+              <div id="evidence-drop" class="evidence-drop">
+                <label for="bug-evidence"
+                  >Choose files or drop them here<input
+                    type="file"
+                    id="bug-evidence"
+                    name="evidence"
+                    multiple
+                    aria-describedby="evidence-help evidence-instructions"
+                /></label>
+                <p class="fine" id="evidence-help">
+                  Up to 5 files, 3 MB combined. Logs, text, JSON, PNG, JPG, WebP, PDF or ZIP.
+                </p>
+              </div>
+              <div class="log-help" id="evidence-instructions">
+                <h3>How to attach your Orb log</h3>
+                <ol>
+                  <li>After the problem occurs, click <strong>Choose files</strong> above.</li>
+                  <li>
+                    In the file picker, press <strong>Shift–Command–G</strong>, paste
+                    <code>~/Library/Logs/orb/</code> and press Return.
+                  </li>
+                  <li>
+                    Select <code>sidecar.log</code> and click <strong>Open</strong>. Check that its name
+                    appears below, then send your report.
+                  </li>
+                </ol>
+                <p>
+                  You can also drag <code>sidecar.log</code> or screenshots from Finder into the upload area.
+                  Review your files for private information before attaching them.
+                </p>
+                <p class="fine">
+                  Can't find the log? Open Orb and try the action again. You can still send a report without a
+                  log.
+                </p>
+              </div>
+              <ul id="evidence-list" aria-label="Selected evidence" aria-live="polite"></ul>
+            </fieldset>
+            <div class="form-trap" aria-hidden="true">
+              <label for="bug-website"
+                >Leave this blank<input id="bug-website" name="website" tabindex="-1" autocomplete="off"
+              /></label>
+            </div>
+            <p class="form-error" id="bug-error" role="alert" hidden></p>
+            <p class="fine">
+              Sending shares your email, report and selected files with Orb support via Resend. Common
+              credentials are removed from text logs; please review all attachments.
+            </p>
+            <button class="button primary" id="bug-submit" type="submit">Send bug report</button>
+          </form>
+          <section
+            id="bug-success"
+            class="bug-success"
+            tabindex="-1"
+            aria-labelledby="success-heading"
+            hidden
+          >
+            <p class="eyebrow">Thank you</p>
+            <h2 id="success-heading">Your report is on its way.</h2>
+            <p>We'll follow up at <strong id="report-reply-email"></strong> if we need more details.</p>
+            <p class="fine">Report reference: <span id="report-reference"></span></p>
+            <button class="button secondary" type="button" id="report-another">Report another issue</button>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer class="wrap footer">
+      <a class="brand" href="/"><span class="mark" aria-hidden="true"></span><span>orb</span></a>
+      <p>
+        Made by <a href="https://tejassuds.com">Tejas Parthasarathi Sudarshan</a><br /><span
+          >© 2026 · MIT licensed</span
+        >
+      </p>
+      <nav aria-label="Footer navigation">
+        <a href="/security">Security</a><a href="/report-a-bug">Report a bug</a
+        ><a href="https://github.com/tejassudsfp/orb-research/blob/main/docs/PRIVACY.md">Privacy</a
+        ><button type="button" class="footer-link" id="cookie-settings" hidden>Cookie settings</button
+        ><a href="https://github.com/tejassudsfp/orb-research/blob/main/ROADMAP.md">Roadmap</a
+        ><a href="https://github.com/tejassudsfp/orb-research">GitHub ↗</a>
+      </nav>
+    </footer>
+    <p class="wrap cookie-disclosure">This site uses PostHog analytics cookies with your permission.</p>
+    <section class="cookie-notice" id="cookie-notice" aria-labelledby="cookie-title" hidden>
+      <div>
+        <h2 id="cookie-title">A small cookie note</h2>
+        <p>
+          We use PostHog analytics cookies to understand how this site is used. You can accept or decline.
+        </p>
+        <p class="fine" id="cookie-status" aria-live="polite"></p>
+      </div>
+      <div class="cookie-actions">
+        <button type="button" class="button secondary" id="cookie-decline">Decline</button>
+        <button type="button" class="button primary" id="cookie-accept">Accept cookies</button>
+      </div>
+    </section>
+    <noscript
+      ><p class="wrap">
+        Enable JavaScript to use the form and cookie settings. You can read the product and security
+        information without it.
+      </p></noscript
+    >
+  </body>
+</html>

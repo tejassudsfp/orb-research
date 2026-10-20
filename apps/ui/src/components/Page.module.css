@@ -1,0 +1,175 @@
+/* Shared layout for the undesigned screens (Port reading view shell, Settings, First run, diagnostics). */
+
+.page {
+  min-height: 100vh;
+  box-sizing: border-box;
+  background-color: var(--orb-bg);
+  color: var(--orb-text);
+  font-family: var(--orb-font);
+  padding: 20px 24px 64px;
+}
+
+.night {
+  background-image: var(--orb-stars);
+  background-size: var(--orb-stars-size);
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.back {
+  height: 44px;
+  padding: 0 16px;
+  border-radius: var(--orb-radius-pill);
+  border: 1px solid var(--orb-border);
+  background: var(--orb-surface);
+  color: var(--orb-text-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 500 14px var(--orb-font);
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 700 22px var(--orb-font);
+  letter-spacing: -0.6px;
+  color: var(--orb-text);
+  text-decoration: none;
+}
+
+.column {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.eyebrow {
+  font: 500 12px var(--orb-font-mono);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--orb-accent);
+}
+
+.heading {
+  margin: 0;
+  font: 700 40px var(--orb-font);
+  letter-spacing: -1.2px;
+  line-height: 1.1;
+}
+
+.lead {
+  margin: 0;
+  font: 400 17px var(--orb-font);
+  line-height: 1.55;
+  color: var(--orb-text-soft);
+}
+
+.section {
+  border-radius: var(--orb-radius-panel);
+  border: 1px solid var(--orb-border);
+  background: var(--orb-surface);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font: 600 17px var(--orb-font);
+  letter-spacing: -0.2px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font: 400 14px var(--orb-font);
+  color: var(--orb-text-soft);
+  padding-block: calc(var(--orb-row-pad, 7px) / 3);
+}
+
+.value {
+  font: 400 13px var(--orb-font-mono);
+  color: var(--orb-text);
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+
+.note {
+  margin: 0;
+  font: 400 14px var(--orb-font);
+  line-height: 1.5;
+  color: var(--orb-text-muted);
+}
+
+.primary {
+  align-self: flex-start;
+  height: 48px;
+  padding: 0 20px;
+  border-radius: var(--orb-radius-panel);
+  border: 0;
+  background: var(--orb-signal);
+  color: var(--orb-on-accent);
+  font: 600 14px var(--orb-font);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  box-shadow: var(--orb-shadow-primary);
+}
+
+.primary:hover {
+  color: var(--orb-on-accent);
+}
+
+.segmented {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--orb-radius-pill);
+  border: 1px solid var(--orb-border);
+}
+
+.segment {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: var(--orb-radius-panel);
+  border: 0;
+  background: transparent;
+  color: var(--orb-text-soft);
+  font: 500 13px var(--orb-font);
+  cursor: pointer;
+}
+
+.segmentActive {
+  composes: segment;
+  background: var(--orb-signal);
+  color: var(--orb-on-accent);
+}
+
+.steps {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font: 400 15px var(--orb-font);
+  line-height: 1.5;
+  color: var(--orb-text-soft);
+}

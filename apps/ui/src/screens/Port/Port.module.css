@@ -1,0 +1,485 @@
+/* The Port reading view (P4.5), after design/screens/port.html: night starfield, a Signal glow, Geist, an article
+   column with a "From the board" aside. Editing controls follow the design system (pills, Sky accents). */
+
+.page {
+  position: relative;
+  min-height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: var(--orb-bg);
+  background-image: var(--orb-stars);
+  background-size: var(--orb-stars-size);
+  color: var(--orb-text);
+  font-family: var(--orb-font);
+}
+
+.glow {
+  position: absolute;
+  left: 50%;
+  top: -260px;
+  transform: translateX(-50%);
+  width: 1100px;
+  height: 700px;
+  border-radius: 50%;
+  background: none;
+  pointer-events: none;
+}
+
+.shell {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 32px 80px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.topBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chip {
+  margin-left: 6px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--orb-border);
+  font: 500 11px var(--orb-font-mono);
+  letter-spacing: 1px;
+  color: var(--orb-text-muted);
+}
+
+.back {
+  height: 44px;
+  padding: 0 18px;
+  border-radius: var(--orb-radius-pill);
+  background: var(--orb-signal);
+  color: var(--orb-on-accent);
+  box-shadow: var(--orb-shadow-primary);
+  font: 600 14px var(--orb-font);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.back:hover {
+  color: var(--orb-on-accent);
+}
+
+.hero {
+  max-width: 820px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.eyebrow {
+  font: 500 12px var(--orb-font-mono);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--orb-accent);
+}
+
+.h1 {
+  margin: 0;
+  font: 600 44px var(--orb-font-heading);
+  line-height: 1.15;
+  letter-spacing: -0.8px;
+  overflow-wrap: anywhere;
+}
+
+.lead {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.55;
+  color: rgb(from var(--orb-text) r g b / 0.8);
+}
+
+.byline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: 400 14px var(--orb-font);
+  color: var(--orb-text-muted);
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  background: var(--orb-signal);
+  color: var(--orb-on-accent);
+  font: 600 12px var(--orb-font);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 48px;
+  align-items: flex-start;
+}
+
+.article {
+  flex: 999 1 560px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  font-size: 18px;
+  line-height: 1.7;
+  color: rgb(from var(--orb-text) r g b / 0.85);
+  padding: var(--orb-sheet-pad);
+  background: var(--orb-sheet-bg);
+  border: var(--orb-sheet-border);
+  box-shadow: var(--orb-shadow-card);
+  border-radius: var(--orb-radius-card);
+  box-sizing: border-box;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.section[data-state='regenerating'] .para,
+.section[data-state='regenerating'] .figure {
+  opacity: 0.5;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.h2 {
+  margin: 0;
+  font: 600 26px var(--orb-font-heading);
+  letter-spacing: -0.9px;
+  color: var(--orb-text);
+}
+
+.contents {
+  margin-bottom: 28px;
+  color: var(--orb-text);
+}
+.contents h2 {
+  font: 600 18px var(--orb-font-heading);
+  margin: 0 0 14px;
+}
+.contents ol {
+  margin: 0;
+  padding-left: 20px;
+  font: 400 13px/1.6 var(--orb-font);
+}
+.contents li + li {
+  margin-top: 10px;
+}
+.contents button {
+  border: 0;
+  background: transparent;
+  color: var(--orb-text);
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.draft {
+  padding: 16px;
+  border: 1px solid var(--orb-border);
+  border-radius: var(--orb-radius-card);
+  font: 400 14px/1.6 var(--orb-font);
+}
+.draft ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+
+.sectionActions {
+  display: flex;
+  gap: 6px;
+  opacity: 0.7;
+}
+
+.section:hover .sectionActions,
+.section:focus-within .sectionActions {
+  opacity: 1;
+}
+
+.headingForm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.headingInput {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 14px;
+  border: 1px solid var(--orb-border-accent);
+  background: var(--orb-surface-card);
+  color: var(--orb-text);
+  font: 700 22px var(--orb-font);
+}
+
+.para {
+  position: relative;
+  margin: 0;
+}
+
+.paraText {
+  white-space: pre-wrap;
+}
+
+.userPara {
+  padding-left: 14px;
+  border-left: 2px solid color-mix(in srgb, var(--orb-accent) 40%, transparent);
+}
+
+.cite {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 8px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--orb-accent) 16%, transparent);
+  color: var(--orb-accent);
+  font: 500 13px var(--orb-font-mono);
+  text-decoration: none;
+  vertical-align: 2px;
+  line-height: 1.6;
+}
+
+.cite:hover {
+  color: var(--orb-text);
+}
+
+.tag {
+  margin-left: 8px;
+  padding: 0 7px;
+  border-radius: 8px;
+  border: 1px solid var(--orb-border);
+  font: 500 11px var(--orb-font-mono);
+  color: rgb(from var(--orb-text) r g b / 0.62);
+  vertical-align: 2px;
+}
+
+.editButton {
+  margin-left: 8px;
+  padding: 0 8px;
+  height: 24px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--orb-text-faint);
+  font: 500 12px var(--orb-font);
+  cursor: pointer;
+  vertical-align: 2px;
+  opacity: 0;
+}
+
+.para:hover .editButton,
+.editButton:focus-visible {
+  opacity: 1;
+  border-color: var(--orb-border);
+}
+
+.editBox {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.editText {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--orb-border-accent);
+  background: var(--orb-surface-card);
+  color: var(--orb-text);
+  font: 400 17px var(--orb-font);
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.editBar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.editNote {
+  margin-right: auto;
+  font: 400 12px var(--orb-font-mono);
+  color: var(--orb-text-faint);
+}
+
+.ghost,
+.regen,
+.add {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 17px;
+  border: 1px solid var(--orb-border);
+  background: rgb(from var(--orb-surface-card) r g b / 0.88);
+  color: var(--orb-text);
+  font: 500 13px var(--orb-font);
+  cursor: pointer;
+}
+
+.regen {
+  border-color: color-mix(in srgb, var(--orb-accent) 40%, transparent);
+  background: transparent;
+}
+
+.add {
+  align-self: flex-start;
+  border-style: dashed;
+  background: transparent;
+  color: rgb(from var(--orb-text) r g b / 0.7);
+}
+
+.save {
+  height: 34px;
+  padding: 0 16px;
+  border-radius: 17px;
+  border: 0;
+  background: var(--orb-signal);
+  color: var(--orb-on-accent);
+  font: 600 13px var(--orb-font);
+  cursor: pointer;
+}
+
+.ghost:disabled,
+.regen:disabled,
+.add:disabled,
+.save:disabled,
+.editButton:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.figure {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.refs {
+  margin: 0;
+  padding-left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font: 400 14px var(--orb-font);
+  color: rgb(from var(--orb-text) r g b / 0.75);
+}
+
+.refs a {
+  color: var(--orb-accent);
+}
+
+.url {
+  overflow-wrap: anywhere;
+}
+
+.aside {
+  flex: 1 1 280px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid var(--orb-border);
+  background: rgb(from var(--orb-surface-card) r g b / 0.9);
+  box-sizing: border-box;
+}
+
+.asideLabel {
+  font: 500 12px var(--orb-font-mono);
+  letter-spacing: 1.4px;
+  color: var(--orb-text-faint);
+}
+
+.asideNote {
+  font: 400 14px var(--orb-font);
+  color: rgb(from var(--orb-text) r g b / 0.62);
+}
+
+.frameLink {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 12px;
+  background: var(--orb-inset);
+  color: var(--orb-text);
+  text-decoration: none;
+  font: 400 14px var(--orb-font);
+}
+
+.frameLink:hover {
+  color: var(--orb-text);
+  background: color-mix(in srgb, var(--orb-accent-fill) 16%, transparent);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  flex: none;
+  background: var(--orb-accent-fill);
+}
+
+.dot_signal {
+  background: var(--orb-signal);
+}
+
+.dot_rho {
+  background: var(--orb-rho);
+}
+
+.dot_paper {
+  background: var(--orb-surface-card);
+}
+
+.error {
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--orb-border-accent);
+  background: color-mix(in srgb, var(--orb-accent-fill) 12%, transparent);
+  font: 500 14px var(--orb-font);
+}
+
+.back,
+.back:hover,
+.avatar,
+.save {
+  color: var(--orb-on-accent);
+}

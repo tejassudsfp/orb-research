@@ -1,0 +1,9 @@
+node_modules
+lib
+dist
+out
+.orb-dev
+design
+docs
+pnpm-lock.yaml
+*.md

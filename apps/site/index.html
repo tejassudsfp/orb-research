@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f7f8" />
+    <meta
+      name="description"
+      content="An interactive canvas for your sources, notes and ideas. Explore with AI agents and turn your research into actionable documents and insights. Made for Mac."
+    />
+    <meta property="og:title" content="orb — research you can see" />
+    <meta
+      property="og:description"
+      content="An interactive canvas for your sources, notes and ideas. Explore with AI agents and turn your research into actionable documents and insights."
+    />
+    <meta property="og:type" content="website" />
+    <title>orb — research you can see</title>
+    <link rel="icon" href="/src/favicon.svg" type="image/svg+xml" />
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="header">
+      <div class="header-inner">
+        <a class="brand" href="#top" aria-label="orb home"
+          ><span class="mark" aria-hidden="true"></span><span>orb</span></a
+        >
+        <nav aria-label="Main navigation">
+          <a href="/" aria-current="page">Workspace</a><a href="/security">Security</a
+          ><a href="/report-a-bug">Report a bug</a>
+        </nav>
+        <a class="header-source" href="https://github.com/tejassudsfp/orb-research"
+          >GitHub <span aria-hidden="true">↗</span></a
+        >
+      </div>
+    </header>
+    <main id="main">
+      <section class="hero wrap" id="top" aria-labelledby="hero-title">
+        <h1 id="hero-title">Research you can see.<br /><span>Thinking you can build on.</span></h1>
+        <p class="lede">
+          An interactive canvas for your sources, notes and ideas. Explore with AI agents and turn your
+          research into actionable documents and insights.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/tejassudsfp/orb-research/releases/download/v0.1.0/orb-0.1.0-arm64.dmg" data-download="hero"
+            >Download for Mac <span aria-hidden="true">↓</span></a
+          ><a class="button secondary" href="#workspace"
+            >Explore the workspace <span aria-hidden="true">↓</span></a
+          >
+        </div>
+        <p class="fine">
+          v0.1.0 · Apple silicon · macOS 14 or later · Signed and notarised · MIT licensed.
+          Bring your own key or use an eligible ChatGPT plan.
+        </p>
+        <p class="fine">
+          Good research takes time. The agents read, compare and check sources, so a thorough run can take
+          several minutes or longer. Watch the board fill in and steer it as it goes.
+        </p>
+        <div class="quick-appearance" aria-label="Page appearance">
+          <label
+            >Style
+            <select id="style" aria-label="Style"></select
+          ></label>
+          <label
+            >Brightness
+            <select id="brightness" aria-label="Brightness">
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="system">System</option>
+            </select></label
+          >
+          <label
+            >Accent
+            <select id="accent" aria-label="Accent"></select
+          ></label>
+        </div>
+      </section>
+      <figure class="workspace wrap" id="workspace">
+        <div class="window-top">
+          <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span
+          ><span>From a question to a clear next step</span><span class="mono">orb / example workspace</span>
+        </div>
+        <button class="screenshot-button" id="enlarge" aria-label="Enlarge workspace screenshot">
+          <img
+            id="workspace-image"
+            src="./workspace-studio-light.png"
+            width="1600"
+            height="1000"
+            fetchpriority="high"
+            alt="orb's canvas showing a synthetic community repair-café investigation with sources, a comparison and next steps"
+          />
+        </button>
+        <figcaption>
+          An example board with invented content. Try a style above to make it your own.
+          <button class="text-button" id="enlarge-text">
+            Open full size <span aria-hidden="true">↗</span>
+          </button>
+        </figcaption>
+      </figure>
+      <section class="wrap section introduction" aria-labelledby="board-heading">
+        <div>
+          <p class="eyebrow">The workspace</p>
+          <h2 id="board-heading">Make sense of<br />what you find.</h2>
+          <p class="section-lede">
+            Compare products, explore a market or get to grips with a new topic. Keep your sources, notes and
+            questions together so you can see what you know and what to investigate next.
+          </p>
+        </div>
+        <dl class="rows">
+          <div>
+            <dt><span class="number">01</span> Bring it together</dt>
+            <dd>
+              Add links, files and notes, or ask orb to find sources. Keep useful material close to the
+              question you're exploring.
+            </dd>
+          </div>
+          <div>
+            <dt><span class="number">02</span> Compare your options</dt>
+            <dd>
+              Put alternatives side by side, weigh the trade-offs and see which questions still need answers.
+            </dd>
+          </div>
+          <div>
+            <dt><span class="number">03</span> Follow your curiosity</dt>
+            <dd>
+              Ask about a source, explore a new angle or revisit an earlier idea. Your research stays together
+              as the conversation moves on.
+            </dd>
+          </div>
+        </dl>
+      </section>
+      <section class="section team-section" aria-labelledby="team-heading">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">A research team, on your canvas</p>
+              <h2 id="team-heading">A team to help<br />you think it through.</h2>
+            </div>
+            <p>
+              Let orb gather material, challenge a conclusion and bring findings together. Ask follow-up
+              questions or change direction when something new emerges.
+            </p>
+          </div>
+          <div class="team">
+            <article>
+              <span class="agent-symbol" aria-hidden="true">S</span>
+              <h3>Scout</h3>
+              <p>Finds relevant sources and pulls out the details that matter to your question.</p>
+            </article>
+            <article>
+              <span class="agent-symbol" aria-hidden="true">C</span>
+              <h3>Critic</h3>
+              <p>Challenges early conclusions, spots gaps and helps you ask better questions.</p>
+            </article>
+            <article>
+              <span class="agent-symbol" aria-hidden="true">B</span>
+              <h3>Builder</h3>
+              <p>Brings the findings together as clear comparisons, diagrams and insights you can use.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="wrap section reader-section" aria-labelledby="detail-heading">
+        <div class="reader-copy">
+          <p class="eyebrow">The details, within reach</p>
+          <h2 id="detail-heading">Take a<br />closer look.</h2>
+          <p class="section-lede">
+            Open a card to read the full story. Look through a table, compare the options or zoom into a
+            diagram. Keep the supporting sources a click away.
+          </p>
+          <a class="inline-link" href="https://github.com/tejassudsfp/orb-research/blob/main/docs/PRODUCT_BRIEF.md"
+            >See what orb can do <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <figure class="detail-figure">
+          <img
+            src="./matrix.png"
+            width="1600"
+            height="1000"
+            loading="lazy"
+            alt="Expanded matrix reader comparing a pop-up, a recurring venue and a permanent studio, with detailed reasoning below"
+          />
+          <figcaption>See the comparison and the thinking behind it.</figcaption>
+        </figure>
+      </section>
+      <section class="section output-section" aria-labelledby="output-heading">
+        <div class="wrap output-grid">
+          <div>
+            <p class="eyebrow">Put what you've learned to work</p>
+            <h2 id="output-heading">Turn research<br />into action.</h2>
+            <p class="section-lede">
+              Bring your findings into a report, a presentation or a view of the whole board. Share the
+              insights, explain your recommendation and make the next step clear.
+            </p>
+          </div>
+          <div class="output-list">
+            <div>
+              <span class="mono">01 / DOCUMENTS</span>
+              <h3>Make the next step clear.</h3>
+              <p>
+                Bring evidence, key insights and recommendations into a document people can read, discuss and
+                act on.
+              </p>
+            </div>
+            <div>
+              <span class="mono">02 / PRESENTATION</span>
+              <h3>Help others see what you see.</h3>
+              <p>
+                Turn your findings and visuals into a presentation for your team, a client or your next
+                discussion.
+              </p>
+            </div>
+            <div>
+              <span class="mono">03 / THE WHOLE BOARD</span>
+              <h3>Share the full picture.</h3>
+              <p>
+                Export your canvas as a PDF when the connections between sources and ideas matter as much as
+                the conclusions.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="wrap section models-section" id="models" aria-labelledby="models-heading">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Your AI, your choice</p>
+            <h2 id="models-heading">Work with the<br />AI you prefer.</h2>
+          </div>
+          <p>
+            Choose what suits your research and your budget. You don't need an orb account or subscription.
+          </p>
+        </div>
+        <div class="model-options">
+          <article>
+            <span class="mono">BYOK</span>
+            <h3>Bring your own AI.</h3>
+            <p>
+              Connect your preferred provider with an API key and choose the models you want to work with. You
+              pay your provider directly.
+            </p>
+            <a class="inline-link" href="https://github.com/tejassudsfp/orb-research/blob/main/docs/MODELS.md"
+              >Connect your provider <span aria-hidden="true">↗</span></a
+            >
+          </article>
+          <article>
+            <span class="mono">CHATGPT PLAN</span>
+            <h3>Use your ChatGPT plan.</h3>
+            <p>
+              Use an eligible ChatGPT Plus or Pro subscription. Sign in, choose from the models available to
+              your account and start researching without an API key.
+            </p>
+            <a class="inline-link" href="https://github.com/tejassudsfp/orb-research/blob/main/docs/CHATGPT_PLAN.md"
+              >Use your ChatGPT plan <span aria-hidden="true">↗</span></a
+            >
+          </article>
+        </div>
+        <p class="billing-note">
+          Your provider's pricing and usage limits apply. ChatGPT usage is shared across your agents. Optional
+          paid research tools cost separately.
+        </p>
+      </section>
+      <section class="section appearance-section" id="appearance" aria-labelledby="appearance-heading">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">A comfortable place to think</p>
+              <h2 id="appearance-heading">Make it feel<br />like your space.</h2>
+            </div>
+            <p>
+              Choose from six styles, switch between light and dark, and pick a colour you love. Try it here;
+              your choice is remembered.
+            </p>
+          </div>
+          <div class="theme-grid" id="themes" role="group" aria-label="Choose a style"></div>
+          <p class="fine">Studio · Paper · Pebble · Postcard · Meadow · Tide.</p>
+        </div>
+      </section>
+      <section class="wrap section privacy-section" aria-labelledby="privacy-heading">
+        <div>
+          <p class="eyebrow">Open source</p>
+          <h2 id="privacy-heading">Explore it.<br />Make it yours.</h2>
+          <a class="inline-link" href="https://github.com/tejassudsfp/orb-research"
+            >Explore orb on GitHub <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <dl class="rows">
+          <div>
+            <dt>Free to build on</dt>
+            <dd>
+              orb is open source under the MIT license. Read the code, adapt it to your workflow and make it
+              your own.
+            </dd>
+          </div>
+          <div>
+            <dt>Better together</dt>
+            <dd>
+              Share an idea, report a problem or contribute a change. Help shape a more useful home for
+              research.
+            </dd>
+          </div>
+        </dl>
+      </section>
+      <section class="wrap section faq-section" aria-labelledby="faq-heading">
+        <p class="eyebrow">A few things you might wonder</p>
+        <h2 id="faq-heading">Get to know orb.</h2>
+        <div class="faq">
+          <details>
+            <summary>What can I use orb for?</summary>
+            <p>
+              Explore a market, compare vendors, investigate a company, plan a project or understand a new
+              topic. orb helps when you need to pull information together, weigh alternatives and explain a
+              decision.
+            </p>
+          </details>
+          <details>
+            <summary>Do I need a paid search subscription?</summary>
+            <p>
+              You can search the public web without a separate search subscription. Your AI provider's charges
+              or ChatGPT plan limits still apply. Optional paid research tools cost separately.
+            </p>
+          </details>
+          <details>
+            <summary>Can I share what I find?</summary>
+            <p>
+              Yes. Create a research document, presentation or canvas PDF to share your findings. Review the
+              sources and conclusions before sharing, especially when a decision depends on them.
+            </p>
+          </details>
+          <details>
+            <summary>How do I get orb?</summary>
+            <p>
+              Download orb 0.1.0 for Apple silicon Macs running macOS 14 or later. The installer is signed and
+              notarised by Apple. Open the DMG, drag orb to Applications, then add a model key or connect an
+              eligible ChatGPT plan in Settings.
+            </p>
+            <a class="inline-link" href="https://github.com/tejassudsfp/orb-research/releases/download/v0.1.0/orb-0.1.0-arm64.dmg" data-download="faq"
+              >Download for Mac <span aria-hidden="true">↓</span></a
+            >
+          </details>
+          <details>
+            <summary>How long does research take?</summary>
+            <p>
+              Longer than a chat reply, on purpose. Scout searches and reads sources, Critic checks claims and
+              looks for gaps, and Builder lays out comparisons. A focused question can take a few minutes, and a
+              broad one can take much longer. You can follow progress on the board, answer questions, redirect the
+              agents or stop them at any time. The board saves as you go, so closing orb keeps what has been found.
+            </p>
+          </details>
+        </div>
+      </section>
+      <section class="wrap closing">
+        <p class="eyebrow">Research with a purpose</p>
+        <h2>Make your next<br />decision clearer.</h2>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/tejassudsfp/orb-research/releases/download/v0.1.0/orb-0.1.0-arm64.dmg" data-download="closing"
+            >Download for Mac <span aria-hidden="true">↓</span></a
+          ><a class="button secondary" href="https://github.com/tejassudsfp/orb-research"
+            >View on GitHub <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <p class="fine">Made for Mac · Open source · MIT · v0.1.0</p>
+      </section>
+    </main>
+    <footer class="wrap footer">
+      <a class="brand" href="#top"><span class="mark" aria-hidden="true"></span><span>orb</span></a>
+      <p>
+        Made by <a href="https://tejassuds.com">Tejas Parthasarathi Sudarshan</a><br /><span
+          >© 2026 · MIT licensed</span
+        >
+      </p>
+      <nav aria-label="Footer navigation">
+        <a href="/security">Security</a><a href="/report-a-bug">Report a bug</a
+        ><a href="https://github.com/tejassudsfp/orb-research/blob/main/docs/PRIVACY.md">Privacy</a
+        ><button type="button" class="footer-link" id="cookie-settings" hidden>Cookie settings</button
+        ><a href="https://github.com/tejassudsfp/orb-research/blob/main/ROADMAP.md">Roadmap</a
+        ><a href="https://github.com/tejassudsfp/orb-research">GitHub ↗</a>
+      </nav>
+    </footer>
+    <p class="wrap cookie-disclosure">This site uses PostHog analytics cookies with your permission.</p>
+    <section class="cookie-notice" id="cookie-notice" aria-labelledby="cookie-title" hidden>
+      <div>
+        <h2 id="cookie-title">A small cookie note</h2>
+        <p>
+          We use PostHog analytics cookies to understand how this site is used. You can accept or decline.
+        </p>
+        <p class="fine" id="cookie-status" aria-live="polite"></p>
+      </div>
+      <div class="cookie-actions">
+        <button type="button" class="button secondary" id="cookie-decline">Decline</button>
+        <button type="button" class="button primary" id="cookie-accept">Accept cookies</button>
+      </div>
+    </section>
+    <dialog id="image-dialog" aria-label="Workspace screenshot">
+      <div class="dialog-header">
+        <span>orb / example workspace</span
+        ><button id="close-image" autofocus>Close <span aria-hidden="true">×</span></button>
+      </div>
+      <img id="full-image" alt="Full-size example orb workspace" />
+    </dialog>
+    <noscript
+      ><p class="wrap">
+        Enable JavaScript to change themes and enlarge the example. Product information and setup links are
+        available above.
+      </p></noscript
+    >
+  </body>
+</html>

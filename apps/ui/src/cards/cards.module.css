@@ -1,0 +1,1276 @@
+/* Card UI halves (P2.5): per-type content, the note tab, the reader and the reading queue. Tokens only. */
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.badgeSkim {
+  background: transparent;
+  border: 1px solid var(--orb-border-accent);
+  color: var(--orb-accent);
+}
+
+.type_image {
+  padding: 10px;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  max-height: 520px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: var(--orb-inset);
+  pointer-events: none;
+}
+
+.type_image h3 {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.thumb,
+.thumbEmpty {
+  display: block;
+  width: 100%;
+  max-height: 340px;
+  object-fit: contain;
+  object-position: top center;
+  border-radius: 8px;
+  background: var(--orb-surface-card);
+  pointer-events: none;
+}
+
+.thumbEmpty {
+  height: 120px;
+  background: var(--orb-chip);
+}
+
+.url {
+  font: 400 12px var(--orb-font-mono);
+  color: var(--orb-text-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardButton {
+  align-self: flex-start;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--orb-accent) 40%, transparent);
+  background: transparent;
+  color: var(--orb-accent);
+  font: 500 12px var(--orb-font);
+  cursor: pointer;
+}
+
+.cardButton:hover {
+  background: color-mix(in srgb, var(--orb-accent) 12%, transparent);
+}
+
+/* The note tab: a small paper tab at the card's bottom edge, shown when the card has a user note. */
+.noteTab {
+  align-self: flex-start;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 12px;
+  border: 0;
+  background: var(--orb-surface-card);
+  color: var(--orb-accent);
+  font: 500 11px var(--orb-font-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* ---- Table ---- */
+
+.tableWrap {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font: 400 12px var(--orb-font);
+  color: var(--orb-text-soft);
+}
+
+.table th,
+.table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--orb-border-soft);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.table th {
+  font: 500 11px var(--orb-font-mono);
+  letter-spacing: 0.6px;
+  color: var(--orb-text-muted);
+}
+
+.sortButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+.sortButton:hover {
+  color: var(--orb-text);
+}
+
+.sortMark {
+  color: var(--orb-accent);
+  font-size: 9px;
+}
+
+.tableMore {
+  margin: 6px 0 0;
+  font: 400 11px var(--orb-font-mono);
+  color: var(--orb-text-faint);
+}
+
+/* ---- Reader ---- */
+
+.readerBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: var(--orb-surface-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+}
+
+/* P5.2: the sheet takes the focus on open (useFocusTrap); its controls show the rings. */
+.reader:focus {
+  outline: none;
+}
+
+.reader {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+  border: 0;
+  background: var(--orb-surface-strong);
+  box-shadow: none;
+  overflow: hidden;
+  user-select: text;
+}
+
+.readerHead {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 28px;
+  border-bottom: 1px solid var(--orb-border-soft);
+}
+
+.readerKind {
+  font: 500 11px var(--orb-font-mono);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--orb-accent);
+  white-space: nowrap;
+}
+
+.readerTitle {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font: 600 20px/1.3 var(--orb-font-heading);
+  overflow-wrap: anywhere;
+}
+
+.readerBack {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border: 1px solid var(--orb-border);
+  border-radius: var(--orb-radius-pill);
+  color: var(--orb-text);
+  background: var(--orb-surface-card);
+  font: 500 13px var(--orb-font);
+  cursor: pointer;
+}
+
+.iconButton {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--orb-radius-panel);
+  border: 0;
+  background: transparent;
+  color: var(--orb-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.iconButton:hover {
+  background: var(--orb-chip);
+  color: var(--orb-text);
+}
+
+.readerBar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 28px;
+  border-bottom: 1px solid var(--orb-border-soft);
+  flex-wrap: wrap;
+}
+
+.tabs,
+.chips {
+  display: flex;
+  gap: 6px;
+}
+
+.tab,
+.tabOn,
+.chip,
+.chipOn {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 16px;
+  border: 1px solid var(--orb-border);
+  background: transparent;
+  color: var(--orb-text-soft);
+  font: 500 12px var(--orb-font);
+  cursor: pointer;
+}
+
+.tabOn,
+.chipOn {
+  border-color: var(--orb-accent);
+  background: color-mix(in srgb, var(--orb-accent) 16%, transparent);
+  color: var(--orb-text);
+}
+
+.readerBody {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.readerBody[data-layout='document'] > * {
+  width: min(100%, 1000px);
+  box-sizing: border-box;
+  margin-inline: auto;
+}
+.readerTable {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.readerTable .tableWrap {
+  min-height: 0;
+  overflow: auto;
+  height: 100%;
+}
+.readerTable .table {
+  width: max-content;
+  min-width: 100%;
+  color: var(--orb-text);
+  font-size: 14px;
+}
+.readerTable .table th,
+.readerTable .table td {
+  min-width: 180px;
+  max-width: 360px;
+  padding: 12px;
+  vertical-align: top;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.readerTable .table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--orb-surface-strong);
+}
+.readerTable .table th:last-child,
+.readerTable .table td:last-child {
+  min-width: 80px;
+  position: sticky;
+  right: 0;
+  background: var(--orb-surface-strong);
+  z-index: 1;
+}
+.readerTable .table th:last-child {
+  z-index: 2;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font: 500 11px var(--orb-font-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--orb-text-muted);
+}
+
+.input,
+.textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 12px;
+  border: 1px solid var(--orb-border);
+  background: var(--orb-inset);
+  color: var(--orb-text);
+  padding: 10px 12px;
+  font: 400 14px var(--orb-font);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.textarea {
+  min-height: 180px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: var(--orb-accent);
+}
+
+.readerImage {
+  display: block;
+  max-width: 100%;
+  border-radius: 12px;
+  background: var(--orb-inset);
+}
+
+.pdfPages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.pdfPage {
+  border-radius: 6px;
+  background: var(--orb-surface-card);
+  box-shadow: var(--orb-shadow-card);
+}
+
+.muted {
+  margin: 0;
+  font: 400 13px var(--orb-font);
+  color: var(--orb-text-faint);
+}
+
+.readerLink {
+  font: 400 13px var(--orb-font-mono);
+  color: var(--orb-accent);
+  word-break: break-all;
+}
+
+/* Reading queue: a bounded dropdown inside the conversation rail. */
+
+.queue {
+  flex: 0 1 auto;
+  min-height: 40px;
+  max-height: min(260px, 32vh);
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--orb-border);
+  background: var(--orb-surface-card);
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+}
+
+.queueHead {
+  flex: none;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--orb-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 8px 8px 16px;
+}
+
+.queueTitle {
+  font: 500 12px var(--orb-font-mono);
+  letter-spacing: 1.4px;
+  color: rgb(from var(--orb-text) r g b / 0.7);
+}
+
+.queueCount {
+  font: 500 11px var(--orb-font-mono);
+  color: var(--orb-text-faint);
+}
+
+.queueList {
+  list-style: none;
+  margin: 0;
+  padding: 0 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: auto;
+  min-height: 0;
+  overscroll-behavior: contain;
+}
+
+.queueList[hidden] {
+  display: none;
+}
+
+.queueItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: var(--orb-surface-card);
+  color: var(--orb-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.queueItem:hover,
+.queueItemMust {
+  border-color: var(--orb-border-accent);
+}
+
+.tick,
+.tickDone {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  box-sizing: border-box;
+  border: 1.5px solid rgb(from var(--orb-text) r g b / 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.queueItemMust .tick {
+  border-color: var(--orb-accent);
+}
+
+.tickDone {
+  border: 0;
+  background: var(--orb-signal);
+}
+
+.queueText {
+  flex: 1;
+  min-width: 0;
+  font: 500 13px var(--orb-font);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.queueTextDone {
+  composes: queueText;
+  font-weight: 400;
+  color: var(--orb-text-faint);
+  text-decoration: line-through;
+}
+
+.queueBadge {
+  font: 500 11px var(--orb-font-mono);
+  color: var(--orb-text-faint);
+}
+
+.queueBadgeMust {
+  composes: queueBadge;
+  color: var(--orb-accent);
+}
+
+/* ---- Ingest notice (drop/paste progress and errors) ---- */
+
+.notice {
+  position: absolute;
+  left: 50%;
+  bottom: var(--orb-edge);
+  transform: translateX(-50%);
+  max-width: 480px;
+  padding: 10px 16px;
+  border-radius: var(--orb-radius-pill);
+  border: 1px solid var(--orb-border);
+  background: var(--orb-surface-strong);
+  color: var(--orb-text-soft);
+  font: 500 13px var(--orb-font);
+  z-index: 6;
+  cursor: default;
+}
+
+.noticeError {
+  composes: notice;
+  border-color: var(--orb-accent);
+  color: var(--orb-text);
+}
+
+.dropTarget {
+  position: absolute;
+  inset: 12px;
+  border-radius: var(--orb-radius-frame);
+  border: 2px dashed var(--orb-sky);
+  background: color-mix(in srgb, var(--orb-accent) 6%, transparent);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ---- Stack cards (P3.2 consolidate_cards): a doc card holding several agent cards, drawn as a small pile ---- */
+
+.stack {
+  box-shadow:
+    5px 5px 0 -1px var(--orb-ink),
+    5px 5px 0 0 var(--orb-border-card),
+    10px 10px 0 -1px var(--orb-ink),
+    10px 10px 0 0 var(--orb-border-card);
+}
+
+.stackItems {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font: 400 12px var(--orb-font);
+  color: var(--orb-text-soft);
+}
+
+.stackItems li {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stackItems li::before {
+  content: '– ';
+  color: var(--orb-text-faint);
+}
+
+.stackMore {
+  font: 500 11px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+}
+
+.stackItems .stackMore::before {
+  content: '';
+}
+
+.stackList {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font: 400 13px var(--orb-font);
+  color: var(--orb-text-soft);
+}
+
+.stackKind {
+  font: 500 11px var(--orb-font-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--orb-text-muted);
+  margin-right: 6px;
+}
+
+.stackOpen {
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  color: var(--orb-accent);
+  font: inherit;
+  cursor: pointer;
+}
+
+.stackMember {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--orb-border);
+  border-radius: var(--orb-radius-card);
+  background: var(--orb-surface-card);
+  color: var(--orb-text);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.stackMember:hover:not(:disabled) {
+  border-color: var(--orb-accent);
+  background: var(--orb-accent-soft);
+}
+
+.stackMemberTitle {
+  flex: 1 1 200px;
+  overflow-wrap: anywhere;
+  font-weight: 600;
+}
+
+.stackMemberHint,
+.stackPosition {
+  color: var(--orb-text-muted);
+  font: 400 12px var(--orb-font);
+}
+
+.stackMember:disabled {
+  cursor: default;
+}
+
+.stackNavigation {
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 28px;
+  border-bottom: 1px solid var(--orb-border);
+}
+
+.stackParent {
+  flex: 1 1 240px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
+.stackNavigation button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* ---- Builder cards (P3.8): design frames and diagrams ---- */
+
+/* The window a design frame is drawn in: the screen is laid out wide and scaled down to the card. */
+.designViewport {
+  position: relative;
+  flex: 0 0 auto;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid var(--orb-border-soft);
+  background: var(--orb-inset);
+}
+
+.designIframe {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: 0;
+  transform-origin: 0 0;
+  background: #ffffff;
+  color-scheme: normal;
+}
+
+.designStamp {
+  font: 400 12px var(--orb-font);
+  color: var(--orb-text-faint);
+}
+
+.designEmpty {
+  margin: 0;
+  font: 400 12px var(--orb-font);
+  color: var(--orb-text-faint);
+}
+
+.designFile {
+  margin: 0;
+  font: 400 12px var(--orb-font-mono);
+  color: var(--orb-text-faint);
+  overflow-wrap: anywhere;
+}
+
+/* Compact zoom: a sketch of a screen (the prototype's design frame tile), no live document. */
+.designSketch {
+  height: 100px;
+  border-radius: 10px;
+  background: var(--orb-inset);
+  border: 1px solid var(--orb-border-soft);
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.designSketchSide {
+  width: 34px;
+  border-radius: 6px;
+  background: rgb(from var(--orb-text) r g b / 0.08);
+}
+
+.designSketchMain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.designSketchLine {
+  height: 10px;
+  width: 60%;
+  border-radius: 4px;
+  background: rgb(from var(--orb-text) r g b / 0.16);
+}
+
+.designSketchBox {
+  flex: 1;
+  border-radius: 6px;
+  border: 1px dashed var(--orb-rho);
+}
+
+.designSketchButton {
+  height: 10px;
+  width: 40%;
+  border-radius: 4px;
+  background: var(--orb-signal);
+}
+
+/* A Mermaid diagram: the SVG fits the card; the pointer goes through to the board. */
+.diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  max-height: 220px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--orb-inset);
+  padding: 8px;
+  pointer-events: none;
+}
+
+.diagram svg {
+  display: block;
+  max-width: 100%;
+  max-height: 204px;
+  height: auto;
+}
+
+.diagramBig {
+  max-height: 60vh;
+}
+
+.diagramBig svg {
+  max-height: calc(60vh - 16px);
+}
+
+.diagramError {
+  border-radius: 10px;
+  border: 1px dashed rgb(from var(--orb-text) r g b / 0.35);
+  padding: 10px;
+  font: 400 12px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.diagramSource {
+  margin: 0;
+  max-height: 200px;
+  overflow: auto;
+  padding: 10px;
+  border-radius: 10px;
+  background: var(--orb-inset);
+  font: 400 12px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+  white-space: pre-wrap;
+}
+
+/* Chart (P6.4): Vega's SVG on the night inset, like a diagram; the pointer goes through to the board. */
+.chart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--orb-inset);
+  padding: 4px;
+  pointer-events: none;
+}
+
+.chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+}
+
+.chartLight {
+  background: transparent;
+  padding: 0;
+}
+
+.chartBig {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.chartEmpty {
+  border-radius: 10px;
+  border: 1px dashed var(--orb-border);
+  padding: 10px;
+  font: 400 12px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.chartNote {
+  margin: 6px 0 0;
+  font: 400 11px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+}
+
+/* Metric (P6.4): one figure, large. */
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.metricValue {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font: 600 34px/1.05 var(--orb-font);
+  letter-spacing: -0.02em;
+  color: var(--orb-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.metricValueBig {
+  font-size: 56px;
+}
+
+.metricUnit {
+  font: 500 14px var(--orb-font);
+  color: var(--orb-text-muted);
+}
+
+.metricChange {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font: 500 12px var(--orb-font-mono);
+  border: 1px solid var(--orb-border);
+  color: var(--orb-text-soft);
+}
+
+.metricGood {
+  border-color: var(--orb-border-accent);
+  color: var(--orb-accent);
+}
+
+.metricBad {
+  border-style: dashed;
+}
+
+.metricMeta {
+  margin: 0;
+  font: 400 12px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.titleExtra {
+  display: block;
+  margin-top: 6px;
+  font: 600 40px/1 var(--orb-font);
+  letter-spacing: -0.02em;
+  color: var(--orb-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Timeline (P6.4): a rail of dated events. */
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 14px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  background: var(--orb-border-accent);
+}
+
+.timelineItem {
+  position: relative;
+  min-width: 0;
+}
+
+.timelineItem::before {
+  content: '';
+  position: absolute;
+  left: -15px;
+  top: 5px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--orb-accent);
+}
+
+.timelineDate {
+  font: 500 11px var(--orb-font-mono);
+  color: var(--orb-accent);
+}
+
+.timelineLabel {
+  margin: 1px 0 0;
+  font: 500 13px/1.3 var(--orb-font);
+  color: var(--orb-text);
+  overflow-wrap: anywhere;
+}
+
+.timelineDetail {
+  margin: 2px 0 0;
+  font: 400 12px/1.35 var(--orb-font);
+  color: var(--orb-text-soft);
+}
+
+.timelineSource {
+  margin: 2px 0 0;
+  font: 400 11px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.timelineMore {
+  margin: 8px 0 0;
+  font: 400 11px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+}
+
+/* Comparison matrix (P6.4): weighted criteria, scores, the winner highlighted. */
+.matrix {
+  width: 100%;
+  border-collapse: collapse;
+  font: 400 12px var(--orb-font);
+  color: var(--orb-text-soft);
+  font-variant-numeric: tabular-nums;
+  table-layout: fixed;
+}
+.matrixCriterion {
+  width: 40%;
+}
+.matrix[data-reader] .matrixCriterion {
+  width: 240px;
+}
+.matrixReader {
+  width: 100%;
+  max-width: 1200px;
+  box-sizing: border-box;
+  margin-inline: auto;
+}
+.matrixScroll {
+  overflow: auto;
+  overscroll-behavior-x: contain;
+}
+.matrix[data-reader] th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--orb-surface-card);
+  box-shadow: 1px 0 0 var(--orb-border);
+}
+
+.matrix th,
+.matrix td {
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--orb-border-soft);
+  text-align: right;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  vertical-align: top;
+}
+
+.matrix th:first-child,
+.matrix td:first-child {
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.matrix thead th {
+  font: 500 12px var(--orb-font);
+  color: var(--orb-text);
+  vertical-align: bottom;
+}
+
+.matrixWeight {
+  display: block;
+  font: 400 10px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+}
+
+.matrixWin {
+  background: var(--orb-chip);
+  box-shadow: inset 0 0 0 1px var(--orb-border-accent);
+  color: var(--orb-text);
+}
+
+.matrixTotal td,
+.matrixTotal th {
+  font-weight: 600;
+  color: var(--orb-text);
+  border-bottom: 0;
+}
+
+.matrixBadge {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 0 6px;
+  border-radius: 999px;
+  font: 500 10px var(--orb-font-mono);
+  color: var(--orb-on-accent);
+  background: var(--orb-accent-fill);
+}
+
+.matrixNote {
+  margin: 8px 0 0;
+  font: 400 11px/1.35 var(--orb-font);
+  color: var(--orb-text-muted);
+}
+
+.chartControls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin: 0 0 12px;
+  font: 500 11px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+}
+
+.chartControls label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.chartControls select {
+  min-width: 96px;
+  max-width: 180px;
+  padding: 5px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--orb-border);
+  background: var(--orb-inset);
+  color: var(--orb-text);
+  font: 400 12px var(--orb-font);
+}
+
+/* P6.7: Research run and Watch cards. */
+.runLine {
+  font: 500 12px var(--orb-font-mono);
+  /* Full text contrast survives frame tints and selection/hover layers. */
+  color: var(--orb-text);
+}
+
+.runBar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--orb-chip);
+  overflow: hidden;
+}
+
+.runBarFill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--orb-accent-fill);
+  transition: width 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .runBarFill {
+    transition: none;
+  }
+}
+
+:global(:root[data-motion='reduce']) .runBarFill {
+  transition: none;
+}
+
+.runMsg {
+  font: 400 12px var(--orb-font);
+  color: var(--orb-text-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.runActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.runWarn {
+  font: 400 12px var(--orb-font);
+  color: var(--orb-accent);
+}
+
+.runList {
+  margin: 0;
+  padding: 0 0 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font: 400 13px var(--orb-font);
+}
+
+.confLow {
+  color: var(--orb-accent);
+  font-weight: 600;
+}
+
+.readerHeading {
+  margin: 16px 0 6px;
+  font: 600 12px var(--orb-font-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--orb-text-muted);
+}
+.readerDetail {
+  width: min(100%, 1000px);
+  box-sizing: border-box;
+  margin-inline: auto;
+  margin-top: 24px;
+  color: var(--orb-text);
+  font: 400 15px/1.75 var(--orb-font);
+}
+.inlineCardRef {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--orb-accent);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+  text-align: left;
+}
+.readerDetail h3 {
+  font-size: 16px;
+}
+.readerDetail p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 0 0 16px;
+}
+.visualViewer {
+  margin: 12px 0;
+}
+.visualControls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 0;
+  color: var(--orb-text);
+  font: 400 12px/1.4 var(--orb-font);
+}
+.visualControls output {
+  min-width: 42px;
+  text-align: center;
+  font-family: var(--orb-font-mono);
+}
+.visualControls span {
+  color: var(--orb-text-soft);
+}
+.visualViewport {
+  height: min(60vh, 520px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: var(--orb-inset);
+  border: 1px solid var(--orb-border);
+  border-radius: 10px;
+  cursor: grab;
+  touch-action: none;
+}
+.visualViewport:active {
+  cursor: grabbing;
+}
+.visualContent {
+  min-width: 1px;
+  margin: 12px auto;
+  padding: 0;
+}
+.visualPanning iframe {
+  /* The live frame sets this inline; Pan deliberately gives the outer viewport the pointer. */
+  pointer-events: none !important;
+}
+.visualContent .diagram,
+.visualContent .diagramBig,
+.visualContent .chart,
+.visualContent .chartBig {
+  width: 100%;
+  max-width: none;
+  max-height: none;
+  height: auto;
+  padding: 0;
+  overflow: visible;
+}
+.visualContent svg,
+.visualContent img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: none !important;
+  max-height: none !important;
+}

@@ -1,0 +1,299 @@
+/* The Port composer sheet (P4.4): night surface, Rho palette, Geist; pills and chips as in design/screens. */
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  background: rgba(3, 5, 12, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+}
+
+.sheet {
+  width: min(520px, calc(100% - 48px));
+  max-height: calc(100% - 96px);
+  overflow: auto;
+  box-sizing: border-box;
+  padding: 22px 24px;
+  border-radius: var(--orb-radius-panel);
+  border: 1px solid var(--orb-border-accent);
+  background: var(--orb-surface-strong);
+  box-shadow: var(--orb-shadow-panel);
+  color: var(--orb-paper);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  outline: none;
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.kicker {
+  font: 500 11px var(--orb-font-mono);
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--orb-sky);
+}
+
+.title {
+  margin: 4px 0 0;
+  font: 700 24px var(--orb-font);
+  letter-spacing: -0.6px;
+}
+
+.close {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--orb-radius-panel);
+  border: 0;
+  background: transparent;
+  color: var(--orb-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.close:hover {
+  background: var(--orb-chip);
+  color: var(--orb-paper);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font: 500 11px var(--orb-font-mono);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--orb-text-muted);
+}
+
+.segmented {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--orb-radius-pill);
+  border: 1px solid var(--orb-border);
+  background: var(--orb-night);
+  width: fit-content;
+}
+
+.segment {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 17px;
+  border: 0;
+  background: transparent;
+  color: var(--orb-text-soft);
+  font: 500 13px var(--orb-font);
+  cursor: pointer;
+}
+
+.segmentOn {
+  background: var(--orb-signal);
+  color: var(--orb-on-accent);
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 400 14px var(--orb-font);
+  color: var(--orb-text-soft);
+  cursor: pointer;
+}
+
+.check input {
+  accent-color: var(--orb-accent);
+}
+
+.frames {
+  list-style: none;
+  margin: 0;
+  padding: 10px 12px;
+  max-height: 200px;
+  overflow: auto;
+  border-radius: 14px;
+  background: var(--orb-night);
+  border: 1px solid var(--orb-border-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.frameNo {
+  font: 500 12px var(--orb-font-mono);
+  color: var(--orb-sky);
+}
+
+.muted {
+  margin: 0;
+  font: 400 13px var(--orb-font);
+  line-height: 1.45;
+  color: var(--orb-text-muted);
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.status {
+  flex: 1;
+  min-width: 0;
+  font: 400 12px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.error {
+  color: var(--orb-sky);
+}
+
+.primary {
+  flex: none;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: var(--orb-radius-pill);
+  border: 0;
+  background: var(--orb-signal);
+  color: var(--orb-on-accent);
+  font: 600 14px var(--orb-font);
+  box-shadow: var(--orb-shadow-primary);
+  cursor: pointer;
+}
+
+.primary:disabled {
+  opacity: 0.5;
+  cursor: default;
+  box-shadow: none;
+}
+
+.secondary {
+  flex: none;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: var(--orb-radius-pill);
+  border: 1px solid var(--orb-border);
+  background: transparent;
+  color: var(--orb-paper);
+  font: 500 14px var(--orb-font);
+  cursor: pointer;
+}
+
+/* ---- P4.5: research document ---- */
+
+.textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 72px;
+  resize: vertical;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--orb-border);
+  background: var(--orb-night);
+  color: var(--orb-paper);
+  font: 400 14px var(--orb-font);
+  line-height: 1.45;
+}
+
+.textarea::placeholder {
+  color: var(--orb-placeholder);
+}
+
+.warning {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--orb-border-accent);
+  background: color-mix(in srgb, var(--orb-accent-fill) 8%, transparent);
+}
+
+.warningText {
+  margin: 0;
+  font: 500 14px var(--orb-font);
+  color: var(--orb-paper);
+}
+
+.unreadList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.unreadItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font: 400 13px var(--orb-font);
+  color: var(--orb-text-soft);
+}
+
+.unreadTitle {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link {
+  flex: none;
+  border: 0;
+  background: transparent;
+  padding: 4px 6px;
+  color: var(--orb-sky);
+  font: 500 13px var(--orb-font);
+  cursor: pointer;
+}
+
+.progress {
+  margin: 0;
+  padding: 10px 12px 10px 32px;
+  border-radius: 14px;
+  background: var(--orb-night);
+  border: 1px solid var(--orb-border-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font: 400 13px var(--orb-font);
+  color: var(--orb-text-soft);
+}
+
+.pending {
+  list-style: none;
+  margin-left: -20px;
+  color: var(--orb-text-muted);
+  font: 400 12px var(--orb-font-mono);
+}
+
+.documentFormat {
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid var(--orb-border);
+  border-radius: var(--orb-radius-card);
+  background: var(--orb-surface-card);
+  color: var(--orb-text);
+  font: 400 14px var(--orb-font);
+}

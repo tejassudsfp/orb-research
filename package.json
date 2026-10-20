@@ -1,0 +1,77 @@
+{
+  "name": "orb",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.34.7",
+  "engines": {
+    "node": ">=22.19"
+  },
+  "scripts": {
+    "build": "pnpm typecheck && pnpm -r --filter './packages/*' build && pnpm --filter @orb/ui build && pnpm --filter @orb/desktop build",
+    "typecheck": "pnpm -r typecheck && tsc -p scripts/tsconfig.json",
+    "test": "vitest run",
+    "e2e": "pnpm build && playwright test -c apps/desktop/playwright.config.ts",
+    "e2e:packaged": "playwright test -c apps/desktop/playwright.packaged.config.ts",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "dump-config": "tsx scripts/dump-config.ts --write",
+    "profile-boot": "tsx scripts/profile-boot.ts",
+    "egress-audit": "tsx scripts/egress-audit.ts",
+    "kill9-soak": "tsx scripts/kill9-soak.ts",
+    "macos-checks": "tsx scripts/macos-checks.ts",
+    "seed-board": "tsx scripts/seed-board.ts",
+    "templates:docs": "tsx scripts/templates-docs.ts",
+    "brand": "tsx scripts/brand/build.ts",
+    "dev": "pnpm -r --filter './packages/*' build && pnpm --filter @orb/ui build && tsx scripts/dev.ts",
+    "dist": "pnpm build && pnpm dist:pack",
+    "dist:pack": "tsx scripts/dist-stage.ts && electron-builder --config apps/desktop/electron-builder.yml --mac --arm64 --publish never",
+    "site:dev": "pnpm --filter @orb/site dev",
+    "site:start": "pnpm --filter @orb/site start",
+    "site:resend-key": "tsx scripts/site-resend-key.ts",
+    "site:build": "pnpm --filter @orb/site build",
+    "release:check": "tsx scripts/release-check.ts",
+    "screenshots": "ORB_CAPTURE_SHOWCASE=1 playwright test -c apps/desktop/playwright.config.ts showcase.spec.ts",
+    "dist:stage": "tsx scripts/dist-stage.ts",
+    "site:test": "playwright test -c apps/site/playwright.config.ts",
+    "dist:adhoc": "pnpm build && tsx scripts/dist-stage.ts && electron-builder --config apps/desktop/electron-builder.yml --mac --arm64 --publish never -c.mac.identity=- -c.mac.notarize=false -c.mac.entitlements=apps/desktop/build/entitlements.adhoc.plist -c.mac.entitlementsInherit=apps/desktop/build/entitlements.adhoc.plist",
+    "notarize-dmg": "tsx scripts/notarize-dmg.ts",
+    "release:mac": "pnpm dist && pnpm notarize-dmg"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh": "0.2.0-rc.2",
+    "@orb/agents": "workspace:*",
+    "@orb/bundle": "workspace:*",
+    "@orb/canvas": "workspace:*",
+    "@orb/host": "workspace:*",
+    "@orb/keychain": "workspace:*",
+    "@orb/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/js-yaml": "4.0.9",
+    "@types/node": "24.19.2",
+    "@types/ws": "8.18.2",
+    "electron-builder": "26.15.3",
+    "eslint": "10.12.0",
+    "fast-check": "4.10.2",
+    "js-yaml": "4.3.2",
+    "prettier": "3.9.10",
+    "tsup": "9.0.0",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.2",
+    "vitest": "5.0.4",
+    "ws": "8.22.0",
+    "zod": "4.6.7"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Tejas Parthasarathi Sudarshan",
+    "url": "https://tejassuds.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tejassudsfp/orb-research.git"
+  },
+  "homepage": "https://github.com/tejassudsfp/orb-research#readme"
+}

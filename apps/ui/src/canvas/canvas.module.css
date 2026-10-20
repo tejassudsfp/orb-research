@@ -1,0 +1,847 @@
+/*
+ * Canvas renderer (P2.2): the world layer, frames and cards at three levels of detail. Values mirror
+ * design/screens/canvas.html (frames: 22 px radius, 1 px tone border, Geist Mono label; cards: 14 px radius, Ink).
+ */
+
+.world {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  transform-origin: 0 0;
+}
+
+/* Promoted to its own compositor layer only during a gesture: panning then only moves the layer, and it is
+   re-rasterised sharply once the gesture ends. */
+.moving {
+  will-change: transform;
+}
+
+/* ---- Frames ---- */
+
+.frame {
+  position: absolute;
+  border-radius: var(--orb-radius-frame);
+  border: 1px solid;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.frameLabel {
+  position: absolute;
+  left: 16px;
+  top: 13px;
+  font: 500 12px var(--orb-font-mono);
+  letter-spacing: 1.4px;
+  white-space: nowrap;
+  color: var(--orb-accent);
+}
+
+/* Below 35% the label grows so it stays readable (12 px at 25% would be 3 px on screen). */
+.frameFar .frameLabel {
+  top: -64px;
+  left: 0;
+  font-size: 44px;
+  letter-spacing: 3px;
+}
+
+.tone_sky {
+  border-color: color-mix(in srgb, var(--orb-accent) 55%, transparent);
+  background: color-mix(in srgb, var(--orb-accent) 5%, transparent);
+}
+
+.tone_signal {
+  border-color: color-mix(in srgb, var(--orb-accent-fill) 70%, transparent);
+  background: color-mix(in srgb, var(--orb-accent-fill) 7%, transparent);
+}
+
+.tone_rho {
+  border-color: color-mix(in srgb, var(--orb-accent-fill) 75%, transparent);
+  background: color-mix(in srgb, var(--orb-accent-fill) 8%, transparent);
+}
+
+.tone_paper {
+  border-style: dashed;
+  border-color: rgb(from var(--orb-text) r g b / 0.35);
+  background: rgb(from var(--orb-text) r g b / 0.025);
+}
+
+.tone_paper .frameLabel {
+  color: rgb(from var(--orb-text) r g b / 0.75);
+}
+
+/* ---- Cards ---- */
+
+.card {
+  position: absolute;
+  padding: 14px;
+  border-radius: var(--orb-radius-card);
+  border: 1px solid var(--orb-border-card);
+  background: var(--orb-surface-card);
+  color: var(--orb-text);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: default;
+  overflow: hidden;
+  contain: layout style;
+}
+
+.agent {
+  border-color: color-mix(in srgb, var(--orb-accent) 35%, transparent);
+}
+
+/* A card the layout owns (an agent's, a template's seed), at full detail: fixed at its layout height; the title, why
+   line and footer stay, the content between them is clipped (a dashed rule under it says so) so it never runs over the
+   card below, and "Show more" (shown only when something is clipped) opens the reader. There is no fade: text in a fade
+   is below the 4.5:1 contrast the rest of the card keeps (a11y spec). */
+.fixed > * {
+  flex-shrink: 0;
+}
+
+.fixed > .cardClip {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.cardClipInner {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fixed[data-overflow='true'] > .cardClip {
+  border-bottom: 1px dashed color-mix(in srgb, var(--orb-accent) 35%, transparent);
+}
+
+.showMore {
+  display: none;
+  align-self: flex-start;
+  margin: 0;
+  padding: 2px 10px;
+  height: 22px;
+  border-radius: 11px;
+  border: 1px solid color-mix(in srgb, var(--orb-accent) 40%, transparent);
+  background: transparent;
+  color: var(--orb-accent);
+  font: 500 11px var(--orb-font);
+  cursor: pointer;
+}
+
+.showMore:hover {
+  background: color-mix(in srgb, var(--orb-accent) 10%, transparent);
+}
+
+.fixed[data-overflow='true'] > .showMore {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* P6.20: the off-screen copy a card is measured with (Measurer): its natural height, nothing clipped, never seen. */
+.probes {
+  position: absolute;
+  left: -20000px;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  overflow: visible;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.probe {
+  position: relative;
+  left: auto;
+  top: auto;
+  height: auto;
+}
+
+.probe > .cardClip {
+  flex: none;
+  overflow: visible;
+}
+
+/*
+ * P6.9 clipping decision. The prototype shows short titles and one-line why lines and never clips them; a live model's
+ * agent card can have a long title and a long why line, which squeezed the content to one line in a 240 px cell.
+ * On a fixed agent card (full detail) the title keeps at most two lines and the why line at most two, each ending in
+ * an ellipsis, so the content between them always keeps room; the full title and why line are one click away (the
+ * card opens in the reader, the why line opens "Why it's here"). Cells keep their sizes (the layout engine and its
+ * tests are unchanged); user cards still grow with their text.
+ */
+.fixed .cardTitle,
+.fixed .cardWhy {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.fixed .cardTitle {
+  -webkit-line-clamp: 2;
+}
+
+.fixed .cardWhy {
+  -webkit-line-clamp: 2;
+}
+
+/* User notes are visually distinct (Paper card, "Your note"). */
+.paper {
+  background: var(--orb-surface-card);
+  color: var(--orb-text);
+  border-color: transparent;
+}
+
+.enter {
+  animation: cardIn 220ms ease-out;
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enter {
+    animation: none;
+  }
+}
+
+:global(:root[data-motion='reduce']) .enter {
+  animation: none;
+}
+
+.cardKind {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 500 11px var(--orb-font-mono);
+  letter-spacing: 1px;
+  color: var(--orb-text-muted);
+  text-transform: uppercase;
+}
+
+.paper .cardKind {
+  color: var(--orb-accent);
+}
+
+.badge {
+  padding: 3px 8px;
+  border-radius: 10px;
+  background: var(--orb-accent-fill);
+  color: var(--orb-on-accent);
+  font: 600 11px var(--orb-font);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.cardTitle {
+  margin: 0;
+  font: 600 17px var(--orb-font);
+  letter-spacing: -0.2px;
+  line-height: 1.25;
+  /* A long unbroken word (a URL, an identifier) wraps instead of being clipped by the card. */
+  overflow-wrap: anywhere;
+}
+
+.cardBody {
+  margin: 0;
+  font: 400 13px var(--orb-font);
+  color: var(--orb-text);
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+
+.paper .cardBody {
+  color: var(--orb-text-muted);
+}
+
+.cardWhy {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  font: 400 12px var(--orb-font);
+  color: var(--orb-accent);
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.cardWhy:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.cardByDot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(3, 5, 12, 0.6);
+  vertical-align: 0;
+}
+
+/* P3.6: the prototype's "Thread, 2 replies" button. */
+.threadButton {
+  height: 24px;
+  padding: 0 9px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--orb-accent) 40%, transparent);
+  background: transparent;
+  color: var(--orb-accent);
+  font: 500 11px var(--orb-font);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  flex: none;
+  white-space: nowrap;
+}
+
+.threadButton:hover {
+  background: color-mix(in srgb, var(--orb-accent) 10%, transparent);
+}
+
+.paper .threadButton {
+  color: var(--orb-accent);
+  border-color: color-mix(in srgb, var(--orb-accent-fill) 40%, transparent);
+}
+
+.replyBadge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 11px;
+  background: var(--orb-accent-fill);
+  color: var(--orb-on-accent);
+  font: 600 12px var(--orb-font);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* A frame's thread button, at the right of its title band. */
+.frameThread {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  pointer-events: auto;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 13px;
+  border: 1px solid color-mix(in srgb, var(--orb-accent) 30%, transparent);
+  background: var(--orb-surface-strong);
+  color: var(--orb-accent);
+  font: 500 11px var(--orb-font);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.frameThread:hover {
+  background: color-mix(in srgb, var(--orb-accent) 14%, transparent);
+}
+
+/* Agent cursors (P3.6): a pointer and a label pill in the agent's colour; they glide between frames. */
+.cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  z-index: 3;
+  transition:
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 300ms ease-out;
+  will-change: transform;
+}
+
+.cursorInner {
+  display: flex;
+  align-items: flex-start;
+  gap: 2px;
+  transform-origin: 0 0;
+}
+
+.cursorLabel {
+  margin-top: 12px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font: 600 12px var(--orb-font);
+  white-space: nowrap;
+}
+
+.cursorIdle {
+  opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    transition: none;
+  }
+}
+
+:global(:root[data-motion='reduce']) .cursor {
+  transition: none;
+}
+
+.cardBy {
+  margin: 0;
+  font: 400 11px var(--orb-font-mono);
+  color: var(--orb-text);
+}
+
+.paper .cardBy {
+  color: var(--orb-text-muted);
+}
+
+.cardFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.cardFoot .cardBy {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Compact (35–60%): kind, a bigger title and two body lines. */
+.compact .cardTitle {
+  font-size: 22px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.compact .cardBody {
+  -webkit-line-clamp: 2;
+}
+
+/* Title only (below 35%): one large title, centred, so it reads at 25%. */
+.title {
+  justify-content: center;
+  padding: 18px;
+}
+
+.title .cardTitle {
+  font-size: 40px;
+  line-height: 1.15;
+  letter-spacing: -0.6px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+/* ---- Editing (P2.3): selection, handles, links, gesture overlays ---- */
+
+.cardSelect {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--orb-accent-fill);
+  cursor: pointer;
+}
+
+.selectableHead {
+  padding-right: 26px;
+}
+
+.title .cardTitle {
+  padding-right: 26px;
+}
+
+.card {
+  cursor: pointer;
+}
+
+.selected {
+  outline: 2px solid var(--orb-signal);
+  outline-offset: 2px;
+}
+
+/* Corner handle of a selected card or frame (drag to resize), inside the corner: cards clip their overflow. */
+.resizeHandle {
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 7px;
+  border: 2px solid var(--orb-paper);
+  background: var(--orb-signal);
+  box-sizing: border-box;
+  cursor: nwse-resize;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+/* The frame label is the frame's handle; the frame body lets the pointer through to the board. */
+.frameHandle {
+  pointer-events: auto;
+  cursor: move;
+  padding: 2px 4px;
+  margin: -2px -4px;
+  border-radius: 6px;
+}
+
+.frameHandle:hover {
+  background: color-mix(in srgb, var(--orb-accent) 12%, transparent);
+}
+
+.frameSelected {
+  box-shadow: 0 0 0 2px var(--orb-signal);
+}
+
+.frameTitleInput {
+  pointer-events: auto;
+  width: 220px;
+  height: 22px;
+  padding: 0 6px;
+  border: 1px solid var(--orb-sky);
+  border-radius: 6px;
+  background: var(--orb-inset);
+  color: var(--orb-text);
+  font: 500 12px var(--orb-font-mono);
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.links {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.linkPath {
+  fill: none;
+  stroke: color-mix(in srgb, var(--orb-accent) 60%, transparent);
+  stroke-width: 1.5;
+}
+
+.linkEnd {
+  fill: color-mix(in srgb, var(--orb-accent) 60%, transparent);
+}
+
+/* Tension and contradicts: the prototype's dashed accent edge. */
+.linkAccent .linkPath {
+  stroke: var(--orb-sky);
+}
+
+.linkAccent .linkEnd {
+  fill: var(--orb-sky);
+}
+
+.linkHit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 14;
+  pointer-events: stroke;
+  cursor: pointer;
+}
+
+.linkSelected .linkPath {
+  stroke: var(--orb-paper);
+  stroke-width: 2.5;
+}
+
+.linkLabel {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: 4px 10px;
+  border-radius: 11px;
+  border: 1px solid color-mix(in srgb, var(--orb-accent) 50%, transparent);
+  background: var(--orb-surface-strong);
+  color: var(--orb-accent);
+  font: 500 11px var(--orb-font-mono);
+  letter-spacing: 1.2px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.linkLabelAccent {
+  border-color: var(--orb-accent);
+  color: var(--orb-accent);
+}
+
+.linkLabel.linkSelected {
+  border-color: var(--orb-text);
+  color: var(--orb-text);
+}
+
+.connectPreview {
+  fill: none;
+  stroke: var(--orb-sky);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 4;
+}
+
+.marquee {
+  position: absolute;
+  border: 1px solid var(--orb-sky);
+  background: color-mix(in srgb, var(--orb-accent) 8%, transparent);
+  pointer-events: none;
+}
+
+.frameDraft {
+  position: absolute;
+  border: 1px dashed var(--orb-sky);
+  border-radius: var(--orb-radius-frame);
+  background: color-mix(in srgb, var(--orb-accent) 4%, transparent);
+  pointer-events: none;
+}
+
+/* ---- Selection / connect bar (floating chrome, top centre) ---- */
+
+.bar {
+  position: absolute;
+  top: var(--orb-edge-top);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 6px 8px 6px 16px;
+  border-radius: var(--orb-radius-pill);
+  box-sizing: border-box;
+  z-index: 5;
+  cursor: default;
+  max-width: calc(100% - 760px);
+  flex-wrap: wrap;
+}
+
+.barText {
+  font: 500 12px var(--orb-font-mono);
+  letter-spacing: 1px;
+  color: var(--orb-text-muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.barGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.barChip,
+.barChipOn,
+.barDelete {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 16px;
+  border: 1px solid var(--orb-border);
+  background: transparent;
+  color: var(--orb-text-soft);
+  font: 500 12px var(--orb-font);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.barChipOn {
+  border-color: var(--orb-accent);
+  background: color-mix(in srgb, var(--orb-accent) 16%, transparent);
+  color: var(--orb-text);
+}
+
+.barDelete {
+  border-color: rgb(from var(--orb-text) r g b / 0.2);
+  color: var(--orb-text);
+}
+
+.barDelete:hover {
+  background: rgb(from var(--orb-text) r g b / 0.08);
+}
+
+.barInput {
+  height: 32px;
+  width: 140px;
+  padding: 0 10px;
+  border-radius: 16px;
+  border: 1px solid var(--orb-border);
+  background: var(--orb-inset);
+  color: var(--orb-text);
+  font: 400 12px var(--orb-font);
+}
+
+.swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 0;
+}
+
+.swatchOn {
+  border-color: var(--orb-text);
+}
+
+.swatch_sky {
+  background: var(--orb-accent-fill);
+}
+
+.swatch_signal {
+  background: var(--orb-signal);
+}
+
+.swatch_rho {
+  background: var(--orb-rho);
+}
+
+.swatch_paper {
+  background: rgb(from var(--orb-text) r g b / 0.75);
+}
+
+/* ---- Board search (P2.7): Cmd+F, top centre under the selection bar ---- */
+
+.search {
+  position: absolute;
+  top: calc(var(--orb-edge-top) + 60px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 440px;
+  max-width: calc(100% - 2 * var(--orb-edge));
+  height: 48px;
+  padding: 0 6px 0 14px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: var(--orb-radius-pill);
+  border: 1px solid var(--orb-border-accent);
+  background: var(--orb-surface-strong);
+  box-shadow: var(--orb-shadow-panel);
+  z-index: 6;
+  cursor: default;
+}
+
+/* P5.2: the field has no box of its own; the bar carries the focus ring. */
+.search:has(.searchInput:focus-visible) {
+  outline: 2px solid var(--orb-focus);
+  outline-offset: 2px;
+}
+
+.searchIcon {
+  display: flex;
+  color: var(--orb-text-muted);
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  height: 36px;
+  padding: 0 6px;
+  border: 0;
+  background: transparent;
+  color: var(--orb-text);
+  font: 400 14px var(--orb-font);
+  outline: none;
+  user-select: text;
+}
+
+.searchCount {
+  flex: none;
+  padding: 0 6px;
+  font: 500 12px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+  white-space: nowrap;
+}
+
+.searchButton {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--orb-radius-panel);
+  border: 0;
+  background: transparent;
+  color: rgb(from var(--orb-text) r g b / 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.searchButton:hover:not(:disabled) {
+  background: rgb(from var(--orb-text) r g b / 0.08);
+  color: var(--orb-text);
+}
+
+.searchButton:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+
+/* Search matches: a soft Sky ring on every match; the current one is also selected (Signal outline). */
+.found {
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--orb-accent) 55%, transparent),
+    var(--orb-shadow-card);
+}
+
+.foundCurrent {
+  box-shadow:
+    0 0 0 6px color-mix(in srgb, var(--orb-accent) 35%, transparent),
+    0 0 32px color-mix(in srgb, var(--orb-accent) 45%, transparent),
+    var(--orb-shadow-card);
+}
+
+/* P6.8: an agent rearranged the board: cards and frames glide to their new places (never during a drag). */
+.glide .card,
+.glide .frame {
+  transition:
+    left 450ms cubic-bezier(0.22, 0.7, 0.2, 1),
+    top 450ms cubic-bezier(0.22, 0.7, 0.2, 1),
+    width 450ms ease,
+    height 450ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glide .card,
+  .glide .frame {
+    transition: none;
+  }
+}
+
+:global(:root[data-motion='reduce']) .glide .card,
+:global(:root[data-motion='reduce']) .glide .frame {
+  transition: none;
+}
+
+:global([data-theme='day']) .paper .cardBody,
+:global([data-theme='day']) .paper .cardBy {
+  color: var(--orb-text);
+}

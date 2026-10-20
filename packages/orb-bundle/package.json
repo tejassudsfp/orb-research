@@ -1,0 +1,36 @@
+{
+  "name": "@orb/bundle",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@orb/host": "workspace:*",
+    "@orb/canvas": "workspace:*",
+    "@orb/agents": "workspace:*"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Tejas Parthasarathi Sudarshan",
+    "url": "https://tejassuds.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tejassudsfp/orb-research.git"
+  },
+  "homepage": "https://github.com/tejassudsfp/orb-research#readme"
+}

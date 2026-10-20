@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Orb (P5.4): hardened-runtime entitlements for the app, its helpers and the sidecar (Electron itself, run with
+  ELECTRON_RUN_AS_NODE=1, so it carries these too). Only what Electron/V8 needs:
+  - allow-jit: V8's JIT (MAP_JIT). Electron's documented minimum for the hardened runtime.
+  Library validation stays on: release builds sign the app and every native addon (keychain,
+  node-addon-require-builtin, node-pty, libvips, ...) with one Developer ID, so they share its Team ID.
+  No allow-unsigned-executable-memory, no network-server/client sandbox keys (the app is not sandboxed), no
+  camera/microphone/location/automation.
+-->
+<plist version="1.0">
+  <dict>
+    <key>com.apple.security.cs.allow-jit</key>
+    <true/>
+  </dict>
+</plist>

@@ -1,0 +1,388 @@
+/* Dataset views (P6.3): table, board lanes, gallery, and the reader's controls. Tokens only (night and day). */
+
+.tableWrap {
+  overflow: auto;
+  max-width: 100%;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font: 400 12px var(--orb-font);
+  color: var(--orb-text);
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--orb-border-soft);
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.table thead th {
+  font: 500 11px var(--orb-font-mono);
+  letter-spacing: 0.6px;
+  color: var(--orb-text-muted);
+  position: sticky;
+  top: 0;
+  background: var(--orb-surface-strong);
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.groupRow th {
+  font: 600 12px var(--orb-font);
+  color: var(--orb-accent);
+  background: transparent;
+  position: static;
+  letter-spacing: 0;
+  padding-top: 10px;
+}
+
+.groupCount {
+  font: 400 11px var(--orb-font-mono);
+  color: var(--orb-text-faint);
+  margin-left: 6px;
+}
+
+.more {
+  margin: 6px 0 0;
+  font: 400 11px var(--orb-font-mono);
+  color: var(--orb-text-faint);
+}
+
+.lanes {
+  display: flex;
+  gap: 10px;
+  overflow: auto;
+  align-items: flex-start;
+}
+
+.lane {
+  flex: 0 0 168px;
+  min-width: 0;
+}
+
+.laneTitle {
+  margin: 0 0 6px;
+  font: 600 12px var(--orb-font);
+  color: var(--orb-accent);
+}
+
+.tiles,
+.gallery {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--orb-border-soft);
+  background: var(--orb-surface-card);
+  color: var(--orb-text);
+  font: 400 12px var(--orb-font);
+  min-width: 0;
+}
+
+.tileTitle {
+  font: 600 12px var(--orb-font);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tileField {
+  color: var(--orb-text-soft);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tileLabel {
+  font: 500 10px var(--orb-font-mono);
+  color: var(--orb-text-faint);
+  letter-spacing: 0.4px;
+}
+
+.cover {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: var(--orb-inset);
+}
+
+.coverText {
+  font: 400 11px var(--orb-font-mono);
+  color: var(--orb-text-faint);
+}
+
+/* ---- Reader controls ---- */
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+  min-width: 0;
+  flex: 1;
+}
+.editor > [data-testid='dataset-viewbar'],
+.editor > .controlRow {
+  flex: none;
+}
+.editor .tableWrap {
+  height: 100%;
+}
+.editor .table {
+  width: max-content;
+  min-width: 100%;
+  font-size: 14px;
+}
+.editor .table th,
+.editor .table td {
+  min-width: 180px;
+  max-width: 320px;
+  padding: 10px;
+  vertical-align: top;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.editor .table tr[data-selected='true'] td {
+  background: var(--orb-inset);
+}
+.editor .table th:last-child,
+.editor .table td:last-child {
+  min-width: 80px;
+}
+.editor .table thead th {
+  z-index: 1;
+  color: var(--orb-text);
+}
+.editor .table th:last-child,
+.editor .table td:last-child {
+  position: sticky;
+  right: 0;
+  background: var(--orb-surface-strong);
+  z-index: 1;
+}
+.editor .table thead th:last-child {
+  z-index: 2;
+}
+.editor textarea.cellInput {
+  min-height: 76px;
+  resize: vertical;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.editor .cellInput {
+  font-size: 14px;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.viewTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tab,
+.tabOn,
+.addView,
+.smallButton {
+  border-radius: 999px;
+  border: 1px solid var(--orb-border-soft);
+  background: transparent;
+  color: var(--orb-text-soft);
+  padding: 4px 12px;
+  font: 500 12px var(--orb-font);
+  cursor: pointer;
+}
+
+.tabOn {
+  border-color: var(--orb-border-accent);
+  color: var(--orb-accent);
+}
+
+.addView,
+.smallButton {
+  border-style: dashed;
+}
+
+.smallButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.controlRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 500 11px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+}
+
+.select,
+.cellInput {
+  border-radius: 8px;
+  border: 1px solid var(--orb-border-soft);
+  background: var(--orb-surface-card);
+  color: var(--orb-text);
+  padding: 4px 8px;
+  font: 400 12px var(--orb-font);
+  min-width: 0;
+}
+
+.cellInput {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.controlRow .cellInput {
+  width: auto;
+  flex: 1 1 140px;
+  max-width: 260px;
+}
+
+.select:focus,
+.cellInput:focus {
+  border-color: var(--orb-accent);
+}
+
+.rowDelete {
+  border: 0;
+  background: transparent;
+  color: var(--orb-text-faint);
+  font: 400 16px var(--orb-font);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.rowDelete:hover {
+  color: var(--orb-text);
+}
+
+.count {
+  margin-left: auto;
+  font: 400 11px var(--orb-font-mono);
+  color: var(--orb-text-faint);
+}
+
+/* ---- Attached view strip on any card ---- */
+
+.strip {
+  margin-top: 8px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  border: 1px dashed var(--orb-border-accent);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.stripHead {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  font: 500 11px var(--orb-font-mono);
+  color: var(--orb-accent);
+  letter-spacing: 0.4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pick {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pickList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pickItem {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--orb-border-soft);
+  background: var(--orb-surface-card);
+  color: var(--orb-text);
+  font: 400 13px var(--orb-font);
+  cursor: pointer;
+}
+
+.pickItem:hover {
+  border-color: var(--orb-border-accent);
+}
+
+.paste {
+  min-height: 110px;
+  resize: vertical;
+  border-radius: 10px;
+  border: 1px solid var(--orb-border-soft);
+  background: var(--orb-surface-card);
+  color: var(--orb-text);
+  padding: 10px 12px;
+  font: 400 12px var(--orb-font-mono);
+}
+
+.error {
+  margin: 0;
+  font: 400 12px var(--orb-font);
+  color: var(--orb-text-soft);
+}

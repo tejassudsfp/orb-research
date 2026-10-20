@@ -1,0 +1,187 @@
+/* The deck slide view (P6.17): the Port page's themed shell, top bar and buttons with
+   a filmstrip, the slide preview and an edit panel. */
+
+.h1 {
+  margin: 0;
+  font: 700 40px var(--orb-font);
+  line-height: 1.1;
+  letter-spacing: -1.4px;
+  overflow-wrap: anywhere;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.strip {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.thumb {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--orb-border);
+  background: rgb(from var(--orb-surface-card) r g b / 0.6);
+  color: var(--orb-text);
+  font: 500 13px var(--orb-font);
+  text-align: left;
+  cursor: pointer;
+}
+
+.thumbOn {
+  border-color: var(--orb-accent);
+  background: color-mix(in srgb, var(--orb-accent-fill) 18%, transparent);
+}
+
+.thumbDrop {
+  box-shadow: 0 -2px 0 var(--orb-sky);
+}
+
+.thumbNo {
+  font: 500 11px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+}
+
+.thumbTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.thumbMeta {
+  font: 400 10px var(--orb-font-mono);
+  color: var(--orb-text-muted);
+  text-transform: uppercase;
+}
+.thumbOn .thumbNo,
+.thumbOn .thumbMeta {
+  color: var(--orb-text);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid var(--orb-border);
+  background: #fff;
+}
+
+.stageInner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 960px;
+  height: 540px;
+  transform-origin: 0 0;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--orb-border);
+  background: rgb(from var(--orb-surface-card) r g b / 0.6);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font: 500 11px var(--orb-font-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--orb-text-muted);
+}
+
+.input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--orb-border-accent);
+  background: var(--orb-surface-card);
+  color: var(--orb-text);
+  font: 400 15px var(--orb-font);
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.cites {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cite {
+  padding: 3px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--orb-border);
+  font: 500 12px var(--orb-font);
+  color: var(--orb-accent);
+  text-decoration: none;
+}
+
+.muted {
+  margin: 0;
+  font: 400 13px/1.5 var(--orb-font);
+  color: var(--orb-text-muted);
+}
+
+.status {
+  font: 400 13px var(--orb-font);
+  color: rgb(from var(--orb-text) r g b / 0.8);
+}
+
+.tag {
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--orb-border);
+  font: 500 11px var(--orb-font-mono);
+  color: rgb(from var(--orb-text) r g b / 0.7);
+}

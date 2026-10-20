@@ -1,0 +1,32 @@
+node_modules/
+dist/
+dist-server/
+lib/
+out/
+release/
+.orb-dev/
+*.log
+.DS_Store
+.env
+.env.*
+coverage/
+playwright-report/
+test-results/
+# Local credentials, databases, user research and generated release evidence.
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.mobileprovision
+*.dmg
+*.app/
+*.tsbuildinfo
+.vscode/
+.idea/
+.openai/
+docs/screens/
+docs/perf/
+
+# Vercel build output and local project link
+.vercel/

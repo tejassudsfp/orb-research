@@ -1,0 +1,18 @@
+{
+  "generated": "2026-10-19",
+  "content": "Entirely invented community repair-café scenario; not completed real research.",
+  "source": "scripts/testkit/showcase.ts",
+  "capture": "apps/desktop/e2e/showcase.spec.ts",
+  "viewport": {
+    "width": 1600,
+    "height": 1000
+  },
+  "themes": [
+    "studio",
+    "paper",
+    "pebble",
+    "postcard",
+    "meadow",
+    "tide"
+  ]
+}

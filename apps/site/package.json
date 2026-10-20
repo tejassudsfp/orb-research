@@ -1,0 +1,32 @@
+{
+  "name": "@orb/site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "author": {
+    "name": "Tejas Parthasarathi Sudarshan",
+    "url": "https://tejassuds.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tejassudsfp/orb-research.git"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build && tsup server/start.ts --format esm --platform node --target node22 --out-dir dist-server --clean",
+    "start": "node dist-server/start.js",
+    "typecheck": "tsc -p tsconfig.json",
+    "build:vercel": "vite build && node vercel/build-output.mjs"
+  },
+  "dependencies": {
+    "@orb/shared": "workspace:*",
+    "posthog-js": "1.438.12"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "axe-core": "4.13.0",
+    "esbuild": "0.28.2",
+    "vite": "7.3.7"
+  }
+}

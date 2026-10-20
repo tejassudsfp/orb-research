@@ -1,0 +1,434 @@
+# Orb bundle patch (layer 3, after dsh-base and dsh-web-app).
+# REMEMBER: a patch's `config` REPLACES the row's config whole. Restate every key you keep.
+# Every disable below is recorded with its reason in docs/SPIKE_NOTES.md.
+
+# ---- Telemetry and phone-home: all off (PRD "Privacy and telemetry") ----
+- id: session-telemetry-otel
+  disabled: true
+  config:
+    mode: DISABLED
+    shutdownTimeoutMillis: 3000
+    maxRequestBytes: 4000000
+    exporter:
+      url: 'http://127.0.0.1:9/disabled'
+      compression: gzip
+      timeoutMillis: 1000
+    processor:
+      scheduledDelayMillis: 10000
+      maxQueueSize: 2048
+      maxExportBatchSize: 2048
+      exportTimeoutMillis: 1500
+- id: command-feedback
+  disabled: true
+- id: message-feedback
+  disabled: true
+- id: session-log-deepseek
+  disabled: true
+- id: plugin-package-inventory-deepseek
+  disabled: true
+- id: desktop-product-telemetry
+  disabled: true
+- id: product-analytics
+  disabled: true
+# deepseek-official sends x-deepseek-harness-user-id on every request; DeepSeek goes through llm-pi-ai instead.
+- id: llm-deepseek
+  disabled: true
+- id: llm-deepseek-account
+  disabled: true
+- id: deepseek-account
+  disabled: true
+- id: account-controller
+  disabled: true
+- id: web-search-deepseek
+  disabled: true
+# P3.5: the web seam picks the single usable search provider (Orb's providers make exactly one usable at a time);
+# dsh-base pins `deepseek-official`, whose row is disabled above, so the pin is dropped. Fetch stays on `http`
+# (Orb's fetch_url uses its own transport in @orb/sources; nothing calls ctx.web.fetch).
+- id: web
+  config:
+    fetchProvider: http
+- id: plugin-manager
+  disabled: true
+- id: tool-plugin-manager
+  disabled: true
+# An extra model call per new session; Orb names canvases itself.
+- id: session-title-llm
+  disabled: true
+
+# ---- Credentials: the macOS Keychain, not plaintext (P4.1) ----
+# dsh-base's `credentials` row (@deepseek-ai/dsh-credentials-local) keeps keys in plaintext
+# $DSH_HOME/.credentials.yaml. A patch cannot change a row's `name` (cordis-plugin-include applyEntryPatches skips a
+# name mismatch), so the row is disabled here and the `orb-keychain` row below provides the one `credentials`
+# service instead.
+- id: credentials
+  disabled: true
+
+# ---- Orb writes its own config; no live reload or config editing ----
+# Summaries must follow the current per-agent selection even before its first request on a reopened session.
+- id: compaction-basic
+  disabled: true
+
+- id: hmr
+  disabled: true
+
+# ---- Permissions: workspace-write, approval never (agents have no tools that need approval) ----
+- id: sandbox-policy
+  config:
+    mode: workspace-write
+    workspaceRoot: !!js process.cwd()
+- id: approval
+  config:
+    policy: never
+- id: permission
+  config:
+    defaultPreset: orb
+    presets:
+      orb:
+        sandbox: workspace-write
+        approval: never
+
+# ---- Host rows Orb does not use (shell, jobs, code runners, native pickers, office) ----
+- id: terminal-controller
+  disabled: true
+- id: job-controller
+  disabled: true
+- id: cordis-host-runner
+  disabled: true
+- id: cordis-inspect-providers
+  disabled: true
+- id: open-in-app
+  disabled: true
+- id: office-to-pdf
+  disabled: true
+
+# ---- P5.1 boot profile: dsh-base / web-app rows Orb never uses (fewer modules to load, less to mount) ----
+# Each one was checked for consumers in node_modules/@deepseek-ai/*: nothing enabled REQUIRES its service (an
+# optional `ctx.get`/`ctx.inject` at most), and dsh reports no pending entry with them off. Measured in
+# docs/HARNESS_NOTES.md §P5.1. Kept on although unused: `commands` (file-upload requires it, and session-controller
+# requires file-upload), `bash-sandbox` (provides `shell`, which `permission` requires; no bash TOOL is mounted).
+# Session titles: Orb names canvases itself and never calls session/rename (session-title-llm is off above).
+- id: session-title
+  disabled: true
+# Background jobs and the /goal loop: no job or goal tools (tool-jobs, job-controller, command-goal, tool-goal off).
+- id: jobs
+  disabled: true
+- id: goal
+  disabled: true
+- id: goal-round-driver
+  disabled: true
+# MCP: Orb mounts no MCP client, so MCP resource tools have nothing to serve.
+- id: mcp-resources
+  disabled: true
+# Programmatic tool calling runtime for workflows (workflow-ptc, tool-workflow off).
+- id: ptc-runtime
+  disabled: true
+# Skills: no skill tool or skill folders (tool-skill, skill-filesystem off).
+- id: skill
+  disabled: true
+# Workspace browsing, the native folder picker and git change tracking (they back the dsh UI's file tree and
+# deliverables; they are also file-reading surface the Orb UI must not have).
+- id: workspace-files
+  disabled: true
+- id: workspace-controller
+  disabled: true
+- id: directory-picker
+  disabled: true
+- id: workspace-changes
+  disabled: true
+# Plugin inventory and session-log export (dsh UI settings pages).
+- id: plugin-inventory
+  disabled: true
+- id: session-log-download
+  disabled: true
+# `@file` and `@session` references in prompts (Orb injects its own context; agents must not pull files by mention).
+- id: file-reference-local
+  disabled: true
+- id: session-reference
+  disabled: true
+# dsh UI projections (turn outline, session stats). Orb's cost meter reads the `tokenUsage` projection instead.
+- id: session-turn-outline
+  disabled: true
+- id: session-stats
+  disabled: true
+# Shell environment capture for bash/pwsh tools, which Orb never mounts.
+- id: shell-env
+  disabled: true
+# The `fork` subagent provider; Orb's children use `spawn` (packages/orb-agents/src/service.ts SUBAGENT_PROVIDER).
+- id: subagent-fork-in-process
+  disabled: true
+
+# ---- No dsh browser UI: Orb serves its own UI through orb-web-shell ----
+- id: web-runtime
+  disabled: true
+- id: client-hmr
+  disabled: true
+- id: modules
+  disabled: true
+- id: cordis-client-runner
+  disabled: true
+- id: resources
+  disabled: true
+- id: locale
+  disabled: true
+- id: shortcuts
+  disabled: true
+- id: ui-open-in-app
+  disabled: true
+- id: ui-settings-account
+  disabled: true
+- id: ui-theme
+  disabled: true
+- id: ui-shortcuts
+  disabled: true
+- id: ui-layout
+  disabled: true
+- id: ui-renderer
+  disabled: true
+- id: ui-session
+  disabled: true
+- id: ui-sidebar
+  disabled: true
+- id: ui-sidebar-right
+  disabled: true
+- id: ui-sidebar-documentpreview
+  disabled: true
+- id: ui-sidebar-browser
+  disabled: true
+- id: ui-sidebar-terminal
+  disabled: true
+- id: ui-sidebar-files
+  disabled: true
+- id: ui-settings
+  disabled: true
+- id: ui-settings-general
+  disabled: true
+- id: ui-settings-models
+  disabled: true
+- id: ui-plugin-manager
+  disabled: true
+- id: ui-settings-plugin-inventory
+  disabled: true
+- id: ui-conversation
+  disabled: true
+- id: ui-approval
+  disabled: true
+- id: ui-chat
+  disabled: true
+- id: ui-brand-official
+  disabled: true
+- id: ui-attachment
+  disabled: true
+- id: ui-tool
+  disabled: true
+- id: ui-cordis
+  disabled: true
+- id: ui-deliverables
+  disabled: true
+- id: ui-workspace
+  disabled: true
+- id: ui-workflow-run
+  disabled: true
+- id: ui-input-trigger
+  disabled: true
+- id: ui-commands
+  disabled: true
+- id: ui-skill
+  disabled: true
+- id: ui-subagent
+  disabled: true
+- id: ui-reference
+  disabled: true
+- id: ui-jobs
+  disabled: true
+- id: ui-goal
+  disabled: true
+- id: ui-message-feedback
+  disabled: true
+- id: ui-model-selection
+  disabled: true
+- id: ui-permission
+  disabled: true
+- id: ui-agent-preset
+  disabled: true
+- id: ui-settings-session-log
+  disabled: true
+- id: ui-settings-plugins
+  disabled: true
+- id: ui-settings-shell
+  disabled: true
+- id: ui-settings-agent-loop
+  disabled: true
+- id: ui-settings-subagent
+  disabled: true
+- id: ui-settings-web-search
+  disabled: true
+- id: ui-plan
+  disabled: true
+- id: ui-user-questions
+  disabled: true
+- id: ui-trajectory
+  disabled: true
+
+# ---- Presets: only Orb's. The web-app presets carry bash/fs/workflow tools. ----
+- id: preset-standard
+  disabled: true
+- id: preset-ptc
+  disabled: true
+- id: preset-minimal
+  disabled: true
+- id: preset-cordis
+  disabled: true
+- id: agent-preset-registry
+  config:
+    default: orb
+
+# ---- Orb rows ----
+- insert:
+    # Plugin names are match guards, not replacements. Restore the backend under its own row.
+    - id: orb-compaction
+      name: '@orb/agents/compaction'
+    # P4.1 `credentials` service: OrbKeychainCredentialProvider (packages/orb-host/src/keychain.ts). Layers: the
+    # inherited process env (read-only, wins), then the Keychain service `ai.orb.app` (an `ai.orb.app.test.*` service
+    # from ORB_KEYCHAIN_SERVICE in tests). No `.env` layering. At mount it migrates a plaintext
+    # $DSH_HOME/.credentials.yaml into the Keychain and deletes it.
+    - id: orb-keychain
+      name: '@orb/host/keychain'
+    - id: orb-web-shell
+      name: '@orb/host/web-shell'
+      inject:
+        - webServer
+      config:
+        distIndex: !!js process.getBuiltinModule('node:path').join(process.env.ORB_UI_DIST, 'index.html')
+    # Canvas service `orbCanvas`: canvas folders under ORB_HOME/canvases and the board.jsonl writer + fold.
+    # The only writer of board.jsonl. See packages/orb-canvas/src/service.ts.
+    - id: orb-canvas
+      name: '@orb/canvas/service'
+    # P3.5 search providers for web_search, registered with the harness web seam (ctx.web): Brave Search
+    # (BRAVE_API_KEY), Tavily (TAVILY_API_KEY), OpenAI web search (OPENAI_API_KEY, the Responses API on the model
+    # host). Keys resolve through the credentials service at each search; the first configured provider is the
+    # only usable one. Provides `orbSearch`. See packages/orb-canvas/src/web.ts.
+    - id: orb-web-search
+      name: '@orb/canvas/web'
+      inject:
+        - web
+        - credentials
+    # P6.7 service `orbParallel` (packages/orb-canvas/src/parallel.ts): Parallel AI for the canvas. The REST client
+    # (api.parallel.ai, key PARALLEL_API_KEY from the credentials service), the cost guard (the user approves a run
+    # over $0.50 on its card), the long-run followers and the run registry (assets/parallel/runs.json).
+    - id: orb-parallel
+      name: '@orb/canvas/parallel'
+      inject:
+        - credentials
+        - orbCanvas
+    # Orb's Remote namespace `orb` (POST /api/orb/<method>, streams on /api/remote.mux). Served by the gateway's
+    # SRC fallback for out-of-tree remotes; see packages/orb-host/src/remote.ts.
+    # Service `orbAgents`: each canvas's root Orb agent (ctx.agents.create + the `orb` preset + the allow-list
+    # guard). See packages/orb-agents/src/service.ts.
+    # P4.2 service `orbModels` (packages/orb-host/src/models.ts): provider routes in llm-pi-ai's `providers` (edited
+    # live through the harness settings service), custom providers restated from orb.json, the Test request
+    # (ctx.llm.stream, maxTokens 1), model discovery, and each agent's default route by tier.
+    - id: orb-models
+      name: '@orb/host/models'
+      inject:
+        - llm
+        - credentials
+        - orbCanvas
+        - agentDefaultModel
+    # P4.3 service `orbCost` (packages/orb-host/src/cost.ts): the canvas token and cost meter. Tokens are the harness
+    # `tokenUsage` projection of the canvas's root and child sessions (read through sessionQuery, live or cold), split
+    # per model route; prices come from orb.json `prices`, seeded from pi-ai's catalog ModelCost.
+    - id: orb-cost
+      name: '@orb/host/cost'
+      inject:
+        - sessionQuery
+        - orbCanvas
+    - id: orb-agents
+      name: '@orb/agents/service'
+      inject:
+        - agents
+        - agentPresets
+        - agentDefaultModel
+        - orbCanvas
+        - subagents
+        - orbModels
+        - tokenMeter
+        - compaction
+        - llm
+    - id: orb-host
+      name: '@orb/host/remote'
+      inject:
+        - typert
+        - orbCanvas
+        - orbAgents
+        - credentials
+        - orbModels
+        - orbCost
+    - id: orb-preset
+      name: '@deepseek-ai/dsh-agent-preset'
+      config:
+        id: orb
+        name: Orb
+        description: Orb research agent. Board tools only; no shell, filesystem, workflow or job tools.
+        order: 0
+        # Rows here mount once in the preset's own scope; agents bound with agentPresets.mount inherit them, so
+        # these tools are agent-scoped (the global tool surface stays empty).
+        plugins:
+          # place_card / update_card / query_board / consolidate_cards / add_frame / update_frame / add_link over the
+          # orb-cards registry and the layout engine. The caller's role comes from its
+          # session id (canvas.json rootSessionId / childAgentIds), not from this row's config.
+          - id: orb-board-tools
+            name: '@orb/canvas/tools'
+            inject:
+              - tools
+              - orbCanvas
+          # P3.5 web_search / fetch_url / capture_page (Scout) and read_source (Orb, Scout, Critic): search through
+          # ctx.web, safe fetch + extraction + the assets/sources cache (@orb/sources), page capture through
+          # Electron main's loopback control channel. See packages/orb-canvas/src/sources.ts.
+          - id: orb-source-tools
+            name: '@orb/canvas/sources'
+            inject:
+              - tools
+              - orbCanvas
+              - web
+          # P6.7 Parallel tools (parallel_extract, image_search, web_answer, deep_research, research_status, batch_enrich,
+          # find_entities, entity_search, watches…) over the `orbParallel` service. See packages/orb-canvas/src/parallelTools.ts.
+          - id: orb-parallel-tools
+            name: '@orb/canvas/parallel-tools'
+            inject:
+              - tools
+              - orbCanvas
+              - orbParallel
+          # P4.5 compose_section (Orb only): writes one section of the research document, with structural citations
+          # (every paragraph cites cards in the compose scope); stored in port/ by the canvas service. See
+          # packages/orb-canvas/src/port.ts and @orb/port.
+          - id: orb-port-tools
+            name: '@orb/canvas/port'
+            inject:
+              - tools
+              - orbCanvas
+          # The BUILD_PLAN §2.4 allow-list guard, in the preset scope: it binds every agent on this preset, including
+          # sessions the gateway composes (session/create, resume), not only the root agents orbAgents creates.
+          # P3.3: it applies the CALLER's allow-list (role from canvas.json by session id via orbCanvas); `agent` is
+          # the list for a session that is not a known canvas agent.
+          - id: orb-tool-guard
+            name: '@orb/agents/guard'
+            inject:
+              - tools
+              - orbCanvas
+            config:
+              agent: orb
+          # P3.4 team tools: delegate / message_agent / stop_agent (Orb) and report_progress / send_message (Scout,
+          # Critic, Builder). Children are continuable subagents of the root agent and join this preset; each role is
+          # offered only its §2.4 tools (Orb: restrict deny; children: toolFilter.allow). See
+          # packages/orb-agents/src/tools.ts.
+          - id: orb-agent-tools
+            name: '@orb/agents/tools'
+            inject:
+              - tools
+              - orbAgents
+          # Orb's persona (P3.3: role, 3–5 frame proposals, cite cards, typed cards over prose, delegate research).
+          # The text lives in packages/orb-agents/src/persona.ts; the row hands it to dsh-persona's own apply.
+          - id: persona
+            name: '@orb/agents/persona'
+            inject:
+              - systemPrompt

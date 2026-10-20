@@ -1,0 +1,9 @@
+packages:
+  - apps/*
+  - packages/*
+
+onlyBuiltDependencies:
+  - electron
+  - esbuild
+  - '@deepseek-ai/dsh-subprocess-local'
+  - node-pty

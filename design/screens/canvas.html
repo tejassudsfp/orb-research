@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>Research canvas</title>
+<script src="fc9b6186-edcb-4e2b-b1fd-5bad7e6f8afd"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>/* cyrillic-ext */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwRGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwYGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwTGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwSGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("73ba411f-5e7c-49ea-9538-b26b366d10a1") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwRGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwYGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwTGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwSGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("73ba411f-5e7c-49ea-9538-b26b366d10a1") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwRGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwYGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwTGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwSGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("73ba411f-5e7c-49ea-9538-b26b366d10a1") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwRGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwYGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwTGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwSGFWNOITddY4.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("73ba411f-5e7c-49ea-9538-b26b366d10a1") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrodmhHkjkotbA.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrMdmhHkjkotbA.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* symbols2 */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFg08vz7MhEIVVeA.woff2) format('woff2');
+  unicode-range: U+2000-2001, U+2004-2008, U+200A, U+23B8-23BD, U+2500-259F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrgdmhHkjkotbA.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrkdmhHkjkotbA.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("2bf303e0-be96-4766-86f6-a85f82255199") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrodmhHkjkotbA.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrMdmhHkjkotbA.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* symbols2 */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFg08vz7MhEIVVeA.woff2) format('woff2');
+  unicode-range: U+2000-2001, U+2004-2008, U+200A, U+23B8-23BD, U+2500-259F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrgdmhHkjkotbA.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrkdmhHkjkotbA.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("2bf303e0-be96-4766-86f6-a85f82255199") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+body{margin:0;background:#03050C}
+a{color:#60A5FA}a:hover{color:#F9FCFE}
+.space{background-color:#03050C;background-image:radial-gradient(1px 1px at 22px 34px,rgba(249,252,254,.55) 50%,transparent 51%),radial-gradient(1px 1px at 140px 90px,rgba(249,252,254,.3) 50%,transparent 51%),radial-gradient(1.5px 1.5px at 200px 180px,rgba(96,165,250,.7) 50%,transparent 51%),radial-gradient(1px 1px at 80px 210px,rgba(249,252,254,.25) 50%,transparent 51%);background-size:300px 260px}
+input::placeholder{color:rgba(249,252,254,.5)}
+</style>
+</helmet>
+<div class="space" sc-camel-on-mouse-down="{{ onDown }}" sc-camel-on-mouse-move="{{ onMove }}" sc-camel-on-mouse-up="{{ onUp }}" sc-camel-on-mouse-leave="{{ onUp }}" sc-camel-on-wheel="{{ onWheel }}" style="position: relative; width: 100%; height: 900px; overflow: hidden; font-family: Geist, system-ui, sans-serif; color: #F9FCFE; cursor: {{ cursor }}; user-select: none">
+
+  <div aria-hidden="true" style="position: absolute; left: 260px; top: -320px; width: 1000px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(37,99,235,0.32), rgba(37,99,235,0) 68%)"></div>
+  <div aria-hidden="true" style="position: absolute; left: -200px; top: 420px; width: 800px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(61,93,207,0.22), rgba(61,93,207,0) 70%)"></div>
+  <div aria-hidden="true" style="position: absolute; right: -160px; bottom: -200px; width: 700px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(96,165,250,0.16), rgba(96,165,250,0) 70%)"></div>
+
+  <div aria-hidden="true" style="position: absolute; inset: 0; background-image: radial-gradient(rgba(249,252,254,.07) 1px, transparent 1px); background-size: {{ gridSize }}; background-position: {{ gridPos }}"></div>
+  <div style="position: absolute; left: 0; top: 0; width: 0; height: 0; transform-origin: 0 0; transform: {{ worldTransform }}">
+  <!-- FRAME Thesis, sky -->
+  <div style="position: absolute; left: 110px; top: 96px; width: 430px; height: 310px; border-radius: 22px; border: 1px solid rgba(96,165,250,0.55); background: rgba(96,165,250,0.05); box-sizing: border-box">
+    <span style="position: absolute; left: 16px; top: 13px; font: 500 12px 'Geist Mono', monospace; letter-spacing: 1.4px; color: #60A5FA">01 THESIS</span>
+  </div>
+  <div style="position: absolute; left: 130px; top: 140px; width: 220px; padding: 16px; border-radius: 14px; background: #F9FCFE; color: #11171D; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 14px 40px rgba(0,0,0,0.5)">
+    <span style="font: 500 11px 'Geist Mono', monospace; letter-spacing: 1.2px; color: #3D5DCF">YOUR NOTE</span>
+    <span style="font: 600 19px Geist, sans-serif; line-height: 1.25; letter-spacing: -0.3px">The board is the research. The PDF is just a view of it.</span>
+  </div>
+  <div style="position: absolute; left: 365px; top: 140px; width: 160px; padding: 16px; border-radius: 14px; background: #2563EB; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 0 0 4px rgba(37,99,235,0.25), 0 0 40px rgba(37,99,235,0.55)">
+    <span style="display: inline-flex; align-items: center; gap: 6px; font: 500 11px 'Geist Mono', monospace; letter-spacing: 1.2px; color: #F9FCFE"><svg width="12" height="12" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2l2.6 6.6L21 9.3l-5 4.4L17.5 21 12 17.3 6.5 21 8 13.7 3 9.3l6.4-.7z"></path></svg>NORTH STAR</span>
+    <span style="font: 600 17px Geist, sans-serif; line-height: 1.25; letter-spacing: -0.2px">Google for research and thinking</span>
+  </div>
+  <div style="position: absolute; left: 130px; top: 296px; width: 395px; padding: 14px; border-radius: 14px; border: 1px solid rgba(249,252,254,0.10); background: #11171D; box-sizing: border-box; display: flex; gap: 12px; align-items: flex-start">
+    <span aria-hidden="true" style="flex: none; width: 30px; height: 30px; border-radius: 15px; background: rgba(96,165,250,0.16); display: flex; align-items: center; justify-content: center"><svg width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"></path></svg></span>
+    <div style="display: flex; flex-direction: column; gap: 4px">
+      <span style="font: 600 14px Geist, sans-serif">Every output cites back to its cards</span>
+      <span style="font: 400 13px Geist, sans-serif; color: rgba(249,252,254,0.66); line-height: 1.45">Ports link to the board, so readers can click any claim back to its source.</span>
+    </div>
+  </div>
+
+  <!-- FRAME Harness, signal -->
+  <div style="position: absolute; left: 580px; top: 96px; width: 440px; height: 310px; border-radius: 22px; border: 1px solid rgba(37,99,235,0.7); background: rgba(37,99,235,0.07); box-sizing: border-box">
+    <span style="position: absolute; left: 16px; top: 13px; font: 500 12px 'Geist Mono', monospace; letter-spacing: 1.4px; color: #60A5FA">02 HARNESS</span>
+  </div>
+  <div style="position: absolute; left: 600px; top: 140px; width: 255px; padding: 14px; border-radius: 14px; border: 1px solid rgba(96,165,250,0.35); background: #11171D; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px">
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px">
+      <span style="display: inline-flex; align-items: center; gap: 6px; font: 500 11px 'Geist Mono', monospace; letter-spacing: 1px; color: rgba(249,252,254,0.66)"><svg width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"></path></svg>SOURCE</span>
+      <span style="padding: 3px 8px; border-radius: 10px; background: #60A5FA; color: #03050C; font: 600 11px Geist, sans-serif">Must read</span>
+    </div>
+    <span style="font: 600 17px Geist, sans-serif; letter-spacing: -0.2px">DeepSeek Harness</span>
+    <span style="font: 400 12px 'Geist Mono', monospace; color: rgba(249,252,254,0.6)">github.com/deepseek-ai/deepseek-harness</span>
+    <span style="font: 400 13px Geist, sans-serif; color: rgba(249,252,254,0.82); line-height: 1.45">Why it's here. Everything is a plugin, so card types can be harness plugins.</span>
+    <button type="button" sc-camel-on-click="{{ toggleThread }}" style="align-self: flex-start; height: 32px; padding: 0 12px; border-radius: 16px; border: 1px solid rgba(96,165,250,0.4); background: transparent; color: #60A5FA; font: 500 12px Geist, sans-serif; display: inline-flex; align-items: center; gap: 6px; cursor: pointer"><svg width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a8 8 0 01-11.6 7.1L4 20l1-4.6A8 8 0 1121 12z"></path></svg>Thread, 2 replies</button>
+  </div>
+  <div style="position: absolute; left: 870px; top: 140px; width: 132px; padding: 12px; border-radius: 14px; border: 1px dashed rgba(249,252,254,0.35); background: rgba(17,23,29,0.9); box-sizing: border-box; display: flex; flex-direction: column; gap: 6px">
+    <span style="font: 500 11px 'Geist Mono', monospace; letter-spacing: 1.2px; color: #F9FCFE">RISK</span>
+    <span style="font: 400 13px Geist, sans-serif; line-height: 1.4; color: rgba(249,252,254,0.8)">Developer preview, breaking changes expected</span>
+  </div>
+  <div style="position: absolute; left: 600px; top: 336px; width: 400px; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(249,252,254,0.10); background: #11171D; box-sizing: border-box; display: flex; align-items: center; gap: 10px">
+    <span aria-hidden="true" style="flex: none; width: 8px; height: 8px; border-radius: 4px; background: #2563EB"></span>
+    <span style="font: 400 13px Geist, sans-serif; color: rgba(249,252,254,0.82)">Append-only session log, show why the agent added each card</span>
+  </div>
+  <div style="position: absolute; left: 905px; top: 272px; display: flex; align-items: flex-start; gap: 2px">
+    <svg width="18" height="18" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="M3 2l7 19 2.5-7.5L20 11z" fill="#60A5FA" stroke="#03050C" stroke-width="1.5"></path></svg>
+    <span style="margin-top: 12px; padding: 4px 10px; border-radius: 12px; background: #60A5FA; color: #03050C; font: 600 12px Geist, sans-serif; white-space: nowrap">Scout, reading docs</span>
+  </div>
+
+  <!-- FRAME Reading queue -->
+  <div style="position: absolute; left: 1060px; top: 96px; width: 356px; height: 230px; border-radius: 22px; border: 1px solid rgba(249,252,254,0.18); background: rgba(249,252,254,0.03); box-sizing: border-box; padding: 44px 16px 16px; display: flex; flex-direction: column; gap: 8px">
+    <span style="position: absolute; left: 16px; top: 13px; font: 500 12px 'Geist Mono', monospace; letter-spacing: 1.4px; color: rgba(249,252,254,0.7)">YOUR READING QUEUE</span>
+    <div style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: #11171D">
+      <span aria-hidden="true" style="flex: none; width: 18px; height: 18px; border-radius: 9px; background: #2563EB; display: flex; align-items: center; justify-content: center"><svg width="10" height="10" sc-camel-view-box="0 0 24 24" fill="none" stroke="#F9FCFE" stroke-width="3"><path d="M5 12l5 5 9-10"></path></svg></span>
+      <span style="flex: 1; font: 400 13px Geist, sans-serif; color: rgba(249,252,254,0.6); text-decoration: line-through">Card plugin spec</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: #11171D; border: 1px solid rgba(96,165,250,0.35)">
+      <span aria-hidden="true" style="flex: none; width: 18px; height: 18px; border-radius: 9px; border: 1.5px solid #60A5FA; box-sizing: border-box"></span>
+      <span style="flex: 1; font: 500 13px Geist, sans-serif">DeepSeek Harness docs</span>
+      <span style="font: 500 11px 'Geist Mono', monospace; color: #60A5FA">MUST</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: #11171D">
+      <span aria-hidden="true" style="flex: none; width: 18px; height: 18px; border-radius: 9px; border: 1.5px solid rgba(249,252,254,0.4); box-sizing: border-box"></span>
+      <span style="flex: 1; font: 400 13px Geist, sans-serif">[PAPER TITLE]</span>
+      <span style="font: 500 11px 'Geist Mono', monospace; color: rgba(249,252,254,0.55)">SKIM</span>
+    </div>
+  </div>
+
+  <!-- FRAME Card plugins, rho -->
+  <div style="position: absolute; left: 110px; top: 446px; width: 560px; height: 300px; border-radius: 22px; border: 1px solid rgba(61,93,207,0.75); background: rgba(61,93,207,0.08); box-sizing: border-box">
+    <span style="position: absolute; left: 16px; top: 13px; font: 500 12px 'Geist Mono', monospace; letter-spacing: 1.4px; color: #60A5FA">03 CARD PLUGINS</span>
+  </div>
+  <div style="position: absolute; left: 130px; top: 490px; width: 170px; padding: 12px; border-radius: 14px; border: 1px solid rgba(249,252,254,0.10); background: #11171D; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px">
+    <span style="display: inline-flex; align-items: center; gap: 6px; font: 500 11px 'Geist Mono', monospace; letter-spacing: 1px; color: #60A5FA"><span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 4px; background: #60A5FA; box-shadow: 0 0 8px #60A5FA"></span>LIVE TICKER</span>
+    <span style="font: 600 15px Geist, sans-serif">[TICKER]</span>
+    <span style="font: 400 13px 'Geist Mono', monospace; color: rgba(249,252,254,0.6)">[PRICE] [CHANGE]</span>
+    <svg width="146" height="34" sc-camel-view-box="0 0 146 34" fill="none" stroke="#60A5FA" stroke-width="1.6" aria-hidden="true"><path d="M2 26 L18 22 L32 25 L48 15 L62 18 L78 10 L94 14 L110 6 L126 9 L144 4"></path></svg>
+    <button type="button" style="height: 28px; border-radius: 14px; border: 1px solid rgba(96,165,250,0.4); background: transparent; color: #60A5FA; font: 500 12px Geist, sans-serif; cursor: pointer">Freeze snapshot</button>
+  </div>
+  <div style="position: absolute; left: 315px; top: 490px; width: 200px; padding: 12px; border-radius: 14px; border: 1px solid rgba(249,252,254,0.10); background: #11171D; box-sizing: border-box; display: flex; flex-direction: column; gap: 8px">
+    <span style="font: 500 11px 'Geist Mono', monospace; letter-spacing: 1px; color: #60A5FA">DESIGN FRAME</span>
+    <div aria-hidden="true" style="height: 100px; border-radius: 10px; background: #03050C; border: 1px solid rgba(249,252,254,0.08); display: flex; gap: 8px; padding: 8px; box-sizing: border-box">
+      <div style="width: 34px; border-radius: 6px; background: rgba(249,252,254,0.08)"></div>
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 6px">
+        <div style="height: 10px; width: 60%; border-radius: 4px; background: rgba(249,252,254,0.16)"></div>
+        <div style="flex: 1; border-radius: 6px; border: 1px dashed #3D5DCF"></div>
+        <div style="height: 10px; width: 40%; border-radius: 4px; background: #2563EB"></div>
+      </div>
+    </div>
+    <span style="font: 400 12px Geist, sans-serif; color: rgba(249,252,254,0.6)">Generated by Builder, editable</span>
+  </div>
+  <div style="position: absolute; left: 530px; top: 490px; width: 125px; padding: 12px; border-radius: 14px; border: 1px solid rgba(249,252,254,0.10); background: #11171D; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px">
+    <span style="font: 500 11px 'Geist Mono', monospace; letter-spacing: 1px; color: #60A5FA">PAPER</span>
+    <span style="font: 500 13px Geist, sans-serif; line-height: 1.35">[PAPER TITLE]</span>
+    <span style="font: 400 12px Geist, sans-serif; color: rgba(249,252,254,0.6)">Unread</span>
+  </div>
+  <div style="position: absolute; left: 130px; top: 652px; width: 525px; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(249,252,254,0.10); background: #11171D; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px">
+    <span style="font: 600 14px Geist, sans-serif">A card plugin is four things</span>
+    <span style="font: 400 13px Geist, sans-serif; color: rgba(249,252,254,0.66)">Render, data source, agent tools, and a text self-description the agent can read</span>
+  </div>
+  <div style="position: absolute; left: 470px; top: 600px; display: flex; align-items: flex-start; gap: 2px">
+    <svg width="18" height="18" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="M3 2l7 19 2.5-7.5L20 11z" fill="#2563EB" stroke="#03050C" stroke-width="1.5"></path></svg>
+    <span style="margin-top: 12px; padding: 4px 10px; border-radius: 12px; background: #2563EB; color: #F9FCFE; font: 600 12px Geist, sans-serif; white-space: nowrap">Builder, drafting UI</span>
+  </div>
+
+  <!-- FRAME Open questions -->
+  <div style="position: absolute; left: 710px; top: 446px; width: 310px; height: 300px; border-radius: 22px; border: 1px dashed rgba(249,252,254,0.35); background: rgba(249,252,254,0.025); box-sizing: border-box">
+    <span style="position: absolute; left: 16px; top: 13px; font: 500 12px 'Geist Mono', monospace; letter-spacing: 1.4px; color: rgba(249,252,254,0.75)">04 OPEN QUESTIONS</span>
+  </div>
+  <div style="position: absolute; left: 730px; top: 490px; width: 270px; padding: 12px 14px; border-radius: 14px; border: 1px solid #60A5FA; background: #11171D; box-sizing: border-box; display: flex; gap: 10px; align-items: center; box-shadow: 0 0 28px rgba(96,165,250,0.25)">
+    <span aria-hidden="true" style="flex: none; font: 700 22px Geist, sans-serif; color: #60A5FA">?</span>
+    <span style="font: 500 14px Geist, sans-serif; line-height: 1.35">First user, UI researchers or analysts?</span>
+  </div>
+  <div style="position: absolute; left: 730px; top: 572px; width: 270px; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(249,252,254,0.10); background: #11171D; box-sizing: border-box; display: flex; gap: 10px; align-items: center">
+    <span aria-hidden="true" style="flex: none; font: 700 22px Geist, sans-serif; color: rgba(249,252,254,0.5)">?</span>
+    <span style="font: 500 14px Geist, sans-serif; line-height: 1.35">How do we stop board clutter?</span>
+  </div>
+  <div style="position: absolute; left: 730px; top: 654px; width: 270px; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(249,252,254,0.10); background: #11171D; box-sizing: border-box; display: flex; gap: 10px; align-items: center">
+    <span aria-hidden="true" style="flex: none; font: 700 22px Geist, sans-serif; color: rgba(249,252,254,0.5)">?</span>
+    <span style="font: 500 14px Geist, sans-serif; line-height: 1.35">Where do NotebookLM and Perplexity stop?</span>
+  </div>
+  <div style="position: absolute; left: 960px; top: 520px; display: flex; align-items: flex-start; gap: 2px">
+    <svg width="18" height="18" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="M3 2l7 19 2.5-7.5L20 11z" fill="#F9FCFE" stroke="#03050C" stroke-width="1.5"></path></svg>
+    <span style="margin-top: 12px; padding: 4px 10px; border-radius: 12px; background: #F9FCFE; color: #11171D; font: 600 12px Geist, sans-serif; white-space: nowrap">Critic</span>
+  </div>
+
+  <!-- Tension edge -->
+  <svg width="1040" height="900" sc-camel-view-box="0 0 1040 900" aria-hidden="true" style="position: absolute; left: 0; top: 0; pointer-events: none"><path d="M445 250 C 445 430, 865 360, 865 490" fill="none" stroke="#60A5FA" stroke-width="1.5" stroke-dasharray="5 5"></path><circle cx="445" cy="250" r="4" fill="#60A5FA"></circle><circle cx="865" cy="490" r="4" fill="#60A5FA"></circle></svg>
+  <span style="position: absolute; left: 612px; top: 414px; padding: 4px 10px; border-radius: 11px; border: 1px solid #60A5FA; background: #03050C; color: #60A5FA; font: 500 11px 'Geist Mono', monospace; letter-spacing: 1.2px">TENSION</span>
+
+  <!-- Thread popover -->
+  <sc-if value="{{ threadOpen }}" hint-placeholder-val="{{ true }}">
+    <div style="position: absolute; left: 690px; top: 244px; width: 300px; border-radius: 16px; border: 1px solid rgba(96,165,250,0.35); background: rgba(17,23,29,0.98); box-shadow: 0 24px 60px rgba(0,0,0,0.65); padding: 14px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: center; justify-content: space-between">
+        <span style="font: 500 11px 'Geist Mono', monospace; letter-spacing: 1.2px; color: #60A5FA">THREAD ON DEEPSEEK HARNESS</span>
+        <button type="button" aria-label="Close thread" sc-camel-on-click="{{ toggleThread }}" style="width: 32px; height: 32px; border-radius: 16px; border: 0; background: transparent; color: rgba(249,252,254,0.6); display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+      </div>
+      <div style="align-self: flex-end; max-width: 85%; padding: 8px 12px; border-radius: 14px 14px 4px 14px; background: #2563EB; font: 400 13px Geist, sans-serif; line-height: 1.4">Can card types literally be harness plugins?</div>
+      <div style="max-width: 92%; padding: 8px 12px; border-radius: 14px 14px 14px 4px; background: rgba(249,252,254,0.06); font: 400 13px Geist, sans-serif; line-height: 1.4; color: rgba(249,252,254,0.88)">Yes. Each card ships a UI half and a tool half, and the harness loads both without a restart.</div>
+      <label for="threadreply" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Reply in thread</label>
+      <input id="threadreply" type="text" placeholder="Reply on this card" style="height: 40px; border-radius: 12px; border: 1px solid rgba(249,252,254,0.12); background: #03050C; color: #F9FCFE; padding: 0 12px; font: 400 13px Geist, sans-serif; outline: none">
+    </div>
+  </sc-if>
+
+
+  <!-- FRAME Competitors, off screen right -->
+  <div style="position: absolute; left: 1480px; top: 96px; width: 420px; height: 260px; border-radius: 22px; border: 1px solid rgba(96,165,250,0.55); background: rgba(96,165,250,0.05); box-sizing: border-box">
+    <span style="position: absolute; left: 16px; top: 13px; font: 500 12px 'Geist Mono', monospace; letter-spacing: 1.4px; color: #60A5FA">05 COMPETITORS</span>
+  </div>
+  <div style="position: absolute; left: 1500px; top: 140px; width: 180px; padding: 14px; border-radius: 14px; border: 1px solid rgba(249,252,254,0.10); background: #11171D; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px">
+    <span style="font: 600 15px Geist, sans-serif">NotebookLM</span>
+    <span style="font: 400 13px Geist, sans-serif; color: rgba(249,252,254,0.66); line-height: 1.4">Strong at answers from your sources. No visible board.</span>
+  </div>
+  <div style="position: absolute; left: 1700px; top: 140px; width: 180px; padding: 14px; border-radius: 14px; border: 1px solid rgba(249,252,254,0.10); background: #11171D; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px">
+    <span style="font: 600 15px Geist, sans-serif">Perplexity Pages</span>
+    <span style="font: 400 13px Geist, sans-serif; color: rgba(249,252,254,0.66); line-height: 1.4">Polished outputs. The thinking trail is hidden.</span>
+  </div>
+  <div style="position: absolute; left: 1500px; top: 270px; width: 380px; padding: 12px 14px; border-radius: 14px; border: 1px dashed rgba(249,252,254,0.35); background: rgba(17,23,29,0.9); box-sizing: border-box; font: 400 13px Geist, sans-serif; color: rgba(249,252,254,0.8)">Gap, nobody makes research forkable</div>
+
+  <!-- FRAME Port draft, off screen below -->
+  <div style="position: absolute; left: 110px; top: 800px; width: 910px; height: 240px; border-radius: 22px; border: 1px solid rgba(37,99,235,0.7); background: rgba(37,99,235,0.07); box-sizing: border-box; padding: 48px 20px 20px; display: flex; gap: 16px">
+    <span style="position: absolute; left: 16px; top: 13px; font: 500 12px 'Geist Mono', monospace; letter-spacing: 1.4px; color: #60A5FA">06 PORT DRAFT</span>
+    <div style="flex: 1; padding: 16px; border-radius: 14px; background: #11171D; display: flex; flex-direction: column; gap: 10px">
+      <span style="font: 700 20px Geist, sans-serif; letter-spacing: -0.5px">Research you can see, share, and build on</span>
+      <div aria-hidden="true" style="height: 8px; width: 92%; border-radius: 4px; background: rgba(249,252,254,0.12)"></div>
+      <div aria-hidden="true" style="height: 8px; width: 80%; border-radius: 4px; background: rgba(249,252,254,0.12)"></div>
+      <div aria-hidden="true" style="height: 8px; width: 86%; border-radius: 4px; background: rgba(249,252,254,0.12)"></div>
+      <span style="font: 400 12px Geist, sans-serif; color: rgba(249,252,254,0.6)">Composed from frames 01 to 04</span>
+    </div>
+  </div>
+  </div>
+
+  <!-- Top left -->
+  <div style="position: absolute; left: 24px; top: 20px; height: 48px; padding: 0 8px 0 6px; border-radius: 24px; border: 1px solid rgba(249,252,254,0.12); background: rgba(17,23,29,0.88); display: flex; align-items: center; gap: 10px; box-sizing: border-box">
+    <a href="Main.dc.html" aria-label="Home" style="width: 36px; height: 36px; border-radius: 18px; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" sc-camel-view-box="0 0 28 28" fill="none" stroke="#60A5FA" stroke-width="1.6" aria-hidden="true"><circle cx="14" cy="14" r="4" fill="#2563EB" stroke="none"></circle><ellipse cx="14" cy="14" rx="12" ry="5" transform="rotate(-25 14 14)"></ellipse></svg></a>
+    <span style="font: 600 15px Geist, sans-serif; letter-spacing: -0.2px">Research canvas idea</span>
+    <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 12px; background: rgba(249,252,254,0.06); font: 400 12px Geist, sans-serif; color: rgba(249,252,254,0.66)"><span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 3px; background: #60A5FA"></span>Saved locally</span>
+  </div>
+
+  <!-- Top right -->
+  <div style="position: absolute; right: 24px; top: 20px; display: flex; align-items: center; gap: 8px">
+    <button type="button" style="height: 48px; padding: 0 18px; border-radius: 24px; border: 1px solid rgba(249,252,254,0.12); background: rgba(17,23,29,0.88); color: #F9FCFE; font: 500 14px Geist, sans-serif; cursor: pointer">Share board</button>
+    <a href="Port.dc.html" style="height: 48px; padding: 0 18px; border-radius: 24px; background: #2563EB; color: #F9FCFE; font: 600 14px Geist, sans-serif; display: flex; align-items: center; gap: 8px; text-decoration: none; box-sizing: border-box; box-shadow: 0 0 24px rgba(37,99,235,0.45)"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 21h14"></path></svg>Publish Port</a>
+  </div>
+
+  <!-- Left toolbar -->
+  <div style="position: absolute; left: 24px; top: 300px; padding: 6px; border-radius: 26px; border: 1px solid rgba(249,252,254,0.12); background: rgba(17,23,29,0.88); display: flex; flex-direction: column; gap: 4px">
+    <button type="button" aria-label="Select" style="width: 44px; height: 44px; border-radius: 22px; border: 0; background: #2563EB; color: #F9FCFE; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 3l7 18 2.5-7.5L21 11z"></path></svg></button>
+    <button type="button" aria-label="Add note" style="width: 44px; height: 44px; border-radius: 22px; border: 0; background: transparent; color: rgba(249,252,254,0.75); display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 3h14v12l-6 6H5z"></path><path d="M13 21v-6h6"></path></svg></button>
+    <button type="button" aria-label="Add frame" style="width: 44px; height: 44px; border-radius: 22px; border: 0; background: transparent; color: rgba(249,252,254,0.75); display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"></rect></svg></button>
+    <button type="button" aria-label="Connect cards" style="width: 44px; height: 44px; border-radius: 22px; border: 0; background: transparent; color: rgba(249,252,254,0.75); display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="5" cy="19" r="2"></circle><circle cx="19" cy="5" r="2"></circle><path d="M6.5 17.5C10 14 14 10 17.5 6.5"></path></svg></button>
+    <button type="button" aria-label="Add card plugin" style="width: 44px; height: 44px; border-radius: 22px; border: 0; background: transparent; color: rgba(249,252,254,0.75); display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2"></rect><rect x="14" y="3" width="7" height="7" rx="2"></rect><rect x="3" y="14" width="7" height="7" rx="2"></rect><path d="M17.5 14v7M14 17.5h7"></path></svg></button>
+  </div>
+
+  <!-- Minimap -->
+  <div style="position: absolute; left: 24px; bottom: 24px; display: flex; flex-direction: column; gap: 8px">
+    <div aria-hidden="true" style="position: relative; width: 168px; height: 104px; border-radius: 14px; border: 1px solid rgba(249,252,254,0.12); background: rgba(17,23,29,0.88)">
+      <div style="position: absolute; left: 12px; top: 14px; width: 44px; height: 32px; border-radius: 4px; border: 1px solid #60A5FA"></div>
+      <div style="position: absolute; left: 60px; top: 14px; width: 46px; height: 32px; border-radius: 4px; border: 1px solid #2563EB"></div>
+      <div style="position: absolute; left: 110px; top: 14px; width: 44px; height: 24px; border-radius: 4px; border: 1px solid rgba(249,252,254,0.4)"></div>
+      <div style="position: absolute; left: 12px; top: 54px; width: 60px; height: 32px; border-radius: 4px; border: 1px solid #3D5DCF"></div>
+      <div style="position: absolute; left: 76px; top: 54px; width: 30px; height: 32px; border-radius: 4px; border: 1px dashed rgba(249,252,254,0.4)"></div>
+    </div>
+    <div style="display: flex; gap: 4px">
+      <button type="button" aria-label="Zoom out" sc-camel-on-click="{{ zoomOut }}" style="width: 44px; height: 36px; border-radius: 12px; border: 1px solid rgba(249,252,254,0.12); background: rgba(17,23,29,0.88); color: rgba(249,252,254,0.8); font: 500 16px Geist, sans-serif; cursor: pointer">-</button>
+      <button type="button" aria-label="Reset view" sc-camel-on-click="{{ resetView }}" style="flex: 1; height: 36px; border-radius: 12px; border: 1px solid rgba(249,252,254,0.12); background: rgba(17,23,29,0.88); color: rgba(249,252,254,0.8); font: 500 13px Geist, sans-serif; cursor: pointer">{{ zoomPct }}</button>
+      <button type="button" aria-label="Zoom in" sc-camel-on-click="{{ zoomIn }}" style="width: 44px; height: 36px; border-radius: 12px; border: 1px solid rgba(249,252,254,0.12); background: rgba(17,23,29,0.88); color: rgba(249,252,254,0.8); font: 500 16px Geist, sans-serif; cursor: pointer">+</button>
+    </div>
+  </div>
+
+  <!-- Chat, docked in the corner as one unit -->
+  <sc-if value="{{ chatOpen }}" hint-placeholder-val="{{ true }}">
+    <div data-panel="chat" style="position: absolute; right: 24px; bottom: 24px; width: 380px; height: 520px; border-radius: 24px; border: 1px solid rgba(96,165,250,0.28); background: rgba(17,23,29,0.94); box-shadow: 0 0 0 6px rgba(37,99,235,0.08), 0 30px 80px rgba(0,0,0,0.6); display: flex; flex-direction: column; overflow: hidden">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 8px 10px 16px; border-bottom: 1px solid rgba(249,252,254,0.08)">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <div style="display: flex">
+            <span title="Scout" style="width: 24px; height: 24px; border-radius: 12px; background: #60A5FA; color: #03050C; font: 600 11px Geist, sans-serif; display: flex; align-items: center; justify-content: center; border: 2px solid #11171D">S</span>
+            <span title="Critic" style="width: 24px; height: 24px; border-radius: 12px; background: #F9FCFE; color: #11171D; font: 600 11px Geist, sans-serif; display: flex; align-items: center; justify-content: center; border: 2px solid #11171D; margin-left: -7px">C</span>
+            <span title="Builder" style="width: 24px; height: 24px; border-radius: 12px; background: #2563EB; color: #F9FCFE; font: 600 11px Geist, sans-serif; display: flex; align-items: center; justify-content: center; border: 2px solid #11171D; margin-left: -7px">B</span>
+          </div>
+          <div style="display: flex; flex-direction: column">
+            <span style="font: 600 14px Geist, sans-serif">Conversation</span>
+            <span style="font: 400 12px Geist, sans-serif; color: rgba(249,252,254,0.6)">3 agents on the board</span>
+          </div>
+        </div>
+        <button type="button" aria-label="Minimise conversation" sc-camel-on-click="{{ toggleChat }}" style="width: 44px; height: 44px; border-radius: 22px; border: 0; background: transparent; color: rgba(249,252,254,0.7); display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+      </div>
+      <div style="flex: 1; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; overflow: auto">
+        <div style="align-self: flex-end; max-width: 85%; padding: 9px 13px; border-radius: 16px 16px 4px 16px; background: #2563EB; font: 400 14px Geist, sans-serif; line-height: 1.45">google for research and thinking, thats what I want this to be</div>
+        <span style="font: 400 14px Geist, sans-serif; line-height: 1.5; color: rgba(249,252,254,0.88)">Pinned it as the north star in Thesis. Critic flagged a tension with starting on one pack, it's linked on the board.</span>
+        <div style="display: flex; flex-direction: column; gap: 7px; padding: 10px 12px; border-radius: 14px; background: #03050C; border: 1px solid rgba(249,252,254,0.08)">
+          <span style="display: flex; align-items: center; gap: 8px; font: 400 13px Geist, sans-serif; color: rgba(249,252,254,0.8)"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 4px; background: #60A5FA"></span>Scout added 2 sources to Harness</span>
+          <span style="display: flex; align-items: center; gap: 8px; font: 400 13px Geist, sans-serif; color: rgba(249,252,254,0.8)"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 4px; background: #F9FCFE"></span>Critic linked a tension to Open questions</span>
+          <span style="display: flex; align-items: center; gap: 8px; font: 400 13px Geist, sans-serif; color: rgba(249,252,254,0.8)"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 4px; background: #2563EB"></span>Builder is drafting a design frame</span>
+        </div>
+        <div style="align-self: flex-end; max-width: 85%; padding: 9px 13px; border-radius: 16px 16px 4px 16px; background: #2563EB; font: 400 14px Geist, sans-serif; line-height: 1.45">Once Builder is done, turn Card plugins into a spec</div>
+        <span style="display: inline-flex; gap: 4px" aria-label="Agent is typing"><span style="width: 6px; height: 6px; border-radius: 3px; background: #60A5FA"></span><span style="width: 6px; height: 6px; border-radius: 3px; background: #3D5DCF"></span><span style="width: 6px; height: 6px; border-radius: 3px; background: rgba(61,93,207,0.5)"></span></span>
+      </div>
+      <div style="padding: 10px; border-top: 1px solid rgba(249,252,254,0.08); display: flex; flex-direction: column; gap: 8px">
+        <div style="display: flex; align-items: center; gap: 6px; padding: 0 4px">
+          <span style="display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 11px; background: rgba(61,93,207,0.25); color: #F9FCFE; font: 500 12px Geist, sans-serif"><span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 3px; background: #60A5FA"></span>Card plugins</span>
+          <span style="font: 400 12px Geist, sans-serif; color: rgba(249,252,254,0.55)">in context</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px; padding: 4px 4px 4px 12px; border-radius: 22px; background: #03050C; border: 1px solid rgba(249,252,254,0.12)">
+          <label for="convo" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Message the agent</label>
+          <input id="convo" type="text" placeholder="Ask, drop a link, or @ a card" style="flex: 1; min-width: 0; height: 40px; border: 0; outline: none; background: transparent; color: #F9FCFE; font: 400 14px Geist, sans-serif">
+          <button type="button" aria-label="Compose output" style="width: 40px; height: 40px; border-radius: 20px; border: 0; background: transparent; color: rgba(249,252,254,0.75); display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"></path><path d="M9 12h7M9 16h5"></path></svg></button>
+          <button type="button" aria-label="Send" style="width: 40px; height: 40px; border-radius: 20px; border: 0; background: #2563EB; color: #F9FCFE; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"></path></svg></button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ chatClosed }}" hint-placeholder-val="{{ false }}">
+    <button type="button" sc-camel-on-click="{{ toggleChat }}" style="position: absolute; right: 24px; bottom: 24px; height: 56px; padding: 0 20px 0 10px; border-radius: 28px; border: 1px solid rgba(96,165,250,0.35); background: rgba(17,23,29,0.94); color: #F9FCFE; font: 600 14px Geist, sans-serif; display: flex; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 0 30px rgba(37,99,235,0.35)">
+      <span aria-hidden="true" style="width: 36px; height: 36px; border-radius: 18px; background: #2563EB; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="#F9FCFE" stroke-width="1.8"><path d="M21 12a8 8 0 01-11.6 7.1L4 20l1-4.6A8 8 0 1121 12z"></path></svg></span>
+      Conversation
+      <span style="padding: 2px 8px; border-radius: 10px; background: #60A5FA; color: #03050C; font: 600 11px Geist, sans-serif">3 agents</span>
+    </button>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { chatOpen: true, threadOpen: true, panX: 0, panY: 0, zoom: 1, dragging: false };
+    this.drag = null;
+  }
+  zoomAt(factor, mx, my) {
+    const z = this.state.zoom;
+    const nz = Math.min(2.5, Math.max(0.3, z * factor));
+    const k = nz / z;
+    this.setState({ zoom: nz, panX: mx - (mx - this.state.panX) * k, panY: my - (my - this.state.panY) * k });
+  }
+  renderVals() {
+    const st = this.state;
+    return {
+      chatOpen: st.chatOpen,
+      chatClosed: !st.chatOpen,
+      threadOpen: st.threadOpen,
+      worldTransform: 'translate(' + st.panX + 'px, ' + st.panY + 'px) scale(' + st.zoom + ')',
+      gridSize: (24 * st.zoom) + 'px ' + (24 * st.zoom) + 'px',
+      gridPos: st.panX + 'px ' + st.panY + 'px',
+      cursor: st.dragging ? 'grabbing' : 'grab',
+      zoomPct: Math.round(st.zoom * 100) + '%',
+      toggleChat: () => this.setState({ chatOpen: !this.state.chatOpen }),
+      toggleThread: () => this.setState({ threadOpen: !this.state.threadOpen }),
+      onDown: (e) => {
+        if (e.button !== 0) return;
+        if (e.target && e.target.closest && e.target.closest('button, input, a, label')) return;
+        this.drag = { x: e.clientX, y: e.clientY, px: this.state.panX, py: this.state.panY };
+        this.setState({ dragging: true });
+      },
+      onMove: (e) => {
+        if (!this.drag) return;
+        this.setState({ panX: this.drag.px + e.clientX - this.drag.x, panY: this.drag.py + e.clientY - this.drag.y });
+      },
+      onUp: () => {
+        this.drag = null;
+        if (this.state.dragging) this.setState({ dragging: false });
+      },
+      onWheel: (e) => {
+        if (e.target && e.target.closest && e.target.closest('[data-panel]')) return;
+        if (e.ctrlKey || e.metaKey) {
+          const r = e.currentTarget.getBoundingClientRect();
+          this.zoomAt(e.deltaY < 0 ? 1.1 : 1 / 1.1, e.clientX - r.left, e.clientY - r.top);
+        } else {
+          this.setState({ panX: this.state.panX - e.deltaX, panY: this.state.panY - e.deltaY });
+        }
+      },
+      zoomIn: () => this.zoomAt(1.2, 520, 450),
+      zoomOut: () => this.zoomAt(1 / 1.2, 520, 450),
+      resetView: () => this.setState({ panX: 0, panY: 0, zoom: 1 })
+    };
+  }
+}
+</script>
+
+
+</body></html>

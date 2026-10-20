@@ -1,0 +1,24 @@
+{
+  "name": "dsh-profile-orb",
+  "private": true,
+  "dependencies": {},
+  "dsh": {
+    "profile": {
+      "bundles": [
+        "@deepseek-ai/dsh-base",
+        "@deepseek-ai/dsh-web-app",
+        "@orb/bundle"
+      ]
+    }
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Tejas Parthasarathi Sudarshan",
+    "url": "https://tejassuds.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tejassudsfp/orb-research.git"
+  },
+  "homepage": "https://github.com/tejassudsfp/orb-research#readme"
+}

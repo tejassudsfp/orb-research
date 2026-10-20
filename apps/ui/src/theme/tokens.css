@@ -1,0 +1,58 @@
+/* P6.27: flat Symplist-derived themes. Live values are generated from @orb/shared/appearance.
+   Colours, fonts and geometry have one source of truth; no decorative gradients or starfields. */
+:root {
+  --orb-night: #17191c;
+  --orb-ink: #202226;
+  --orb-paper: #ebebec;
+  --orb-rho: #7048e8;
+  --orb-signal: #2f5fd0;
+  --orb-sky: #8daaf0;
+  --orb-font: Geist, system-ui, sans-serif;
+  --orb-font-heading: var(--orb-font);
+  --orb-font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --orb-radius-frame: 10px;
+  --orb-radius-card: 7px;
+  --orb-radius-panel: 10px;
+  --orb-radius-pill: 4px;
+  --orb-edge: 24px;
+  --orb-edge-top: 20px;
+  --orb-grid: 24px;
+  --orb-grid-dot: #33363c;
+  --orb-stars: none;
+  --orb-stars-size: auto;
+  --orb-bg: #17191c;
+  --orb-text: #ebebec;
+  --orb-text-soft: #ebebec;
+  --orb-text-muted: #b1b3b7;
+  --orb-text-faint: #b1b3b7;
+  --orb-accent: #8daaf0;
+  --orb-accent-fill: #2f5fd0;
+  --orb-on-accent: #fff;
+  --orb-accent-soft: #252e46;
+  --orb-selection: #252e46;
+  --orb-surface: #202226;
+  --orb-surface-strong: #25272b;
+  --orb-surface-card: #25272b;
+  --orb-inset: #17191c;
+  --orb-border: #33363c;
+  --orb-border-soft: #33363c;
+  --orb-border-card: #44474f;
+  --orb-border-accent: #8daaf0;
+  --orb-chip: #2b2e33;
+  --orb-placeholder: #b1b3b7;
+  --orb-focus: #8daaf0;
+  --orb-shadow-panel: none;
+  --orb-shadow-primary: none;
+  --orb-shadow-card: none;
+  --orb-mark-line: var(--orb-accent);
+  --orb-mark-line-opacity: 0.7;
+  --orb-mark-node: var(--orb-accent);
+  --orb-mark-signal: var(--orb-signal);
+  --orb-mark-bright: var(--orb-accent);
+  --orb-mark-small-ring: var(--orb-accent);
+  --orb-mark-small-bright: var(--orb-accent);
+  color-scheme: dark;
+}
+[data-theme='day'] {
+  color-scheme: light;
+}

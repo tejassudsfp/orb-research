@@ -1,0 +1,150 @@
+.controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.styles,
+.options {
+  min-width: 0;
+}
+.label {
+  display: block;
+  margin: 0 0 8px;
+  color: var(--orb-text);
+  font: 600 13px var(--orb-font);
+}
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.theme {
+  padding: 4px;
+  min-width: 0;
+  border: 1px solid var(--orb-border);
+  border-radius: 8px;
+  background: var(--orb-surface);
+  color: var(--orb-text);
+  cursor: pointer;
+}
+.theme[aria-pressed='true'] {
+  border: 2px solid var(--orb-focus);
+  padding: 3px;
+}
+.preview {
+  position: relative;
+  display: block;
+  height: 68px;
+  overflow: hidden;
+  background: var(--orb-bg);
+  border: 1px solid var(--orb-border);
+  border-radius: var(--orb-radius-card);
+  font-family: var(--orb-font);
+}
+.previewRail {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 12px;
+  border-right: 1px solid var(--orb-border);
+  background: var(--orb-surface);
+}
+.previewPaper {
+  position: absolute;
+  inset: 8px 8px 8px 19px;
+  padding: 3px;
+  border: var(--orb-sheet-border);
+  border-radius: var(--orb-radius-card);
+  background: var(--orb-sheet-bg);
+  box-shadow: var(--orb-shadow-card);
+  color: var(--orb-text);
+}
+.previewPaper strong {
+  font: 600 18px var(--orb-font-heading);
+}
+.previewPaper i {
+  display: block;
+  height: 2px;
+  margin-top: 5px;
+  width: 85%;
+  background: var(--orb-border);
+}
+.previewButton {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 12px;
+  height: 5px;
+  border-radius: var(--orb-radius-pill);
+  background: var(--orb-accent-fill);
+}
+.name {
+  display: block;
+  padding: 6px 0 2px;
+  font: 500 12px var(--orb-font);
+}
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.swatches {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+.swatch {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 3px solid var(--orb-surface);
+  outline: 1px solid var(--orb-border);
+  background: var(--swatch);
+  border-radius: 50%;
+  cursor: pointer;
+  /* Show keyboard focus immediately, including when global Reduce Motion shortens transitions. */
+  transition-property: none;
+}
+.swatch[aria-pressed='true'] {
+  outline: 2px solid var(--orb-text);
+}
+.swatch:focus-visible {
+  outline: 3px solid var(--orb-focus);
+  outline-offset: 3px;
+}
+.custom {
+  display: flex;
+  gap: 4px;
+  border: 1px solid var(--orb-border);
+  border-radius: var(--orb-radius-card);
+}
+.custom input {
+  width: 100%;
+  min-width: 0;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: inherit;
+  background: var(--orb-inset);
+  color: var(--orb-text);
+  font: 13px var(--orb-font-mono);
+}
+.hint {
+  margin: 6px 0 0;
+  font: 12px/1.5 var(--orb-font);
+  color: var(--orb-text-muted);
+}
+.error {
+  color: var(--orb-danger);
+  font: 14px/1.5 var(--orb-font);
+}
+.error button {
+  background: var(--orb-surface);
+  color: var(--orb-text);
+  border: 1px solid var(--orb-border);
+  padding: 6px 12px;
+  cursor: pointer;
+}
+@media (max-width: 700px) {
+  .controls {
+    grid-template-columns: 1fr;
+  }
+}

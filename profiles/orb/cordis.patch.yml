@@ -1,0 +1,41 @@
+# Orb profile layer, written into DSH_HOME/profiles/orb/ by apps/desktop/src/main/dshHome.ts.
+# Model routes and the default model live here (dsh 0.2 imports settings.yaml into this layer;
+# Orb writes it directly). Config REPLACES whole: restate every key.
+# Default: OpenAI GPT Luna 6 through llm-pi-ai's catalog `openai` route (openai-responses, api.openai.com).
+# P4.2: the other provider cards (DeepSeek, Anthropic, OpenRouter) are catalog routes too, each resolving its own key
+# reference through the harness CredentialProvider (the Keychain). A route without a key fails only when used.
+# Custom providers are added at runtime by orb-models through the harness settings service (live, no restart) and
+# restated from orb.json at every launch, since this file is rewritten from the template.
+- id: llm-pi-ai
+  config:
+    # P6.8: long prompt-cache retention for every catalog route. The route profile's `cacheRetention` reaches pi-ai as
+    # the stream option (dsh-llm-pi-ai profileOptions): `prompt_cache_retention: 24h` on openai-responses/-completions,
+    # a 1h cache_control ttl on anthropic-messages. The agents keep a byte-stable prompt prefix (persona + tools), and
+    # pi-ai sends the session id as `prompt_cache_key`, so a canvas's turns hit the same cache entry.
+    providers:
+      openai:
+        apiKeyEnv: OPENAI_API_KEY
+        cacheRetention: long
+      deepseek:
+        apiKeyEnv: DEEPSEEK_API_KEY
+        cacheRetention: long
+      anthropic:
+        apiKeyEnv: ANTHROPIC_API_KEY
+        cacheRetention: long
+      openrouter:
+        apiKeyEnv: OPENROUTER_API_KEY
+        cacheRetention: long
+- id: agent-default-model
+  config:
+    provider: openai
+    model: gpt-6-luna
+# Orb's 64k research ceiling also uses this durable backend through its public compactRegion seam.
+# A summary is a compact checkpoint, not another full-length research answer.
+- id: orb-compaction
+  # dsh-web-app disables the global row and puts a compactor in its built-in presets. Orb replaces those presets,
+  # so it must explicitly restore the global backend; otherwise research never compacts at all.
+  disabled: false
+  config:
+    maxTokens: 4096
+    headroomTokens: 8192
+    retainRatio: 0.08

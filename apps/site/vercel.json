@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "cd ../.. && ELECTRON_SKIP_BINARY_DOWNLOAD=1 pnpm install --frozen-lockfile",
+  "buildCommand": "cd ../.. && pnpm --filter @orb/shared build && pnpm --filter @orb/site build:vercel"
+}

@@ -1,0 +1,30 @@
+name: Bug report
+description: Report a reproducible problem using synthetic or public data.
+body:
+  - type: markdown
+    attributes:
+      value: 'Keep credentials, account details and private research out of issues. For a security concern, see SECURITY.md.'
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: macOS version and Mac architecture
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Use invented or public content. Include expected and actual behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Relevant diagnostics
+      description: Optional. Review and redact logs/screenshots before sharing them.
